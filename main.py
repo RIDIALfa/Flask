@@ -8,6 +8,9 @@ app = Flask(__name__)
 def home():
     return render_template('pages/home.html')
 
+@app.route('/test')
+def teste():
+    return render_template('test.html')
 
 @app.route('/connexion')
 def login():
