@@ -131,3 +131,6 @@ h2{
 .post{
     height: 400px;
 }
+span{
+    position:absolute;
+}
