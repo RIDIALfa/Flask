@@ -97,3 +97,62 @@ body{
 
 /* ******FIN NICE***** */
 /* ******************* */
+.containerAlbum{
+    padding: 20px;
+}
+
+.btns{
+    display: flex;
+    justify-content: flex-end;
+}
+.btns button{
+    padding: 20px 20px;
+    border: none;
+    width: 240px;
+    cursor: pointer;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+.btns button:first-child{
+    margin-right: 10px;
+    background-color: #ffffff;
+}
+.btns button:last-child{
+    background-color: #006778;
+    color: #ffffff;
+}
+
+.divContainerAlbum{
+    background-color: #ffffff;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 4px;
+}
+.divContainerAlbum h2{
+    margin-bottom: 20px;
+    font-size: 35px;
+}
+
+.divAlbums{
+    display: flex;
+    flex-wrap: wrap;
+}
+.divAlbums .singleAlbum{
+    margin-right: 20px;
+    margin-bottom: 40px;
+}
+
+.divAlbums .singleAlbum p{
+    text-align: center;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+.divPagination button{
+    background: #006778;
+    color: #ffffff;
+    border: none;
+    padding: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}

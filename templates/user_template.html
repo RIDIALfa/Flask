@@ -23,19 +23,18 @@
             </div>
             
             <ul class="ulLinks">
-                <li class="linkItem active"><span class="fa fa-user"></span> <a href="#">Informations</a></li>
-                <li class="linkItem"><span class="fa fa-user"></span><a href="#">Posts</a></li>
-                <li class="linkItem"><span class="fa fa-user"></span><a href="#">Albums</a></li>
-                <li class="linkItem"><span class="fa fa-user"></span><a href="#">Todos</a></li>
-                <li class="linkItem"><span class="fa fa-user"></span><a href="#">Accueil</a></li>
-                <li class="linkItem"><span class="fa fa-user"></span><a href="#">Déconnexion</a></li>
+                <li class="linkItem active"><span class="fa fa-user"></span> <a href="{{ url_for('compte') }}">Informations</a></li>
+                <li class="linkItem"><span class="fa fa-user"></span><a href="{{ url_for('posts') }}">Posts</a></li>
+                <li class="linkItem"><span class="fa fa-user"></span><a href="{{ url_for('albums') }}">Albums</a></li>
+                <li class="linkItem"><span class="fa fa-user"></span><a href="{{ url_for('todos') }}">Todos</a></li>
+                <li class="linkItem"><span class="fa fa-user"></span><a href="{{ url_for('home') }}">Accueil</a></li>
+                <li class="linkItem"><span class="fa fa-user"></span><a href="{{ url_for('login') }}">Déconnexion</a></li>
             </ul>
 
         </div>
 
         <div class="divContentUser">
             {% block contenuUser %}
-    
     
             {% endblock%}  
         </div>

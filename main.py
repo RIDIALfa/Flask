@@ -35,8 +35,17 @@ def login():
 def compte():
     return render_template('pages/comptes/information.html')
 
+@app.route('/posts')
+def posts():
+    return render_template('pages/comptes/posts.html')
 
+@app.route('/albums')
+def albums():
+    return render_template('pages/comptes/albums.html')
 
+@app.route('/todos')
+def todos():
+    return render_template('pages/comptes/todos.html')
 
 if __name__=='__main__':
     app.run(debug=True,port=5000)
