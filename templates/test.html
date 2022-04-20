@@ -3,5 +3,11 @@
 
 {% block contenu %}
 
-<h1>test</h1>
+<form>
+    <dl>
+      {{ form.title }}
+      {{ form.message }}
+    </dl>
+    <p><input type=submit value=Register>
+  </form>
 {% endblock %}

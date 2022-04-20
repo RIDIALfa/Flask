@@ -1,15 +1,28 @@
-from flask import Flask ,render_template
-from wtforms import Form, StringField, validators
+from crypt import methods
+from email import message
+from flask import Flask ,render_template, request
+from wtforms import Form, StringField, TextAreaField,validators
+
+class postForm(Form):
+    title=StringField('title',[validators.length(max=100),validators.DataRequired()])
+    message=TextAreaField('message')
+
+
 
 
 app = Flask(__name__)
 
 
-@app.route('/test')
+@app.route('/test',methods=['GET','POST'])
 def teste():
-    return render_template('test.html')
-class postForm(Form):
-    title=StringField('title',[])
+    form=postForm(request.form)
+    if request.method == 'POST' and form.validate():
+        print(form.title.data,form.message.data)
+    else:
+        print('error')
+    
+    return render_template('test.html',form=form)
+
 @app.route('/')
 def home():
     return render_template('pages/home.html')
