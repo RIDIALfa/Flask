@@ -1,5 +1,28 @@
 {% extends 'base.html' %}
 
 {% block contenu %}
-    <h1>home</h1>
+<div class="content">
+    <div class="buttonHome">
+        <button id="ajouter">Ajouter</button>
+        <button id="charger">Charger</button>
+    </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom Complet</th>
+                    <th>Email</th>
+                    <th>Numéro Telephone</th>
+                    <th>Site Web</th>
+                </tr>  
+            </thead>
+            <tbody>
+                <tr>
+                    <td>alpha</td>
+                    <td>alpha00@gmail.com</td>
+                    <td>771432678</td>
+                    <td>google.com</td>
+                </tr>
+            </tbody>
+        </table>
+</div>
 {% endblock %}

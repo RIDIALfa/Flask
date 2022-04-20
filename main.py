@@ -4,8 +4,8 @@ from flask import Flask ,render_template, request
 from wtforms import Form, StringField, TextAreaField,validators
 
 class postForm(Form):
-    title=StringField('title',[validators.length(max=100),validators.DataRequired()])
-    message=TextAreaField('message')
+    title=StringField('title',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"Title"})
+    message=TextAreaField('message', render_kw={"placeholder":"Message"})
 
 
 

@@ -47,6 +47,7 @@ input[type=text], input[type=password] {
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
+    background-color:#ECFFFD;
 }
 
 /* Set a style for all buttons */
@@ -56,8 +57,77 @@ input[type=submit] {
     border: none;
     cursor: pointer;
 }
-input[type=submit]:hover {
-    background-color: white;
-    color: #53af57;
-    border: 1px solid #53af57;
+
+table{
+    width: 80%;
+    border-spacing:0
+}
+
+table th{
+    background-color:#43919B ;
+    padding: 20px 0;
+    color: #fff;
+    font-size: 20px;
+}
+table tr{
+    background-color: #fff;
+}
+table td{
+    padding: 12px 0;
+    text-align: center;
+}
+.content{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.buttonHome{
+    position: absolute;
+    top: 78px;
+    right: 200px;}
+#ajouter{
+    background-color: #fff;
+    padding: 12px;
+    border: none;
+    width: 100px;
+    font-size: 20px;
+    margin-right: 10px;
+}
+#charger{
+    background-color:#43919B ;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    width: 100px;
+    font-size: 20px;
+}
+dl{
+    display: flex;
+    flex-direction: column;
+}
+#enrigist{
+    width: 120px;
+    border: none;
+    position: absolute;
+    right: 25px;
+    height: 40px;
+    color: #fff;
+    background-color: #43919B;
+    
+}
+#title{
+    height: 40px;
+}
+#message{
+    height: 250px;
+    background-color:#ECFFFD;
+}
+h2{
+    position: absolute;
+    top: 3px;
+    right: 145px;
+}
+.post{
+    height: 400px;
 }
