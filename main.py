@@ -1,6 +1,4 @@
-from re import template
 from flask import Flask ,render_template
-from sqlalchemy import true
 
 app = Flask(__name__)
 
@@ -19,5 +17,11 @@ def login():
 @app.route('/compte')
 def compte():
     return render_template('pages/compte.html')
+
+
+@app.route('/user')
+def account():
+    return render_template('pages/comptes/userInfo.html')
+
 if __name__=='__main__':
     app.run(debug=True,port=5000)
