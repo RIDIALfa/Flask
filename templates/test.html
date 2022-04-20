@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+
+
+{% block contenu %}
+
+<form>
+    <dl>
+      {{ form.title }}
+      {{ form.message }}
+    </dl>
+    <p><input type=submit value=Register>
+  </form>
+{% endblock %}

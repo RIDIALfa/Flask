@@ -1,0 +1,63 @@
+body{
+    background:#ECFFFD;
+}
+#container{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* Bordered form */
+form {
+    position: relative;
+    width:450px;
+    padding: 110px 30px 30px 30px;
+    border: 1px solid #f1f1f1;
+    background: #fff;
+    box-shadow: 0 0 20px 0 rgba(157, 147, 147, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.connect{
+    width: 87%;
+    position: absolute;
+    top: -50px;
+    display: flex;
+    justify-content: center;
+}
+#container h2{
+padding: 40px 20px;
+    background-color: #43919B;
+    color: #fff;
+    border-radius:50%;
+    /* margin: 0 auto; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loginForm input {
+    width: 100%;
+    padding: 25px 20px;
+
+
+}
+/* Full-width inputs */
+input[type=text], input[type=password] {
+    margin-bottom: 40px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+input[type=submit] {
+    background-color: #43919B;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+input[type=submit]:hover {
+    background-color: white;
+    color: #53af57;
+    border: 1px solid #53af57;
+}

@@ -1,0 +1,158 @@
+/* **************** */
+/* *****NICE******* */
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: sans-serif;
+    list-style: none;
+    font-size: 25px;
+}
+
+body{
+    background-color: #ECFFFD;
+}
+
+.userContainer{
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+}
+
+.divSideBar{
+    background: #43919B;
+    flex: 1;
+}
+#bars{
+    display: none;
+}
+#spanBars{
+    color: white;
+    cursor: pointer;
+    background: #FD9E9E;
+    padding: 4px;
+    border-radius: 2px;
+    box-shadow: 0 4px 8px 0 #000000;
+    position: absolute;
+    left: 14%;
+    top: 20px;
+}
+
+
+.divUsername{
+    background: #006778;
+    padding: 80px 10px;
+}
+.divUsername h1{
+    color: #ffffff;
+    text-align: center;
+    font-size: 45px;
+    line-height: 55px;
+}
+
+.ulLinks{
+    width: 100%;
+}
+
+.ulLinks li{
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    transition: all ease .3s;
+}
+.ulLinks li.active,
+.ulLinks li:hover{
+    background: #FD9E9E;
+}
+.ulLinks li a{
+    width: 100px !important;
+    margin-left: 20px;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+.ulLinks li span{
+    color: #ffffff;
+    position: absolute;
+    left: 20px;
+}
+
+.divContentUser{
+    flex: 5;
+
+}
+
+
+.divMaps,
+.divMaps img{
+    width: 100%;
+}
+
+.divMaps img{
+    height: 30vh;
+    object-fit: cover;
+}
+
+/* ******FIN NICE***** */
+/* ******************* */
+.containerAlbum{
+    padding: 20px;
+}
+
+.btns{
+    display: flex;
+    justify-content: flex-end;
+}
+.btns button{
+    padding: 20px 20px;
+    border: none;
+    width: 240px;
+    cursor: pointer;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+.btns button:first-child{
+    margin-right: 10px;
+    background-color: #ffffff;
+}
+.btns button:last-child{
+    background-color: #006778;
+    color: #ffffff;
+}
+
+.divContainerAlbum{
+    background-color: #ffffff;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 4px;
+}
+.divContainerAlbum h2{
+    margin-bottom: 20px;
+    font-size: 35px;
+}
+
+.divAlbums{
+    display: flex;
+    flex-wrap: wrap;
+}
+.divAlbums .singleAlbum{
+    margin-right: 20px;
+    margin-bottom: 40px;
+}
+
+.divAlbums .singleAlbum p{
+    text-align: center;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+.divPagination button{
+    background: #006778;
+    color: #ffffff;
+    border: none;
+    padding: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
