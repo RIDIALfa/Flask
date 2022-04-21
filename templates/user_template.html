@@ -5,20 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/compte.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <title>User</title>
 </head>
 <body>
     
     <div class="userContainer">
+        
+        <input type="checkbox" id="bars">
+        <label for="bars"><span id="spanBars" class="fa fa-bars"></span></label>
 
         <div class="divSideBar">
-            <a href="#">hello world</a>
+            
+            
+            <div class="divUsername">
+                <h1>Leanne Graham</h1>
+            </div>
+            
+            <ul class="ulLinks">
+                <li class="linkItem active"><span class="fa fa-user"></span> <a href="{{ url_for('compte') }}">Informations</a></li>
+                <li class="linkItem"><span class="fa fa-user"></span><a href="{{ url_for('posts') }}">Posts</a></li>
+                <li class="linkItem"><span class="fa fa-user"></span><a href="{{ url_for('albums') }}">Albums</a></li>
+                <li class="linkItem"><span class="fa fa-user"></span><a href="{{ url_for('todos') }}">Todos</a></li>
+                <li class="linkItem"><span class="fa fa-user"></span><a href="{{ url_for('home') }}">Accueil</a></li>
+                <li class="linkItem"><span class="fa fa-user"></span><a href="{{ url_for('login') }}">Déconnexion</a></li>
+            </ul>
+
         </div>
 
-        <div>
+        <div class="divContentUser">
             {% block contenuUser %}
-    
     
             {% endblock%}  
         </div>
