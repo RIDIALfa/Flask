@@ -1,5 +1,5 @@
 body{
-    background-color: rgb(159, 249, 250);
+    background-color: rgb(180, 247, 249);
 }
 .big{
     background-color: azure;
@@ -10,11 +10,9 @@ body{
 /* 
 div[class="big"] div{
     height: 19%;
-    border: 1px solid;
 } */
 .section1{
     height: 35%;
-    border:  1px solid red;
     display: block;
 }
 .section2{
@@ -35,7 +33,6 @@ h1{
 }
 .p1, .p2{
     display: inline-block;
-    border: 1px solid;
 }
 .tr{
     margin: 4%;
@@ -43,21 +40,75 @@ h1{
 
 #table2{
     height: 25%; 
-    border : 1px solid;
-    margin: 2% 
+    margin: 2% ;
+    
 }
 
 #table1{
     height: 45%;
-    border : 1px solid;
     margin: 2%;
-    display: inline-block;
+    display: flex;
     width: 95%;
 }
 #sect1{
     width: 40%;
 }
-#table2 p1{
-    width: 25%;
+
+.p1_1{
+    width: 20%;
 }
 
+#sect2{
+    padding-top: 3.5%;
+    width: 45%;
+    margin-left: 3%;
+}
+
+/* #################POSTS#################### */
+
+#postHead{
+    height: 10%;
+    text-align: right;
+    margin-top: 5%;
+}
+#big{
+    height: 75%;
+}
+#postTable{
+    height: 85%;
+   
+}
+.h3{
+
+    width: 20%;
+}
+#postTable{
+    width: 100%;
+}
+.tr{
+    margin: 27% 0;
+}
+.td{
+    text-align: center;
+}
+input[value="Charger"]{
+    margin-left: 2%;
+    font-size: xx-large;
+    border-radius: 7%;
+    background-color: rgb(6, 90, 62);
+    border: 1px rgb(6, 90, 62);
+}
+
+input[value="Ajouter"]{
+    font-size: xx-large;
+    border-radius: 7%;
+    margin-right: 3%;
+}
+
+.fa-pen{
+    color: rgb(6, 90, 62);
+}
+.fa-solid{
+    margin: 2%;
+    align-items: center;
+}

@@ -15,7 +15,7 @@ class postForm(Form):
 app = Flask(__name__)
 
 
-@app.route('/test',methods=['GET','POST'])
+@app.route('/test/',methods=['GET','POST'])
 def teste():
     form=PostForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -29,31 +29,31 @@ def teste():
 def home():
     return render_template('pages/home.html')
 
-@app.route('/connexion')
+@app.route('/connexion/')
 def login():
     return render_template('pages/connexion.html')
 
-@app.route('/compte')
+@app.route('/compte/')
 def compte():
     return render_template('pages/comptes/information.html')
 
-@app.route('/posts')
+@app.route('/posts/')
 def posts():
     return render_template('pages/comptes/posts.html')
 
-@app.route('/post')
+@app.route('/post/')
 def post():
     return render_template('pages/comptes/post.html')
 
-@app.route('/albums')
+@app.route('/albums/')
 def albums():
     return render_template('pages/comptes/albums.html')
 
-@app.route('/album')
+@app.route('/album/')
 def album():
     return render_template('pages/comptes/album.html')
 
-@app.route('/todos')
+@app.route('/todos/')
 def todos():
     return render_template('pages/comptes/todos.html')
 
