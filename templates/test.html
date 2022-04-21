@@ -3,11 +3,13 @@
 
 {% block contenu %}
 
-<form>
+<form class="post">
+    <span>x</span>
+    <h2>Ajouter  un Post</h2>
     <dl>
       {{ form.title }}
       {{ form.message }}
     </dl>
-    <p><input type=submit value=Register>
+    <button id="enrigist"> Enrigistrer</button>
   </form>
 {% endblock %}
