@@ -1,6 +1,10 @@
 /* ************************************** */
 /* ***********STYLE FORMS ************** */
 /* ************************************ */
+*{
+    padding: 0 ;
+    margin: 0 ;
+}
 .divii{
     display: flex;
     flex-wrap: wrap;
@@ -8,15 +12,13 @@
 
 #formPost.formBlock{
     width: 600px;
-    height: auto;
+    height: auto !important;
 }
 
 .formBlock{
     border-radius: 4px;
     background: #ffffff;
     padding: 20px;
-    margin-bottom: 200px;
-    margin-right: 50px;
 }
 
 .formBlock h2{
@@ -37,6 +39,7 @@
     border-radius: 50%;
     cursor: pointer;
     transition: all ease .3s;
+    padding: 5px 10px;
 }
 
 #btnQuite:hover{
@@ -95,6 +98,7 @@
 
 #formUser .formGroup input{
     width: 48%;
+    margin-bottom: 25px;
 }
 #formUser .formGroup .inputCompagny{
     width: 100% !important;
@@ -106,4 +110,28 @@
     font-size: 20px;
     font-family: sans-serif;
     letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+
+
+/* *************************** */
+/* ***********OVERLAY********* */
+/* *************************** */
+.divOverlay{
+    position: absolute;
+    top: 0;
+    background: linear-gradient(to right, #000000d7, #000000d4);
+    width: 100%;
+    z-index: 4;
+    display: none;
+    padding: 100px 0;
+    min-height: 100vh;
+}
+
+
+.divOverlay.show{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
