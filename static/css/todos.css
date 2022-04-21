@@ -1,0 +1,53 @@
+/* ****************************** */
+/* ********TABLE TODO LIST****** */
+/* **************************** */
+
+#tableTodoList thead tr th{
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#tableTodoList tbody tr td{
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: 20px;
+    padding: 20px;
+}
+
+#tableTodoList td span.status{
+    background: #ECFFFD;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+#tableTodoList td span.status.done{
+    background: #5BD48C;
+
+}
+#tableTodoList td span.status.todo{
+    background: #C4C4C4;
+}
+#tableTodoList td span.status.pending{
+    background: #EDCA11;
+}
+#tableTodoList{
+    border: none;
+    width: 100%;
+}
+.divTodos{
+    background-color: #fff;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 4px;
+}
+.containerTodos{
+    padding: 20px;
+}
+
+#too{
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 35px;
+}
