@@ -1,2 +1,4 @@
 token.txt
 flask-env
+__pycache__
+__pycache__/forms.cpython-38.pyc

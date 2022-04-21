@@ -1,0 +1,126 @@
+{% extends 'base.html'%}
+
+
+{% block contenu %}
+<div class="divii">
+<form id="formPost" class="post formBlock">
+  <button id="btnQuite">x</button>
+  <h2>Ajouter  un Post</h2>
+  <div>
+    {{ form.title(class_='postTitle') }}
+    {{ form.message(class_='postMessage') }}
+  </div>
+  <button type="submit" id="btnSend"> Enregistrer</button>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form id="formPost" class="post formBlock">
+  <button id="btnQuite">x</button>
+  <h2>Ajouter un commentaire</h2>
+  <div>
+    {{ formComment.title(class_='postTitle') }}
+    {{ formComment.message(class_='postMessage') }}
+  </div>
+  <button type="submit" id="btnSend"> Enregistrer</button>
+</form>
+
+
+
+
+
+
+
+
+
+<form id="formPost" class="post formBlock">
+  <button id="btnQuite">x</button>
+  <h2>Ajouter un commentaire</h2>
+  <div>
+    {{ formTodo.title() }}
+    {{ formTodo.etat() }}
+  </div>
+  <button type="submit" id="btnSend"> Enregistrer</button>
+</form>
+
+
+
+
+
+
+
+<form id="formPost" class="post formBlock">
+  <button id="btnQuite">x</button>
+  <h2>Ajouter un Album</h2>
+  <div>
+    {{ formAlbum.title() }}
+  </div>
+  <button type="submit" id="btnSend"> Enregistrer</button>
+</form>
+
+
+
+
+
+
+<form id="formPost" class="post formBlock">
+  <button id="btnQuite">x</button>
+  <h2>Ajouter une photo</h2>
+  <div>
+    {{ formPhoto.title() }}
+    {{ formPhoto.url() }}
+    {{ formPhoto.thumbnail() }}
+    {{ formPhoto.album() }}
+  </div>
+  <button type="submit" id="btnSend"> Enregistrer</button>
+</form>
+
+
+
+
+
+<form id="formUser" class="post formBlock">
+  <button id="btnQuite">x</button>
+  <h2>Ajouter un utilisateur</h2>
+  <div>
+    <div class="formGroup">
+      {{ formUser.fullname() }}
+      {{ formUser.username() }}
+      {{ formUser.phone() }}
+      {{ formUser.website() }}
+    </div>
+    <div class="formGroup">
+      <p>Adresse</p>
+      {{ formUser.ville() }}
+      {{ formUser.rue() }}
+      {{ formUser.suite() }}
+      {{ formUser.zipcode() }}
+      {{ formUser.lat() }}
+      {{ formUser.long() }}
+    </div>
+    <div class="formGroup">
+      <p>Compagnie</p>
+      {{ formUser.compagny(class="inputCompagny", id="compagny") }}
+      {{ formUser.bs() }}
+      {{ formUser.catch() }}
+    </div>
+  </div>
+  <button type="submit" id="btnSend"> Enregistrer</button>
+</form>
+
+
+
+
+</div>
+{% endblock %}

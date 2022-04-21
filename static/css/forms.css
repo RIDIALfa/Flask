@@ -1,0 +1,109 @@
+/* ************************************** */
+/* ***********STYLE FORMS ************** */
+/* ************************************ */
+.divii{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#formPost.formBlock{
+    width: 600px;
+    height: auto;
+}
+
+.formBlock{
+    border-radius: 4px;
+    background: #ffffff;
+    padding: 20px;
+    margin-bottom: 200px;
+    margin-right: 50px;
+}
+
+.formBlock h2{
+    text-align: center;
+    font-family: sans-serif;
+    padding-bottom: 20px !important;
+}
+
+#btnQuite{
+    position: relative;
+    float: right;
+    border: none;
+    background: #FD9E9E;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 25px;
+    font-family: sans-serif;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all ease .3s;
+}
+
+#btnQuite:hover{
+    box-shadow: 0 4px 6px 0 #000000;
+}
+
+.formBlock > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.formBlock textarea,
+.formBlock input,
+.formBlock select{
+    padding: 20px 10px;
+    font-size: 20px;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    background-color:#ECFFFD;
+    border: none;
+}
+
+.formBlock textarea{
+    resize: none;
+}
+
+#btnSend{
+    background-color: #006778;
+    color: #ffffff;
+    position: relative;
+    float: right;
+    font-family: sans-serif;
+    border: none;
+    border-radius: 4px;
+    padding: 20px 20px;
+    width: 200px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+
+
+
+#formUser{
+    width: 900px;
+    background: #ffffff;
+}
+
+#formUser .formGroup{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#formUser .formGroup input{
+    width: 48%;
+}
+#formUser .formGroup .inputCompagny{
+    width: 100% !important;
+}
+
+#formUser .formGroup p{
+    width: 100%;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+}
