@@ -39,9 +39,17 @@ def compte():
 def posts():
     return render_template('pages/comptes/posts.html')
 
+@app.route('/post')
+def post():
+    return render_template('pages/comptes/post.html')
+
 @app.route('/albums')
 def albums():
     return render_template('pages/comptes/albums.html')
+
+@app.route('/album')
+def album():
+    return render_template('pages/comptes/album.html')
 
 @app.route('/todos')
 def todos():

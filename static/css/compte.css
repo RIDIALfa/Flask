@@ -156,3 +156,128 @@ body{
     border-radius: 4px;
     cursor: pointer;
 }
+
+
+/* ************************** */
+/* ******SINGLE ALBUM******* */
+/* ************************ */
+.divHeadAlbum{
+    display: flex;
+    justify-content: space-between;
+}
+.divHeadAlbum .divFaIcons span{
+    cursor: pointer;
+    transition: all ease .3s;
+}
+.divHeadAlbum .divFaIcons span:first-child{
+    color: #006778;
+}
+.divHeadAlbum .divFaIcons span:last-child{
+    color: #f05;
+    margin-left: 10px;
+}
+
+
+
+/* ************************** */
+/* ******SINGLE POST******* */
+/* ************************ */
+.containerSinglePost{
+    padding: 20px;
+}
+.containerSinglePost .btns button{
+    background: #ffffff;
+    color: #000000;
+    width: 350px;
+    margin-right: 0;
+}
+
+.divContainerDetail{
+    background: #ffffff;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.divContainerDetail h2{
+    font-size: 35px;
+    line-height: 50px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.divContainerDetail p{
+    font-size: 24px;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+.divCommentaires{
+    margin: 30px 0;
+}
+
+.divCommentaires h2{
+   font-size: 30px;
+   color: #4d4d4d;
+}
+
+.divCommentaires table{
+    width: 100%;
+}
+
+.divCommentaires table tr td{
+    padding: 20px;
+}
+
+.divCommentaires table tr td:last-child{
+    text-align: end;
+}
+
+.divCommentaires table tr td:last-child span{
+    cursor: pointer;
+    transition: all ease .3s;
+    margin-left: 10px;
+}
+
+.fa-trash{
+    color: #f05;
+}
+
+
+
+/* ****************************** */
+/* ********TABLE TODO LIST****** */
+/* **************************** */
+
+#tableTodoList thead tr th{
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#tableTodoList tbody tr td{
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: 20px;
+}
+
+#tableTodoList td span.status{
+    background: #ECFFFD;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+#tableTodoList td span.status.done{
+    background: #5BD48C;
+}
+#tableTodoList td span.status.todo{
+    background: #C4C4C4;
+}
+#tableTodoList td span.status.pending{
+    background: #EDCA11;
+}
+
+#too{
+    font-size: 35px;
+    color: #000000;
+}
