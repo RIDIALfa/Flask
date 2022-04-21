@@ -1,0 +1,49 @@
+body{
+    background-color: rgb(159, 249, 250);
+}
+.big{
+    background-color: azure;
+    height: 65%;
+    margin: 1%;
+    padding: 2%;
+}
+/* 
+div[class="big"] div{
+    height: 19%;
+    border: 1px solid;
+} */
+.section1{
+    height: 40%;
+    border:  1px solid red;
+    display: block;
+}
+.section2{
+    height: 25%;
+}
+h1{
+    opacity: 0.6;
+}
+td{
+    text-align: left;
+}
+td:first-child{
+    font-weight: bold;
+    text-align: right;
+    padding-right: 25px;
+}
+tr{
+    margin: 10%;
+    text-align: left;
+}
+table{
+    border : 1px solid;
+    margin: 2%
+
+}
+table{
+    height: 25%;  
+}
+table:first-of-type{
+    height: 45%;
+}
+
