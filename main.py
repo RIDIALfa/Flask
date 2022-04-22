@@ -1,13 +1,6 @@
-from crypt import methods
-from email import message
 from flask import Flask ,render_template, request
 from wtforms import Form, StringField, TextAreaField,validators
-
-
-class postForm(Form):
-    title=StringField('title',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"Title"})
-    message=TextAreaField('message', render_kw={"placeholder":"Message"})
-
+from forms import PostForm, CommentForm, TodoForm, ALbumForm, PhotoForm, UserForm
 
 
 
@@ -15,19 +8,29 @@ class postForm(Form):
 app = Flask(__name__)
 
 
-@app.route('/test/',methods=['GET','POST'])
+
+@app.route('/forms',methods=['GET','POST'])
 def teste():
-    form=PostForm(request.form)
+    form = PostForm(request.form)
+    formComment = CommentForm(request.form)
+    formTodo = TodoForm(request.form)
+    formAlbum = ALbumForm(request.form)
+    formPhoto = PhotoForm(request.form)
+    # formUser = UserForm(request.form)
     if request.method == 'POST' and form.validate():
         print(form.title.data,form.message.data)
     else:
         print('error')
 
-    return render_template('test.html',form=form)
+    return render_template('forms.html', form=form, formComment=formComment, 
+        formTodo=formTodo, formAlbum=formAlbum, 
+        formPhoto=formPhoto
+        )
 
 @app.route('/')
 def home():
-    return render_template('pages/home.html')
+    formUser = UserForm(request.form)
+    return render_template('pages/home.html', formUser=formUser)
 
 @app.route('/connexion/')
 def login():
@@ -39,7 +42,8 @@ def compte():
 
 @app.route('/posts/')
 def posts():
-    return render_template('pages/comptes/posts.html')
+    formPost = PostForm(request.form)
+    return render_template('pages/comptes/posts.html', formPost = formPost)
 
 @app.route('/post/')
 def post():
