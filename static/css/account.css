@@ -4,8 +4,8 @@ body{
 .big{
     background-color: azure;
     height: 65%;
-    margin: 1%;
-    padding: 2%;
+    margin-top: 50px;
+    padding: 20px;
 }
 /* 
 div[class="big"] div{
@@ -84,6 +84,7 @@ h1{
 }
 #postTable{
     width: 100%;
+    margin-bottom: 30px;
 }
 .tr{
     margin: 27% 0;

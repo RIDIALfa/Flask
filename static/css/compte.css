@@ -260,3 +260,19 @@ body{
 
 
 
+/* ******************************* */
+/* **********STYLE POSTS********* */
+/* ***************************** */
+
+.divContainerPosts{
+    padding: 20px;
+}
+
+.divContainerPosts #postTable tr th.th{
+    text-transform: uppercase;
+    padding: 20px 0;
+}
+
+.divContainerPosts #postTable tr td.td{
+    padding: 30px 0;
+}
