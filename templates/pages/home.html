@@ -2,6 +2,40 @@
 
 {% block contenu %}
 <div class="content">
+
+    <div class="divOverlay">
+        <form id="formUser" class="post formBlock">
+            <button id="btnQuite">x</button>
+            <h2>Ajouter un utilisateur</h2>
+            <div>
+              <div class="formGroup">
+                {{ formUser.fullname() }}
+                {{ formUser.username() }}
+                {{ formUser.phone() }}
+                {{ formUser.website() }}
+              </div>
+              <div class="formGroup">
+                <p>Adresse</p>
+                {{ formUser.ville() }}
+                {{ formUser.rue() }}
+                {{ formUser.suite() }}
+                {{ formUser.zipcode() }}
+                {{ formUser.lat() }}
+                {{ formUser.long() }}
+              </div>
+              <div class="formGroup">
+                <p>Compagnie</p>
+                {{ formUser.compagny(class="inputCompagny", id="compagny") }}
+                {{ formUser.bs() }}
+                {{ formUser.catch() }}
+              </div>
+            </div>
+            <button type="submit" id="btnSend"> Enregistrer</button>
+          </form>
+    </div>
+
+
+
     <div class="buttonHome">
         <button id="ajouter">Ajouter</button>
         <button id="charger">Charger</button>
