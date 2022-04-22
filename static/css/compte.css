@@ -52,6 +52,7 @@ body{
     text-align: center;
     font-size: 45px;
     line-height: 55px;
+    opacity: 1 !important;
 }
 
 .ulLinks{

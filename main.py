@@ -15,7 +15,7 @@ def teste():
     formTodo = TodoForm(request.form)
     formAlbum = ALbumForm(request.form)
     formPhoto = PhotoForm(request.form)
-    formUser = UserForm(request.form)
+    # formUser = UserForm(request.form)
     if request.method == 'POST' and form.validate():
         print(form.title.data,form.message.data)
     else:
@@ -23,12 +23,13 @@ def teste():
 
     return render_template('forms.html', form=form, formComment=formComment, 
         formTodo=formTodo, formAlbum=formAlbum, 
-        formPhoto=formPhoto, formUser=formUser
+        formPhoto=formPhoto
         )
 
 @app.route('/')
 def home():
-    return render_template('pages/home.html')
+    formUser = UserForm(request.form)
+    return render_template('pages/home.html', formUser=formUser)
 
 @app.route('/connexion')
 def login():
@@ -40,7 +41,8 @@ def compte():
 
 @app.route('/posts')
 def posts():
-    return render_template('pages/comptes/posts.html')
+    formPost = PostForm(request.form)
+    return render_template('pages/comptes/posts.html', formPost = formPost)
 
 @app.route('/post')
 def post():
