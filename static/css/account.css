@@ -2,8 +2,8 @@ body{
     background-color: rgb(180, 247, 249);
 }
 .big{
-    background-color: azure;
-    height: 65%;
+    background-color: #ffffff;
+    /* height: auto; */
     margin-top: 50px;
     padding: 20px;
 }

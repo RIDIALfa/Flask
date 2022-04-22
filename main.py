@@ -1,65 +1,20 @@
-from flask import Flask ,render_template, request
-from wtforms import Form, StringField, TextAreaField,validators
-from forms import PostForm, CommentForm, TodoForm, ALbumForm, PhotoForm, UserForm
-
-
+from flask import Flask, render_template
+from routes.index import routers
 
 
 app = Flask(__name__)
 
+#Pour gerer les routes
+app.register_blueprint(routers)
 
 
-@app.route('/forms',methods=['GET','POST'])
-def teste():
-    form = PostForm(request.form)
-    formComment = CommentForm(request.form)
-    formTodo = TodoForm(request.form)
-    formAlbum = ALbumForm(request.form)
-    formPhoto = PhotoForm(request.form)
-    # formUser = UserForm(request.form)
-    if request.method == 'POST' and form.validate():
-        print(form.title.data,form.message.data)
-    else:
-        print('error')
 
-    return render_template('forms.html', form=form, formComment=formComment, 
-        formTodo=formTodo, formAlbum=formAlbum, 
-        formPhoto=formPhoto
-        )
+#Pour la page 404
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('pages/not_found.html'),404
 
-@app.route('/')
-def home():
-    formUser = UserForm(request.form)
-    return render_template('pages/home.html', formUser=formUser)
 
-@app.route('/connexion/')
-def login():
-    return render_template('pages/connexion.html')
-
-@app.route('/compte/')
-def compte():
-    return render_template('pages/comptes/information.html')
-
-@app.route('/posts/')
-def posts():
-    formPost = PostForm(request.form)
-    return render_template('pages/comptes/posts.html', formPost = formPost)
-
-@app.route('/post/')
-def post():
-    return render_template('pages/comptes/post.html')
-
-@app.route('/albums/')
-def albums():
-    return render_template('pages/comptes/albums.html')
-
-@app.route('/album/')
-def album():
-    return render_template('pages/comptes/album.html')
-
-@app.route('/todos/')
-def todos():
-    return render_template('pages/comptes/todos.html')
 
 if __name__=='__main__':
     app.run(debug=True,port=5000)

@@ -82,6 +82,10 @@ body{
     left: 20px;
 }
 
+.ulLinks li span.fa-solid{
+    margin: 0 !important;
+}
+
 .divContentUser{
     flex: 5;
 
@@ -275,4 +279,29 @@ body{
 
 .divContainerPosts #postTable tr td.td{
     padding: 30px 0;
+}
+
+.divContainerPosts h2{
+    font-size: 35px;
+    margin-bottom: 30px;
+}
+
+
+
+/* ***************************** */
+/* **** STYLE INFORMATION****** */
+/* *************************** */
+.big.divInfos .tr,
+.big.divInfos .tr1
+{
+    margin: 20px 0 !important;
+}
+
+.big.divInfos{
+    margin: 20px;
+    border-radius: 4px; 
+}
+
+.big.divInfos h1{
+    font-size: 28px;
 }

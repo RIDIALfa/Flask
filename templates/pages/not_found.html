@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block contenu %}
+<div class="container404">
+    
+    <div class="divMaps">
+        <img src="{{ url_for('static', filename='images/not_found.png') }}" alt="Image 404">
+    </div>
+
+    <div class="divInf">
+        <h1>Page introuvable</h1>
+        <p>Le contenu demandé n'existe pas.</p>
+        <a href="/">Retour à la page d'accueil</a>
+    </div>
+
+</div>
+{% endblock %}
