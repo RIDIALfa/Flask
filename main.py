@@ -8,6 +8,7 @@ from forms import PostForm, CommentForm, TodoForm, ALbumForm, PhotoForm, UserFor
 app = Flask(__name__)
 
 
+
 @app.route('/forms',methods=['GET','POST'])
 def teste():
     form = PostForm(request.form)
@@ -31,32 +32,32 @@ def home():
     formUser = UserForm(request.form)
     return render_template('pages/home.html', formUser=formUser)
 
-@app.route('/connexion')
+@app.route('/connexion/')
 def login():
     return render_template('pages/connexion.html')
 
-@app.route('/compte')
+@app.route('/compte/')
 def compte():
     return render_template('pages/comptes/information.html')
 
-@app.route('/posts')
+@app.route('/posts/')
 def posts():
     formPost = PostForm(request.form)
     return render_template('pages/comptes/posts.html', formPost = formPost)
 
-@app.route('/post')
+@app.route('/post/')
 def post():
     return render_template('pages/comptes/post.html')
 
-@app.route('/albums')
+@app.route('/albums/')
 def albums():
     return render_template('pages/comptes/albums.html')
 
-@app.route('/album')
+@app.route('/album/')
 def album():
     return render_template('pages/comptes/album.html')
 
-@app.route('/todos')
+@app.route('/todos/')
 def todos():
     return render_template('pages/comptes/todos.html')
 
