@@ -1,12 +1,24 @@
 {% extends 'user_template.html' %}
 
 {% block contenuUser%}
+<div class="divOverlay">
+    <form id="formComment" class="post formBlock">
+        <button id="btnQuite">x</button>
+        <h2>Ajouter un commentaire</h2>
+        <div>
+          {{ formComment.title(class_='postTitle') }}
+          {{ formComment.message(class_='postMessage') }}
+        </div>
+        <button type="submit" id="btnSend"> Enregistrer</button>
+    </form>
+</div>
+
 
 
 <div class="containerSinglePost">
 
     <div class="btns">
-        <button>Ajouter un commentaire</button>
+        <button class="btnForm">Ajouter un commentaire</button>
     </div>
     
     <div class="divContainerDetail">

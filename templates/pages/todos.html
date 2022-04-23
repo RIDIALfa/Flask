@@ -1,11 +1,24 @@
 {% extends 'user_template.html' %}
 
 {% block contenuUser %}
+<div class="divOverlay">
+    <form id="formTodo" class="post formBlock">
+        <button id="btnQuite">x</button>
+        <h2>Ajouter un Todo</h2>
+        <div>
+          {{ formTodo.title() }}
+          {{ formTodo.etat() }}
+        </div>
+        <button type="submit" id="btnSend"> Enregistrer</button>
+    </form>
+</div>
+
+  
 
 <div class="containerTodos">
 
     <div class="btns">
-        <button>Ajouter</button>
+        <button class="btnForm">Ajouter</button>
         <button>Charger</button>
     </div>
     <div class="divTodos">

@@ -1,11 +1,22 @@
 {% extends 'user_template.html' %}
 
 {% block contenuUser %}
+<div class="divOverlay" id="overlayPostForm">
+    <form id="formAlbum" class="post formBlock">
+        <button id="btnQuite">x</button>
+        <h2>Ajouter un Album</h2>
+        <div>
+          {{ formAlbum.title() }}
+        </div>
+        <button type="submit" id="btnSend"> Enregistrer</button>
+    </form>
+</div>
+
 
 <div class="containerAlbum">
 
     <div class="btns">
-        <button>Ajouter</button>
+        <button class="btnForm">Ajouter</button>
         <button>Charger</button>
     </div>
     

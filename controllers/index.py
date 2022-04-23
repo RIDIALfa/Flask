@@ -1,5 +1,5 @@
 from flask import render_template, request
-from models.forms import UserForm, PostForm
+from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
 
 
 # CONTROLLER DE LA PAGE HOME
@@ -29,7 +29,8 @@ def posts():
 
 # CONTROLLER DE LA PAGE DETAIL D'UN POST
 def post():
-    return render_template('pages/post.html')
+    form_comment = CommentForm(request.form)
+    return render_template('pages/post.html', formComment = form_comment)
 
 
 
@@ -37,7 +38,8 @@ def post():
 
 # CONTROLLER DE LA PAGE DES ALBUMS
 def albums():
-    return render_template('pages/albums.html')
+    form_album = ALbumForm(request.form)
+    return render_template('pages/albums.html', formAlbum = form_album)
 
 
 
@@ -46,7 +48,8 @@ def albums():
 
 # CONTROLLER DE LA PAGE DETAIL D'UN ALBUM
 def album():
-    return render_template('pages/album.html')
+    form_photo = PhotoForm(request.form)
+    return render_template('pages/album.html', formPhoto = form_photo)
 
 
 
@@ -56,7 +59,8 @@ def album():
 
 # CONTROLLER DE LA PAGE DES TODOS
 def todos():
-    return render_template('pages/todos.html')
+    form_todo = TodoForm(request.form)
+    return render_template('pages/todos.html', formTodo = form_todo)
 
 
 
