@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from routes.index import routers
-from flask_googlemaps import GoogleMaps, get_address
 
 
 
@@ -11,9 +10,6 @@ app = Flask(__name__)
 app.register_blueprint(routers)
 
 
-#Init GoogleMaps
-
-GoogleMaps(app, key = API_KEY)
 
 
 #Pour la page 404
