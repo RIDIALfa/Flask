@@ -1,8 +1,7 @@
 from flask_googlemaps import get_address, get_coordinates
 import requests as rq
 
-API_KEY = 'AIzaSyBy-w4jKXwXyvC2uCXzin766QcunNCbkQQ'
-API_KEY2 = 'AIzaSyCOGR1fl_niKbOEPI-oVhiBmGm8no02A80'
+
 
 
 def get_coordinates(API_KEY, address_text):

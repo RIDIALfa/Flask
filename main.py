@@ -12,7 +12,7 @@ app.register_blueprint(routers)
 
 
 #Init GoogleMaps
-API_KEY = 'AIzaSyBy-w4jKXwXyvC2uCXzin766QcunNCbkQQ'
+
 GoogleMaps(app, key = API_KEY)
 
 
