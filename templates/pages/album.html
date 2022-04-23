@@ -2,10 +2,24 @@
 
 {% block contenuUser %}
 
+<div class="divOverlay">
+    <form id="formPhoto" class="post formBlock">
+        <button id="btnQuite">x</button>
+        <h2>Ajouter une photo</h2>
+        <div>
+          {{ formPhoto.title() }}
+          {{ formPhoto.url() }}
+          {{ formPhoto.thumbnail() }}
+          {{ formPhoto.album() }}
+        </div>
+        <button type="submit" id="btnSend"> Enregistrer</button>
+    </form>  
+</div>
+
 <div class="containerAlbum">
 
     <div class="btns">
-        <button>Ajouter</button>
+        <button class="btnForm">Ajouter</button>
         <button>Charger</button>
     </div>
     
