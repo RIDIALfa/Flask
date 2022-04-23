@@ -11,7 +11,6 @@ app.register_blueprint(routers)
 
 
 
-
 #Pour la page 404
 @app.errorhandler(404)
 def not_found(error):
