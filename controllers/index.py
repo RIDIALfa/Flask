@@ -10,7 +10,14 @@ def home():
 
 
 # CONTROLLER DE LA PAGE DE CONNEXION
+users =[
+    {'email': 'alpha@sa.sn', 'password':'passer123'},
+    {'email': 'khabane@sa.sn', 'password':'passer456'},
+    {'email': 'awa@sa.sn', 'password':'passer789'},
+]
+
 def login():
+
     return render_template('pages/connexion.html')
     
 
