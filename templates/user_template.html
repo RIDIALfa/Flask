@@ -10,11 +10,7 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/todos.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-
-
-    <link rel="stylesheet" href="https://developers.google.com//maps/documentation/javascript/demos/demos.css">
-    <style>#map { height: 100%; width: 100%; }</style>
-    <title>User</title>
+    {% block title%}{% endblock%}
 </head>
 <body>
     
@@ -51,5 +47,6 @@
 
 
     <script src="{{ url_for('static', filename='javascript/main.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8jMCX1qK_wk6QUOArAkGyiOd833Vitks&callback=initMap&v=weekly" defer></script>
 </body>
 </html>

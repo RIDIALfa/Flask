@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    <title>Accueil</title>
+{% endblock %}
+
+
 {% block contenu %}
 <div class="content">
 
@@ -51,7 +56,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>alpha</td>
+                    <td><a id="loginHomeLink" href="{{'/connexion/'+'alpha'}}">alpha</a></td>
                     <td>alpha00@gmail.com</td>
                     <td>771432678</td>
                     <td>google.com</td>

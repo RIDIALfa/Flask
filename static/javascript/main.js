@@ -57,3 +57,23 @@ switch(pathname){
         linkUser.classList.add('active')
         console.log("pas dans todo")
 }
+
+
+
+
+
+let map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: 14.772705814054518 , lng: -17.361339448152442},
+    zoom: 14,
+  });
+
+  new google.maps.Marker({
+      position : { lat: 14.772705814054518 , lng: -17.361339448152442 },
+      map : map,
+      label : "A",
+  })
+}
+
+window.initMap = initMap;

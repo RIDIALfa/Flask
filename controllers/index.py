@@ -16,9 +16,8 @@ users =[
     {'email': 'awa@sa.sn', 'password':'passer789'},
 ]
 
-def login():
-
-    return render_template('pages/connexion.html')
+def login(email):
+    return render_template('pages/connexion.html',email=email)
     
 
 
