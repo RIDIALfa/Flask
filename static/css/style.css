@@ -59,8 +59,12 @@ padding: 40px 20px;
     color: white;
     border: none;
     cursor: pointer;
+    transition: all ease .3s;
 }
 
+#loginForm input[type=submit]:hover {
+    background-color: #254f54;
+}
 
 table#tableHome{
     width: 80%;
@@ -79,6 +83,7 @@ table#tableHome tr{
 table#tableHome td{
     padding: 20px 0;
     text-align: center;
+    color: #1d1d1db7;
 }
 .content{
     min-height: 100vh;
@@ -168,8 +173,14 @@ span{
 }
 
 #backHome span:hover{
-    color: #F05;
+    color: #FD9E9E;
     opacity: 1;
+}
+
+#loginHomeLink{
+    text-decoration: none;
+    font-weight: bold;
+    color: #000000;
 }
 
 

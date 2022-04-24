@@ -6,9 +6,9 @@ from routes.index import routers
 app = Flask(__name__)
 
 
+
 #Pour gerer les routes
 app.register_blueprint(routers)
-
 
 
 #Pour la page 404

@@ -5,3 +5,4 @@ __pycache__/forms.cpython-38.pyc
 controllers/__pycache__
 models/__pycache__
 routes/__pycache__
+secret.py

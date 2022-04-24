@@ -1,11 +1,15 @@
 {% extends 'user_template.html' %}
 
+{% block title%}
+    <title>Informations</title>
+{% endblock%}
 
 {% block contenuUser%}
 
 <div class="divMaps">
-    <img src="{{ url_for('static', filename='images/carte.jpg') }}" alt="maps">
+    <div id="map"></div>
 </div>
+
 
 
 <div class="big divInfos">
