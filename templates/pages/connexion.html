@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    <title>Connexion</title>
+{% endblock %}
+
 {% block contenu %}
 <div id="container">
     <!-- zone de connexion -->
     <a id="backHome" href="/"><span class="fa-solid fa-house"></span></a>
     
-    <form action="" method="" id="loginForm">
+    <form method="post" id="loginForm">
         <div class="connect">        
             <h2>Connexion</h2>
         </div>
+
+        {% if msg %}
+            <div class="message">{{msg}}</div>
+        {% endif%}
+
         <div class="saisie">
-            <input type="text" placeholder="Nom d'utilisateur" name="username" required>
+            <input type="text" placeholder="Votre adresse email" name="email" value="{{email}}" required>
 
             <input type="password" placeholder="Mot de passe" name="password" required>
         </div>

@@ -1,9 +1,15 @@
 {% extends 'user_template.html' %}
 
+
+{% block title%}
+    <title>Posts</title>
+{% endblock%}
+
+
 {% block contenuUser %}
 
 <div class="divOverlay" id="overlayPostForm">
-    <form id="formPost" class="post formBlock">
+    <form id="formPost" method="post" class="post formBlock">
         <button id="btnQuite">x</button>
         <h2>Ajouter  un Post</h2>
         <div>
@@ -29,26 +35,35 @@
         <h2>Mes posts</h2>
 
         <table id="postTable">
-            <tr>
-                <th class="th">Titre</th>
-                <th class="th">Extrait</th>
-                <th class="th">Auteur</th>
-                <th class="th">Action</th>
-            </tr>
-    
-            {%for i in range(0,5)%}
-                <tr class="tr">
-                    <td class="td">Lorem ipsum dolor</td>
-                    <td class="td">sit amet consectetur.</td>
-                    <td class="td">adipisicing elit. Asperiores!</td>
-    
-                    <td classe="td">
-                        <i class="fa-solid fa-eye"></i>
-                        <i class="fa-solid fa-pen"></i>
-                        <i class="fa fa-trash"></i>
-                    </td>
+            <thead>
+                <tr>
+                    <th class="th">Titre</th>
+                    <th class="th">Extrait</th>
+                    <th class="th">Auteur</th>
+                    <th class="th">Action</th>
                 </tr>
-            {%endfor%}
+            </thead>
+            <tbody>
+                {% if posts %}
+                    {% for post in posts %}
+                        <tr class="tr">
+                            <td class="td">{{ post.title_post }}</td>
+                            <td class="td">{{ post.body_post }}</td>
+                            <td class="td">Leanne Graham</td>
+            
+                            <td classe="td">
+                                <i class="fa-solid fa-eye"></i>
+                                <i class="fa-solid fa-pen"></i>
+                                <i class="fa fa-trash"></i>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <p>Aucun post pour le moment !</p>
+                    </tr>
+                {% endif %}
+            </tbody>
     
         </table>
         <tr>

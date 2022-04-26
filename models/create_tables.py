@@ -90,4 +90,3 @@ class photos(mydb.Model):
 
 if __name__=='__main__':
     mydb.create_all()
- 

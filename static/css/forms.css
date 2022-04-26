@@ -99,8 +99,9 @@
 }
 
 #formUser .formGroup input{
-    width: 48%;
-    margin-bottom: 25px;
+    width: 46%;
+    margin-bottom: 25px !important;
+    margin-top: 0 !important;
 }
 #formUser .formGroup .inputCompagny{
     width: 100% !important;

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/todos.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-    <title>User</title>
+    {% block title%}{% endblock%}
 </head>
 <body>
     
@@ -23,7 +23,7 @@
             
             
             <div class="divUsername">
-                <h1>Leanne Graham</h1>
+                <h1>{{user['fullname']}}</h1>
             </div>
             
             <ul class="ulLinks">
@@ -32,7 +32,7 @@
                 <li class="linkItem albums"><span class="fa-solid fa-images"></span><a href="/albums">Albums</a></li>
                 <li class="linkItem todos"><span class="fa-solid fa-list-ul"></span><a href="/todos">Todos</a></li>
                 <li class="linkItem"><span class="fa-solid fa-house"></span><a href="/">Accueil</a></li>
-                <li class="linkItem"><span class="fa-solid fa-arrow-right-to-bracket"></span><a href="/connexion">Déconnexion</a></li>
+                <li class="linkItem"><span class="fa-solid fa-arrow-right-to-bracket"></span><a href="/logout">Déconnexion</a></li>
             </ul>
             
         </div>
@@ -46,6 +46,7 @@
     </div>
 
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascript/main.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8jMCX1qK_wk6QUOArAkGyiOd833Vitks&callback=initMap&v=weekly" defer></script>
 </body>
 </html>

@@ -1,8 +1,13 @@
 {% extends 'user_template.html' %}
 
+{% block title%}
+    <title>Albums</title>
+{% endblock%}
+
+
 {% block contenuUser %}
 <div class="divOverlay" id="overlayPostForm">
-    <form id="formAlbum" class="post formBlock">
+    <form id="formAlbum" method="post" class="post formBlock">
         <button id="btnQuite">x</button>
         <h2>Ajouter un Album</h2>
         <div>
@@ -17,64 +22,40 @@
 
     <div class="btns">
         <button class="btnForm">Ajouter</button>
-        <button>Charger</button>
+        <form method="get" id="loadAlbum">
+            <button type="submit">Charger</button>
+        </form>
     </div>
     
     <div class="divContainerAlbum">
         <h2>Albums</h2>
     
-        <div class="divAlbums">
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Album 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Album 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Album 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Album 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Album 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Album 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Album 1</p>
-            </div>
-
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Album 1</p>
-            </div>
-
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Album 1</p>
-            </div>
-        </div>
-
-        <div class="divPagination">
-            <button>Précédent</button>
+        {% if albums %}
             
-            <button>Suivant</button>
-        </div>
+            <div class="divAlbums">
+                {% for album in albums%}
+                <div class="singleAlbum">
+                    <a href="/albums/{{album.title_album}}"><img src="https://via.placeholder.com/250" alt="album"/></a>
+                    <p><a href="/albums/{{album.title_album}}">{{album.title_album}}</a></p>
+                </div>
+                {% endfor %}
+                
+            </div>
+
+            <div class="divPagination">
+                <button>Précédent</button>
+                <button>Suivant</button>
+            </div>
+
+        {% else %}
+            
+            <div class="divNotELement">
+                <p>Veuillez ajouter un Album ou charger les album</p>
+            </div>
+            
+        {% endif %}
+
+        
     </div>
 
 

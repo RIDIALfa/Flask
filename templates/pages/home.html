@@ -1,16 +1,22 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    <title>Accueil</title>
+{% endblock %}
+
+
 {% block contenu %}
 <div class="content">
 
     <div class="divOverlay">
-        <form id="formUser" class="post formBlock">
+        <form id="formUser" method="post" class="post formBlock">
             <button id="btnQuite">x</button>
             <h2>Ajouter un utilisateur</h2>
             <div>
               <div class="formGroup">
                 {{ formUser.fullname() }}
                 {{ formUser.username() }}
+                {{ formUser.email() }}
                 {{ formUser.phone() }}
                 {{ formUser.website() }}
               </div>
@@ -38,9 +44,15 @@
 
     <div class="buttonHome">
         <button id="ajouter">Ajouter</button>
-        <button id="charger">Charger</button>
+        <form id="formLoad" method="post">
+          <input type="number" id="inputNumber" placeholder="nombre" min="1" max="5">
+          <button id="charger">Charger</button>
+        </form>
     </div>
-        <table id="tableHome">
+
+
+        {% if users %}
+          <table id="tableHome">
             <thead>
                 <tr>
                     <th>Nom Complet</th>
@@ -50,13 +62,18 @@
                 </tr>  
             </thead>
             <tbody>
-                <tr>
-                    <td>alpha</td>
-                    <td>alpha00@gmail.com</td>
+                {% for user in users %}
+                  <tr>
+                    <td><a id="loginHomeLink" href="{{'/connexion/'+user.get('email')}}">{{ user.fullname }}</a></td>
+                    <td>{{user.email}}</td>
                     <td>771432678</td>
                     <td>google.com</td>
-                </tr>
+                  </tr>
+                {% endfor %}
             </tbody>
-        </table>
+          </table>
+        {% else %}
+          <p>Aucun utilisateurs pour le moment !</p>
+        {% endif %}
 </div>
 {% endblock %}

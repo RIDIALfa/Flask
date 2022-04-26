@@ -1,8 +1,13 @@
 {% extends 'user_template.html' %}
 
+{% block title%}
+    <title>Detail post</title>
+{% endblock%}
+
+
 {% block contenuUser%}
 <div class="divOverlay">
-    <form id="formComment" class="post formBlock">
+    <form id="formComment" method="post" class="post formBlock">
         <button id="btnQuite">x</button>
         <h2>Ajouter un commentaire</h2>
         <div>
@@ -23,64 +28,33 @@
     
     <div class="divContainerDetail">
         
-        <h2>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia odio quas eius itaque, laborum consequuntur, quibusdam alias, vero porro neque culpa! Inventore quam illo vero provident recusandae, nesciunt qui nobis?</h2>
+        <h2>{{ post.title_post }}</h2>
     
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt obcaecati eaque sit doloribus autem nesciunt dolor ad blanditiis nemo, sint aperiam possimus mollitia hic corporis in sed id ipsum et?
-        Neque ipsam reprehenderit voluptates et dolore cum, repellendus quod vitae. Ad, ratione, animi nesciunt nostrum quam dolorum vero similique blanditiis rerum dolores optio id facere commodi sequi molestias. Quibusdam, ad?
-        Expedita rerum deserunt eligendi aliquam voluptates soluta, laboriosam odio explicabo aperiam illo dicta! Obcaecati ad quidem beatae sed nihil delectus, vero, distinctio iusto eius laudantium vel, explicabo voluptas dignissimos fugit!</p>
+        <p>{{ post.body_post }}</p>
 
 
         <div class="divCommentaires">
             <h2>Commentaires</h2>
             <table>
                 <tbody>
-                    <tr>
-                        <td>id labore ex</td>
-                        <td>id labore ex lorem impsu</td>
-                        <td>id@labore.ex</td>
-                        <td>
-                            <span class="fa fa-user"></span>
-                            <span class="fa fa-trash"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>id labore ex</td>
-                        <td>id labore ex lorem impsu</td>
-                        <td>id@labore.ex</td>
-                        <td>
-                            <span class="fa fa-user"></span>
-                            <span class="fa fa-trash"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>id labore ex</td>
-                        <td>id labore ex lorem impsu</td>
-                        <td>id@labore.ex</td>
-                        <td>
-                            <span class="fa fa-user"></span>
-                            <span class="fa fa-trash"></span>
-                        </td>
-                    </tr> 
+                    {% if comments %}
+                        {% for comment in comments%}
+                            <tr>
+                                <td>{{ comment.name_comment }}</td>
+                                <td>{{ comment.body_comment }}</td>
+                                <td>{{ comment.email_comment }}</td>
+                                <td>
+                                    <span class="fa fa-user"></span>
+                                    <span class="fa fa-trash"></span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <p style="text-align:center">Aucun commentaire pour cet article, pour le moment !</p>
+                        </tr>
+                    {% endif %}
                     
-                    <tr>
-                        <td>id labore ex</td>
-                        <td>id labore ex lorem impsu</td>
-                        <td>id@labore.ex</td>
-                        <td>
-                            <span class="fa fa-user"></span>
-                            <span class="fa fa-trash"></span>
-                        </td>
-                    </tr> 
-                    
-                    <tr>
-                        <td>id labore ex</td>
-                        <td>id labore ex lorem impsu</td>
-                        <td>id@labore.ex</td>
-                        <td>
-                            <span class="fa fa-user"></span>
-                            <span class="fa fa-trash"></span>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>

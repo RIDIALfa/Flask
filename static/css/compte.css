@@ -92,14 +92,13 @@ body{
 }
 
 
-.divMaps,
-.divMaps img{
+.divMaps{
     width: 100%;
 }
 
-.divMaps img{
+.divMaps #map{
     height: 30vh;
-    object-fit: cover;
+    /* object-fit: cover; */
 }
 
 
@@ -151,8 +150,17 @@ body{
     flex-wrap: wrap;
 }
 .divAlbums .singleAlbum{
-    margin-right: 20px;
+    margin-right: 37px;
     margin-bottom: 40px;
+    width: 18%;
+}
+.divAlbums .singleAlbum:nth-child(5n){
+    margin-right: 0px;
+}
+
+.divAlbums .singleAlbum img{
+    width: 100%;
+    /* object-fit: cover; */
 }
 
 .divAlbums .singleAlbum p{
@@ -309,4 +317,14 @@ body{
 
 .big.divInfos h1{
     font-size: 28px;
+}
+
+
+
+/* ****************** */
+.divNotELement{
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

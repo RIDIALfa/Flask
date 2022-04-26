@@ -57,3 +57,46 @@ switch(pathname){
         linkUser.classList.add('active')
         console.log("pas dans todo")
 }
+
+
+
+v = document.querySelector('#lat')
+console.log(v.innerText)
+p =parseFloat(v.innerText)
+s = document.querySelector('#long')
+console.log(s.innerText)
+n =parseFloat(s.innerText)
+let map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: p , lng: n},
+    zoom: 14,
+  });
+
+  new google.maps.Marker({
+      position : { lat: p, lng: n},
+      map : map,
+      label : "A",
+  })
+}
+
+window.initMap = initMap;
+
+
+
+let getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+  }
+  
+let showPosition = (position) => {
+    let m = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
+    console.log(m)
+}
+
+// getLocation()
+
+

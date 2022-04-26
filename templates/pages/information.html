@@ -1,13 +1,20 @@
 {% extends 'user_template.html' %}
 
+{% block title%}
+    <title>Informations</title>
+{% endblock%}
 
 {% block contenuUser%}
 
 <div class="divMaps">
-    <img src="{{ url_for('static', filename='images/carte.jpg') }}" alt="maps">
+    <div id="map"></div>
 </div>
 
+
+
 <div class="big divInfos">
+
+
     <h1 class="head">Informations Supplémentaires</h1>    
     <div id="table1">
         <div id="sect1">
@@ -17,11 +24,11 @@
             </div>
             <div class="tr">
                 <p class="p1">Nom complet :</p>
-                <p class="p2">Leanne Graham</p>
+                <p class="p2">{{user['fullname']}}</p>
             </div>
             <div class="tr">
                 <p class="p1">Téléphone :</p>
-                <p class="p2">1-233-34-4543-54</p>
+                <p class="p2">{{user['phone']}}</p>
             </div>
             <div class="tr">
                 <p class="p1">Site web :</p>
@@ -29,7 +36,7 @@
             </div>
             <div class="tr">
                 <p class="p1">Email :</p>
-                <p class="p2">ridialfall@gmail.com</p>
+                <p class="p2">{{user['email']}}</p>
             </div>
         </div>
         <div id="sect2">
@@ -60,11 +67,11 @@
             </div>
             <div class="tr1">
                 <p class="p1 p1_1">catchPhrase :</p>
-                <p class="p2">Leanne Graham </p>
+                <p class="p2" id="long">{{user['long']}}</p>
             </div>
             <div class="tr1">
                 <p class="p1 p1_1">Bs :</p>
-                <p class="p2">1-770-7755-56</p>
+                <p class="p2" id="lat">{{user['lat']}}</p>
             </div>
         </div>
     </div>
