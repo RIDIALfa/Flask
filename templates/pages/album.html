@@ -8,14 +8,13 @@
 {% block contenuUser %}
 
 <div class="divOverlay">
-    <form id="formPhoto" class="post formBlock">
+    <form id="formPhoto" method="post" class="post formBlock">
         <button id="btnQuite">x</button>
         <h2>Ajouter une photo</h2>
         <div>
           {{ formPhoto.title() }}
           {{ formPhoto.url() }}
           {{ formPhoto.thumbnail() }}
-          {{ formPhoto.album() }}
         </div>
         <button type="submit" id="btnSend"> Enregistrer</button>
     </form>  
@@ -30,65 +29,37 @@
     
     <div class="divContainerAlbum">
         <div class="divHeadAlbum">
-            <h2>Album 1</h2>
+            <h2>{{album_name}}</h2>
             <div class="divFaIcons">
                 <span class="fa fa-pen"></span>
                 <span class="fa fa-trash"></span>
             </div>
         </div>
-    
-        <div class="divAlbums">
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Photo 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Photo 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Photo 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Photo 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Photo 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Photo 1</p>
-            </div>
-    
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Photo 1</p>
+
+
+        {% if photos %}
+            <div class="divAlbums">
+                {% for photo in photos %}
+                <div class="singleAlbum">
+                    <img src="{{photo.url_photo}}" alt="{{photo.title_photo}}"/>
+                    <p>{{photo.title_photo}}</p>
+                </div>
+                {% endfor %}
             </div>
 
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Photo 1</p>
+            <div class="divPagination">
+                <button>Précédent</button>
+                
+                <button>Suivant</button>
             </div>
 
-            <div class="singleAlbum">
-                <img src="https://via.placeholder.com/250" alt="album"/>
-                <p>Photo 1</p>
-            </div>
-        </div>
-
-        <div class="divPagination">
-            <button>Précédent</button>
+        {% else %}
             
-            <button>Suivant</button>
-        </div>
+            <div class="divNotELement">
+                <p>Veuillez ajouter une photo ou charger les photos</p>
+            </div>
+            
+        {% endif %}
     </div>
 
 

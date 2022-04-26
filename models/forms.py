@@ -18,7 +18,7 @@ class ALbumForm(Form):
 
 class TodoForm(Form):
     title = StringField('title',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"Titre"})
-    etat = SelectField('Etat', choices=[('ec', 'En cours'), ('af', 'A faire'), ('fi', 'Terminé')])
+    etat = SelectField('Etat', choices=[(1, 'En cours'), (2, 'A faire'), (3, 'Terminé')])
 
 
 
@@ -26,7 +26,6 @@ class PhotoForm(Form):
     title = StringField('title',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"Titre"})
     url = StringField('url',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"url"})
     thumbnail = StringField('thumbnail',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"ThumbnailUrl"})
-    album = SelectField("Choisir l'album", choices=[('ec', 'Album 1'), ('af', 'Album 2'), ('fi', 'Album 3')])
 
 
 

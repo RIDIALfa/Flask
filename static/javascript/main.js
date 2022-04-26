@@ -77,3 +77,20 @@ function initMap() {
 }
 
 window.initMap = initMap;
+
+
+
+let getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+  }
+  
+let showPosition = (position) => {
+    let m = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
+    console.log(m)
+}
+
+// getLocation()
