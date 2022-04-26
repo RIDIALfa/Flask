@@ -7,8 +7,8 @@ routers = Blueprint('root', __name__)
 
 routers.route('/')(home)
 
-routers.route('/connexion/', defaults={'email': ''})(login)
-routers.route('/connexion/<email>')(login)
+routers.route('/connexion/', defaults={'email': ''}, methods=['GET','POST'])(login)
+routers.route('/connexion/<email>', methods=['GET','POST'])(login)
 
 routers.route('/compte/')(compte)
 
