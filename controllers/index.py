@@ -1,3 +1,4 @@
+from errno import EUSERS
 from flask import redirect, render_template, request, session, url_for
 from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
 from models.creates_tables import Posts, Todos, Comments, Albums, Photos, db
@@ -10,10 +11,12 @@ def home():
 
 
 # CONTROLLER DE LA PAGE DE CONNEXION
+
+34.05855065769437, -118.25096592088265
 users =[
-    {'email': 'awa@sa.sn', 'password':'passer789', 'fullname':'awa diop', 'phone': 330000000},
-    {'email': 'alpha@sa.sn', 'password':'passer123', 'fullname':'alpha diallo', 'phone': 440000000},
-    {'email': 'khabane@sa.sn', 'password':'passer456', 'fullname':'khabane fall', 'phone': 550000000},
+    {'email': 'awa@sa.sn', 'password':'passer789', 'fullname':'awa diop', 'phone': 330000000, 'lat': 34.05855065769437, 'long' : -118.25096592088265},
+    {'email': 'alpha@sa.sn', 'password':'passer123', 'fullname':'alpha diallo', 'phone': 440000000, 'lat': 14.872029, 'long' : -17.436139},
+    {'email': 'khabane@sa.sn', 'password':'passer456', 'fullname':'khabane fall', 'phone': 550000000, 'lat': 16.7727, 'long' : -19.361339},
 ]
 
 def login(email):
@@ -40,6 +43,9 @@ def posts():
     form_post = PostForm(request.form)
     posts = Posts.query.filter_by(userId_post = 1).all()
     if "email" in session:
+        for i in users:
+             if i['email']==session['email']:
+                 user = i
 
         if request.method == 'POST' and form_post.validate():
             
@@ -58,7 +64,7 @@ def posts():
             return redirect('/posts')
             # return render_template('pages/posts.html', formPost = form_post, posts=posts)
 
-        return render_template('pages/posts.html', formPost = form_post, posts=posts)
+        return render_template('pages/posts.html', formPost = form_post, posts=posts,user=user)
     else:
 
         return redirect('/connexion')
@@ -76,6 +82,9 @@ def post(post_title):
     comments = Comments.query.filter_by(postId_comment = post.postId).all()
 
     if "email" in session:
+        for i in users:
+             if i['email']==session['email']:
+                 user = i
 
         if request.method == 'POST' and form_comment.validate():
             
@@ -92,7 +101,7 @@ def post(post_title):
 
             return redirect('/posts/'+post_title)
 
-        return render_template('pages/post.html', formComment = form_comment, post = post,comments = comments)
+        return render_template('pages/post.html', formComment = form_comment, post = post,comments = comments,user=user)
 
 
     else:
@@ -110,6 +119,9 @@ def albums():
     albums = Albums.query.all()
 
     if "email"  in session:
+        for i in users:
+             if i['email']==session['email']:
+                 user = i
 
         if request.method == 'POST' and form_album.validate():
             
@@ -122,7 +134,7 @@ def albums():
 
             return redirect('/albums')
         
-        return render_template('pages/albums.html', formAlbum = form_album, albums=albums)
+        return render_template('pages/albums.html', formAlbum = form_album, albums=albums,user=user)
 
     else:
         return redirect('/connexion')
@@ -136,22 +148,32 @@ def album(album_name):
     form_photo = PhotoForm(request.form)
     albumId = Albums.query.filter_by(title_album=album_name).first().albumId
     photos = Photos.query.filter_by(albumId_photo = albumId).all()
+    
+    if  "email"  in session:
+        for i in users:
+             if i['email']==session['email']:
+                 user = i
+    
 
-    if request.method == 'POST' and form_photo.validate():
-        
-        new_photo = Photos(
-            title_photo = form_photo.title.data,
-            url_photo = form_photo.url.data,
-            thumnail_photo = form_photo.thumbnail.data,
-            albumId_photo = albumId
-        )
+        if request.method == 'POST' and form_photo.validate():
+            
+            new_photo = Photos(
+                title_photo = form_photo.title.data,
+                url_photo = form_photo.url.data,
+                thumnail_photo = form_photo.thumbnail.data,
+                albumId_photo = albumId
+            )
 
-        db.session.add(new_photo)
-        db.session.commit()
+            db.session.add(new_photo)
+            db.session.commit()
 
-        return redirect('/albums/'+album_name)
+            return redirect('/albums/'+album_name)
 
-    return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos=photos)
+        return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos=photos,user=user)
+    else:
+        return redirect('/connexion')
+
+
 
 
 
@@ -166,6 +188,9 @@ def todos():
 
 
     if  "email"  in session:
+        for i in users:
+             if i['email']==session['email']:
+                 user = i
         if request.method == 'POST' and form_todo.validate():
                 
             new_todo = Todos(
@@ -181,7 +206,7 @@ def todos():
 
             return redirect('/todos')
 
-        return render_template('pages/todos.html', formTodo = form_todo, todos=todos )
+        return render_template('pages/todos.html', formTodo = form_todo, todos=todos ,user=user)
         
     else:
         return redirect('/connexion')
@@ -192,11 +217,30 @@ def todos():
 
 # CONTROLLER DE LA PAGE MON COMPTE
 def compte():
+    user = {}
     if "email" in session:
-        return render_template('pages/information.html')
+        for i in users:
+             if i['email']==session['email']:
+                 user = i
+                #  user.append(i['fullname'])
+                #  user.append(i['phone'])
+                #  user.append(i['email'])
+                 print(user)
+
+
+        
+        return render_template('pages/information.html', user=user)
 
     else:
         return redirect('/connexion')
+
+# CONTROLLER logout
+
+def logout():
+
+    session.clear()
+    return redirect(url_for('.login'))
+
 
 
 

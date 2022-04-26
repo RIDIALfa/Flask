@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controllers.index import home, login, compte, posts, post, albums, album, todos
+from controllers.index import home, login, compte, posts, post, albums, album, todos,logout
 
 
 routers = Blueprint('root', __name__)
@@ -23,6 +23,9 @@ routers.route('/albums/', defaults={'album_name': ''}, methods=['GET','POST'])(a
 routers.route('/albums/<album_name>', methods=['GET','POST'])(album)
 
 routers.route('/todos/', methods=['GET','POST'])(todos)
+
+routers.route('/logout/')(logout)
+
 
 
 
