@@ -5,7 +5,7 @@ from controllers.index import home, login, compte, posts, post, albums, album, t
 routers = Blueprint('root', __name__)
 
 
-routers.route('/')(home)
+routers.route('/', methods=['GET','POST'])(home)
 
 routers.route('/connexion/', defaults={'email': ''}, methods=['GET','POST'])(login)
 routers.route('/connexion/<email>', methods=['GET','POST'])(login)
