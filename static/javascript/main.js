@@ -60,17 +60,21 @@ switch(pathname){
 
 
 
-
-
+v = document.querySelector('#lat')
+console.log(v.innerText)
+p =parseFloat(v.innerText)
+s = document.querySelector('#long')
+console.log(s.innerText)
+n =parseFloat(s.innerText)
 let map;
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 14.772705814054518 , lng: -17.361339448152442},
+    center: { lat: p , lng: n},
     zoom: 14,
   });
 
   new google.maps.Marker({
-      position : { lat: 14.772705814054518 , lng: -17.361339448152442 },
+      position : { lat: p, lng: n},
       map : map,
       label : "A",
   })
@@ -94,3 +98,5 @@ let showPosition = (position) => {
 }
 
 // getLocation()
+
+
