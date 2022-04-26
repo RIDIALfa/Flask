@@ -32,6 +32,7 @@ class PhotoForm(Form):
 class UserForm(Form):
     fullname = StringField('fullname',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"Nom complet"})
     username = StringField('username',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"Nom d'utilisateur"})
+    email = StringField('email',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"Adresse email"})
     phone = StringField('phone',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"Numéro de téléphone"})
     website = StringField('website',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"Lien du site web"})
     ville = StringField('ville',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"Ville"})

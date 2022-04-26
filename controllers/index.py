@@ -1,24 +1,61 @@
-from errno import EUSERS
 from flask import redirect, render_template, request, session, url_for
 from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
 from models.creates_tables import Posts, Todos, Comments, Albums, Photos, db
 
-# CONTROLLER DE LA PAGE HOME
-def home():
-    form_user = UserForm(request.form)
-    return render_template('pages/home.html', formUser=form_user)
-
-
-
-# CONTROLLER DE LA PAGE DE CONNEXION
-
-34.05855065769437, -118.25096592088265
+# Fake datas
 users =[
     {'email': 'awa@sa.sn', 'password':'passer789', 'fullname':'awa diop', 'phone': 330000000, 'lat': 34.05855065769437, 'long' : -118.25096592088265},
     {'email': 'alpha@sa.sn', 'password':'passer123', 'fullname':'alpha diallo', 'phone': 440000000, 'lat': 14.872029, 'long' : -17.436139},
     {'email': 'khabane@sa.sn', 'password':'passer456', 'fullname':'khabane fall', 'phone': 550000000, 'lat': 16.7727, 'long' : -19.361339},
 ]
 
+
+
+# CONTROLLER DE LA PAGE HOME
+def home():
+    form_user = UserForm(request.form)
+
+    if request.method == 'POST':
+
+        print(form_user)
+
+        new_user = {
+            'name': form_user.fullname.data,
+            'username': form_user.username.data,
+            'email': form_user.email.data,
+            'phone': form_user.phone.data,
+            'website': form_user.website.data,
+
+        }
+
+        new_compagny = {
+            'compagny': form_user.compagny.data,
+            'bs': form_user.bs.data,
+            'catch': form_user.catch.data,
+        }
+
+        new_addresse = {
+            'ville': form_user.ville.data,
+            'rue': form_user.rue.data,
+            'suite': form_user.suite.data,
+            'zipcode': form_user.zipcode.data,
+            'lat': form_user.lat.data,
+            'long': form_user.long.data,
+        }
+
+        print("*******Adresse : ", new_addresse)
+        print("*******Compagnie : ", new_compagny)
+        print("*******User : ", new_user)
+
+
+        return redirect('/')
+        
+
+    return render_template('pages/home.html', formUser=form_user, users = users)
+
+
+
+# CONTROLLER DE LA PAGE DE CONNEXION
 def login(email):
 
     if request.method == 'POST':
@@ -62,7 +99,6 @@ def posts():
             db.session.commit()
 
             return redirect('/posts')
-            # return render_template('pages/posts.html', formPost = form_post, posts=posts)
 
         return render_template('pages/posts.html', formPost = form_post, posts=posts,user=user)
     else:
