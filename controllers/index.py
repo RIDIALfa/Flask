@@ -82,6 +82,9 @@ def post(post_title):
     comments = Comments.query.filter_by(postId_comment = post.postId).all()
 
     if "email" in session:
+        for i in users:
+             if i['email']==session['email']:
+                 user = i
 
         if request.method == 'POST' and form_comment.validate():
             
@@ -98,7 +101,7 @@ def post(post_title):
 
             return redirect('/posts/'+post_title)
 
-        return render_template('pages/post.html', formComment = form_comment, post = post,comments = comments)
+        return render_template('pages/post.html', formComment = form_comment, post = post,comments = comments,user=user)
 
 
     else:
@@ -116,6 +119,9 @@ def albums():
     albums = Albums.query.all()
 
     if "email"  in session:
+        for i in users:
+             if i['email']==session['email']:
+                 user = i
 
         if request.method == 'POST' and form_album.validate():
             
@@ -128,7 +134,7 @@ def albums():
 
             return redirect('/albums')
         
-        return render_template('pages/albums.html', formAlbum = form_album, albums=albums)
+        return render_template('pages/albums.html', formAlbum = form_album, albums=albums,user=user)
 
     else:
         return redirect('/connexion')
@@ -144,6 +150,9 @@ def album(album_name):
     photos = Photos.query.filter_by(albumId_photo = albumId).all()
     
     if  "email"  in session:
+        for i in users:
+             if i['email']==session['email']:
+                 user = i
     
 
         if request.method == 'POST' and form_photo.validate():
@@ -160,7 +169,7 @@ def album(album_name):
 
             return redirect('/albums/'+album_name)
 
-        return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos=photos)
+        return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos=photos,user=user)
     else:
         return redirect('/connexion')
 
@@ -179,6 +188,9 @@ def todos():
 
 
     if  "email"  in session:
+        for i in users:
+             if i['email']==session['email']:
+                 user = i
         if request.method == 'POST' and form_todo.validate():
                 
             new_todo = Todos(
@@ -194,7 +206,7 @@ def todos():
 
             return redirect('/todos')
 
-        return render_template('pages/todos.html', formTodo = form_todo, todos=todos )
+        return render_template('pages/todos.html', formTodo = form_todo, todos=todos ,user=user)
         
     else:
         return redirect('/connexion')
