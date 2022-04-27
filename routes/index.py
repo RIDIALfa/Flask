@@ -2,10 +2,11 @@ from flask import Blueprint
 from controllers.index import home, login, compte, posts, post, albums, album, todos, delete_post,  delete_album
 
 
+
 routers = Blueprint('root', __name__)
 
 
-routers.route('/')(home)
+routers.route('/', methods=['GET','POST'])(home)
 
 routers.route('/connexion/', defaults={'email': ''}, methods=['GET','POST'])(login)
 routers.route('/connexion/<email>', methods=['GET','POST'])(login)
@@ -25,6 +26,10 @@ routers.route('/albums/<album_name>', methods=['GET','POST'])(album)
 routers.route('/todos/', methods=['GET','POST'])(todos)
 
 routers.route('/posts/delete/<indice_post>')(delete_post)
+
+
+routers.route('/logout/')(logout)
+
 
 routers.route('/album/delete/<indice_album>')( delete_album)
 

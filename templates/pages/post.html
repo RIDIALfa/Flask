@@ -28,9 +28,9 @@
     
     <div class="divContainerDetail">
         
-        <h2>{{ post.title_post }}</h2>
+        <h2>{{ post.title_posts }}</h2>
     
-        <p>{{ post.body_post }}</p>
+        <p>{{ post.body_posts }}</p>
 
 
         <div class="divCommentaires">
@@ -40,9 +40,9 @@
                     {% if comments %}
                         {% for comment in comments%}
                             <tr>
-                                <td>{{ comment.name_comment }}</td>
-                                <td>{{ comment.body_comment }}</td>
-                                <td>{{ comment.email_comment }}</td>
+                                <td>{{ comment.name_comments }}</td>
+                                <td>{{ comment.body_comments }}</td>
+                                <td>{{ comment.email_comments }}</td>
                                 <td>
                                     <span class="fa fa-user"></span>
                                     <span class="fa fa-trash"></span>

@@ -1,13 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
-
-
+    
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://groupe3:passer123@localhost/flask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
 db = SQLAlchemy(app)
-
 
 
 class Users(db.Model):
