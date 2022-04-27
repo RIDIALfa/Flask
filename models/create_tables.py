@@ -1,4 +1,4 @@
-from sqlalchemy.orm import relationship
+from tkinter import E
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -20,7 +20,7 @@ db = SQLAlchemy(app)
 class Adresses(db.Model):
     __tablename__ = 'adresses'
     
-    id_addresse = db.Column(db.Integer, primary_key = True)
+    id_adresse = db.Column(db.Integer, primary_key = True)
     street = db.Column(db.String(250), nullable = False)
     suite = db.Column(db.String(200), nullable = False)
     city = db.Column(db.String(200), nullable = False)
@@ -29,7 +29,7 @@ class Adresses(db.Model):
     long = db.Column(db.String(50), nullable = False)
 
     # Adresses childreen relations
-    users = relationship("users", backref = "adresse")
+    users = db.relationship('Users', backref = "adresses")
 
     def __ref__(self):
         return '<Adresses %r>' % self.city
@@ -38,15 +38,15 @@ class Adresses(db.Model):
 
 ####TAB COMPAGNY
 class Compagny(db.Model):
-    __tablename__ = 'company'
+    __tablename__ = 'compagny'
 
-    id_company = db.Column(db.Integer, primary_key = True)
+    id_compagny = db.Column(db.Integer, primary_key = True)
     name_compagny = db.Column(db.String(150), nullable = False, unique = True)
     catchPhrase = db.Column(db.String(150), nullable = True)
     bs = db.Column(db.String(150), nullable = False)
 
     # Compagny childreen relations
-    users = relationship("users", backref = "company")
+    users = db.relationship("Users", backref = "compagny")
 
     def __ref__(self):
         return '<Compagny %r>' % self.name_compagny
@@ -62,15 +62,16 @@ class Users(db.Model):
     email = db.Column(db.String(50), nullable = False, unique = True)
     phone = db.Column(db.String(50), nullable = True)
     website = db.Column(db.String(100), nullable = True)
+    password = db.Column(db.String(100), nullable = False)
 
     # users childreen relations
-    posts = relationship("posts", backref = "users")
-    todos = relationship("todos", backref = "users")
-    albums = relationship("albums", backref = "users")
+    posts = db.relationship("Posts", backref = "users")
+    todos = db.relationship("Todos", backref = "users")
+    albums = db.relationship("Albums", backref = "users")
     
     # users parents relations
-    id_adresse_users = db.Column(db.Integer, db.ForeignKey('adresse.id_adresse'))
-    id_company_users = db.Column(db.Integer, db.ForeignKey('company.id_company'))
+    id_adresse_users = db.Column(db.Integer, db.ForeignKey('adresses.id_adresse'))
+    id_company_users = db.Column(db.Integer, db.ForeignKey('compagny.id_compagny'))
     
     def __repr__(self):
         return '<Users %r>' % self.fullname
@@ -86,7 +87,7 @@ class Posts(db.Model):
     id_users_posts = db.Column(db.Integer, db.ForeignKey('users.id_users'))
 
     # users childreen relations
-    comments = relationship("Comments", backref='posts')
+    comments = db.relationship("Comments", backref='posts')
 
     def __repr__(self):
         return '<Posts %r>' % self.title_posts
@@ -127,7 +128,7 @@ class Albums(db.Model):
     title_albums = db.Column(db.String(150), nullable=False)
     id_users_albums = db.Column(db.Integer, db.ForeignKey('users.id_users'))
 
-    photos = relationship('Photos', backref ='albums')
+    photos = db.relationship('Photos', backref ='albums')
 
     def __repr__(self):
         return '<Albums %r>' % self.title_albums
@@ -153,3 +154,8 @@ class Photos(db.Model):
 
 if __name__=='__main__':
     db.create_all()
+
+def create_all_table():
+    if __name__=='__main__':
+        db.create_all()
+        return print('Tables created !')
