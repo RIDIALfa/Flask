@@ -29,6 +29,8 @@
     </div>
     <div class="divTodos">
         <h2 id="too">Mes todos</h2>
+        {% if todos %}
+        
         <table id="tableTodoList">
             <thead>
                 <tr>
@@ -39,7 +41,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% if todos %}
+                
                     {% for todo in todos %}
                         <tr>
                             <td>{{ todo.title_todos}}</td>
@@ -52,11 +54,7 @@
                             </td>
                         </tr>
                     {% endfor %}
-                {% else %}
-                <tr>
-                    <p>Désolé vous n'avez pas de todo pour le moment !</p>
-                </tr>
-                {% endif %}
+                
                 
             </tbody>
         </table>
@@ -65,6 +63,13 @@
             
             <button>Suivant</button>
         </div>
+
+
+        {% else %}
+            <tr>
+                <p>Désolé vous n'avez pas de todo pour le moment !</p>
+            </tr>
+        {% endif %}
     </div>
 
     

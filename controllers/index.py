@@ -244,8 +244,7 @@ def album(album_name):
     else:
         return redirect('/connexion')
 
-
-
+    return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos=photos, albumId = albumId )
 
 
 
@@ -301,8 +300,19 @@ def compte():
         return redirect('/connexion')
 
 
+# fonction supprimer post
 
-
+def delete_post(indice_post):
+    p=Posts.query.get(indice_post)
+    db.session.delete(p)
+    db.session.commit()
+    return redirect('/posts')
+    
+def delete_album(indice_album):
+    p=Albums.query.get(indice_album)
+    db.session.delete(p)
+    db.session.commit()
+    return redirect('/albums')
 
 
 
