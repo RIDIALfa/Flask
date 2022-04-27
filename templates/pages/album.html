@@ -41,8 +41,11 @@
             <div class="divAlbums">
                 {% for photo in photos %}
                 <div class="singleAlbum">
-                    <img src="{{photo.url_photo}}" alt="{{photo.title_photo}}"/>
-                    <p>{{photo.title_photo}}</p>
+                    <img src="{{photo.url}}" alt="{{photo.title_photos}}"/>
+                    <div class="divPhotos">
+                        <span>{{photo.title_photos}}</span>
+                        <a href="#"><span class="fa fa-trash"></span></a>
+                    </div>
                 </div>
                 {% endfor %}
             </div>

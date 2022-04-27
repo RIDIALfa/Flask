@@ -7,8 +7,9 @@ let divOverlayPostForm = document.querySelector(".divOverlay")
 let btnPostForm = document.querySelector(".btnForm")
 
 
+// **************
 // LES EVENEMENTS
-// && permet de verifier si la variable est != de null
+// **************
 btnPostForm && btnPostForm.addEventListener('click', ()=>{
     divOverlayPostForm.classList.add('show')
 })
@@ -17,12 +18,21 @@ btnPostForm && btnQuite.addEventListener('click', ()=>{
     divOverlayPostForm.classList.remove('show')
 })
 
+
+
+
+// **********************
 // DEPLACER LE FORMULAIRE
+// ***********************
 divOverlayPostForm && userContainer.insertBefore(divOverlayPostForm, bars)
 
 
 
+
+// *********************
 // GERER LE LIEN ACTIVE
+// *********************
+
 let ulLinks = document.querySelectorAll(".ulLinks li")
 let linkUser = document.querySelector(".ulLinks li.user")
 let linkPosts = document.querySelector(".ulLinks li.posts")
@@ -60,21 +70,27 @@ switch(pathname){
 
 
 
-v = document.querySelector('#lat')
-console.log(v.innerText)
-p =parseFloat(v.innerText)
-s = document.querySelector('#long')
-console.log(s.innerText)
-n =parseFloat(s.innerText)
+
+// ***************************************
+// RECUPERATION DES COORDONNEES DE L'USER
+// **************************************
+let elementLat = document?.querySelector('#lat')
+const lat =parseFloat(elementLat.innerText)
+
+let elementLong = document?.querySelector('#long')
+const long = parseFloat(elementLong.innerText)
+
 let map;
+let coords = { lat: lat , lng: long}
+
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: p , lng: n},
+    center: coords,
     zoom: 14,
   });
 
   new google.maps.Marker({
-      position : { lat: p, lng: n},
+      position : coords,
       map : map,
       label : "A",
   })
@@ -83,6 +99,11 @@ function initMap() {
 window.initMap = initMap;
 
 
+
+
+// **********************************
+// GEOLOCALISATION D'UN UTILISATEUR
+// **********************************
 
 let getLocation = () => {
     if (navigator.geolocation) {
