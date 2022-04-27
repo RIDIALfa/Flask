@@ -19,7 +19,10 @@
     </form>
 </div>
 
-  
+
+
+
+
 
 <div class="containerTodos">
 
@@ -44,10 +47,10 @@
                         <tr>
                             <td>{{ todo.title_todo}}</td>
                             <td><span class="status done">encours</span></td>
-                            <td>id@labore.ex</td>
+                            <td>{{user['fullname']}}</td>
                             <td>
                                 <i class="fa-solid fa-eye"></i>
-                                <i class="fa-solid fa-pen"></i>
+                                <a id="editer" href="/editer/{{todo.title_todo}}"><i class="fa-solid fa-pen"></i></a>
                                 <i class="fa fa-trash"></i>
                             </td>
                         </tr>

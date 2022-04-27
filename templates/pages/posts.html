@@ -49,11 +49,11 @@
                         <tr class="tr">
                             <td class="td">{{ post.title_post }}</td>
                             <td class="td">{{ post.body_post }}</td>
-                            <td class="td">Leanne Graham</td>
+                            <td class="td">{{user['fullname']}}</td>
             
                             <td classe="td">
                                 <i class="fa-solid fa-eye"></i>
-                                <i class="fa-solid fa-pen"></i>
+                                <a href="/editerPost/{{post.title_post}}"><i class="fa-solid fa-pen"></i></a>
                                 <i class="fa fa-trash"></i>
                             </td>
                         </tr>

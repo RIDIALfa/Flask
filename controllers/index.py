@@ -278,8 +278,33 @@ def logout():
     return redirect(url_for('.login'))
 
 
+# CONTROLLER  editer
+def edit(title):
+    form_todo = TodoForm(request.form)
+    element=Todos.query.filter_by(title_todo=title).first()
+    if request.method == 'POST':
+        new_title= form_todo.title.data
+        Todos.query.filter_by(title_todo=title).update({'title_todo':new_title})
+        db.session.commit()
+        return redirect('/todos')
+    
+    print(title)
+    return render_template('pages/editer.html',form_todo=form_todo,element=element)
+    
 
 
-
+def editPost(title):
+    form_post = PostForm(request.form)
+    element=Posts.query.filter_by(title_post=title).first()
+    if request.method == 'POST':
+        new_title= form_post.title.data
+        new_message= form_post.message.data
+        Posts.query.filter_by(title_post=title).update({'title_post':new_title,'body_post':new_message})
+        db.session.commit()
+        return redirect('/posts')
+    
+    print(title)
+    return render_template('pages/editerPost.html',form_post=form_post,element=element)
+    
 
 
