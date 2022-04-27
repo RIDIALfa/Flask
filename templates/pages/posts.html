@@ -23,6 +23,11 @@
 
 
 
+<!-- editing form  -->
+
+
+
+
 <div class="divContainerPosts">
     <div class="btns">
         <button class="btnForm">Ajouter</button>
@@ -33,6 +38,7 @@
     <div class="big" id="big">
 
         <h2>Mes posts</h2>
+        {% if posts %}
 
         <table id="postTable">
             <thead>
@@ -44,7 +50,6 @@
                 </tr>
             </thead>
             <tbody>
-                {% if posts %}
                     {% for post in posts %}
                         <tr class="tr">
                             <td class="td">{{ post.title_post }}</td>
@@ -52,27 +57,29 @@
                             <td class="td">Leanne Graham</td>
             
                             <td classe="td">
-                                <i class="fa-solid fa-eye"></i>
-                                <i class="fa-solid fa-pen"></i>
-                                <i class="fa fa-trash"></i>
+                                <button type="submit"><i class="fa-solid fa-eye"></i></button>
+                                <button type="submit"><i class="fa-solid fa-pen" onclick="Modify(this)"></i></button>
+                                <a href="/posts/delete/{{post.postId}}"><i class="fa fa-trash" ></i></a>
                             </td>
                         </tr>
                     {% endfor %}
+                    <tr>
+                        <div class="divPagination">
+                            <button>Précédent</button>
+                            
+                            <button>Suivant</button>
+                        </div>
+                    </tr>
                 {% else %}
                     <tr>
                         <p>Aucun post pour le moment !</p>
                     </tr>
-                {% endif %}
             </tbody>
     
         </table>
-        <tr>
-            <div class="divPagination">
-                <button>Précédent</button>
-                
-                <button>Suivant</button>
-            </div>
-        </tr>
+       
+        {% endif %}
+    
     </div>
 </div>
 
