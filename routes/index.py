@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controllers.index import home, login, compte, posts, post, albums, album, todos, delete_post,  delete_album
+from controllers.index import home, login, compte, posts, post, albums, album, todos, delete_post,  delete_album, logout
 
 
 
@@ -34,4 +34,4 @@ routers.route('/logout/')(logout)
 routers.route('/album/delete/<indice_album>')( delete_album)
 
 
-
+# routers.route('/users/', methods=['GET','POST'])(get_users)

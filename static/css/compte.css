@@ -324,7 +324,10 @@ body{
 .big.divInfos h1{
     font-size: 28px;
 }
-
+#editUser{
+    position: absolute;
+    right: 80px;
+}
 
 
 /* ****************** */

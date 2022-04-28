@@ -1,6 +1,25 @@
+from os import setegid
 from flask import redirect, render_template, request, session, url_for
 from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
 from models.create_tables import Adresses, Compagny, Users, Posts, Comments, Albums, Photos, Todos, db
+
+import requests
+
+
+
+def getApi(param):
+
+    url='https://jsonplaceholder.typicode.com/'
+
+    reponse=requests.get(url+param)
+    
+    return reponse.json()
+    
+
+
+# getApi('users')
+
+
 
 # Fake datas
 users =[
@@ -10,68 +29,127 @@ users =[
 ]
 
 
+def add_adresse(city, street, suite, zipcode, lat, long):
+    check_adresse_value = Adresses.query.filter_by(suite = suite).first()
+
+    if(check_adresse_value != None):
+        id_adresse = check_adresse_value.id_adresse
+        
+    else:
+
+        new_adresse = Adresses(
+            city = city,
+            street = street,
+            suite = suite,
+            zipcode = zipcode,
+            lat = lat,
+            long = long
+        )
+            
+        id_adresse = 20
+
+    return id_adresse
+
+
+
+
+def add_compagny(name_compagny, catchPhrase, bs):
+    check_compagny_value = Compagny.query.filter_by(name_compagny = name_compagny).first()
+
+    if(check_compagny_value != None):
+        id_compagny = check_compagny_value.id_compagny
+            
+    else:
+
+        new_compagny = Compagny(
+            name_compagny = name_compagny,
+            catchPhrase = catchPhrase,
+            bs = bs
+        )
+
+        id_compagny = 24
+
+    return id_compagny
+
+
+
+
+
+def add_users_from_apis(users):
+    
+    
+    for user in users:
+
+        idAddr = add_adresse( user.get('address')['city'], user.get('address')['street'], user.get('address')['suite'], 
+            user.get('address')['zipcode'], user.get('address')['geo']['lat'], user.get('address')['geo']['lng'])
+
+        idComp = add_compagny( user.get('company')['name'], user.get('company')['catchPhrase'], user.get('company')['bs'])
+
+        print("id :", idAddr, idComp)
+
+        new_user = Users(
+            fullname = user.get('name'),
+            username = user.get('username'),
+            email = user.get('email'),
+            phone = user.get('phone'),
+            website = user.get('website'),
+            password = "passer",
+            id_adresse_users = idAddr,
+            id_company_users = idComp
+        )
+        print("Utilisateur ",new_user.fullname, new_user.email)
+
+
+
+
+
+
 
 # CONTROLLER DE LA PAGE HOME
 def home():
     form_user = UserForm(request.form)
 
     if request.method == 'POST':
-
-        check_compagny_value = Compagny.query.filter_by(name_compagny = form_user.compagny.data).first()
-        check_adresse_value = Adresses.query.filter_by(suite = form_user.suite.data).first()
-
-        if(check_compagny_value != None):
-            id_compagny = check_compagny_value.id_compagny
         
-        else:
-            new_compagny = Compagny(
-                name_compagny = form_user.compagny.data,
-                catchPhrase = form_user.catch.data,
-                bs = form_user.bs.data
-            )
-            db.session.add(new_compagny)
-            db.session.commit()
 
-            id_compagny = Compagny.query.filter_by(name_compagny = form_user.compagny.data).first().id_compagny
+        if request.form.get('nombre') :
+            nombre =  request.form.get('nombre')
 
+            users_api = getApi('users')[0:int(nombre)]
+            
+            add_users_from_apis(users_api)
 
-        if (check_adresse_value != None):
-            id_adresse = check_adresse_value.id_adresse
+            return redirect('/')
 
         else:
-            new_adresse = Adresses(
-                city = form_user.ville.data,
-                street = form_user.rue.data,
-                suite = form_user.suite.data,
-                zipcode = form_user.zipcode.data,
-                lat = form_user.lat.data,
-                long = form_user.long.data,
-            )
-            db.session.add(new_adresse)
-            db.session.commit()
-
-            id_adresse = Adresses.query.filter_by(suite = form_user.suite.data).first().id_adresse
-
-
-        new_user = Users(
-            fullname = form_user.fullname.data,
-            username = form_user.username.data,
-            email = form_user.email.data,
-            phone = form_user.phone.data,
-            website = form_user.website.data,
-            password = "passer",
-            id_adresse_users = id_adresse,
-            id_company_users = id_compagny
-        )
-        db.session.add(new_user)
-        db.session.commit()
-
-    
-        print(new_user)
-
-        return redirect('/')
         
-    return render_template('pages/home.html', formUser=form_user, users = users)
+
+            idComp = add_compagny(form_user.compagny.data, form_user.catch.data, form_user.bs.data)
+
+            idAddr = add_adresse( form_user.ville.data, form_user.rue.data, form_user.suite.data, 
+            form_user.zipcode.data, form_user.lat.data, form_user.long.data)
+
+            new_user = Users(
+                fullname = form_user.fullname.data,
+                username = form_user.username.data,
+                email = form_user.email.data,
+                phone = form_user.phone.data,
+                website = form_user.website.data,
+                password = "passer",
+                id_adresse_users = idAddr,
+                id_company_users = idComp
+            )
+
+            print(new_user.fullname, new_user.id_adresse_users, new_user.id_company_users)
+            # db.session.add(new_user)
+            # db.session.commit()
+
+        
+            print(new_user)
+
+            return redirect('/')
+        
+    return render_template('pages/home.html', formUser=form_user, users = users )
 
 
 
@@ -320,10 +398,4 @@ def delete_album(indice_album):
 def logout():
     session.clear()
     return redirect(url_for('.login'))
-
-
-
-
-
-
 
