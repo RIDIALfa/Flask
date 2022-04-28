@@ -1,4 +1,3 @@
-from tkinter import E
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 

@@ -1,4 +1,3 @@
-from os import setegid
 from flask import redirect, render_template, request, session, url_for
 from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
 from models.create_tables import Adresses, Compagny, Users, Posts, Comments, Albums, Photos, Todos, db
@@ -407,7 +406,10 @@ def editPost(title):
     print(title)
     return render_template('pages/editerPost.html',form_post=form_post,element=element)
   
- def editPhoto(title):
+
+
+
+def editPhoto(title):
     form_photo = PhotoForm(request.form)
     element=Photos.query.filter_by(title_photo=title).first()
     if request.method == 'POST':
