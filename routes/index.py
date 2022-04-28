@@ -33,5 +33,3 @@ routers.route('/logout/')(logout)
 
 routers.route('/album/delete/<indice_album>')( delete_album)
 
-
-# routers.route('/users/', methods=['GET','POST'])(get_users)

@@ -17,9 +17,6 @@ def getApi(param):
     
 
 
-# getApi('users')
-
-
 
 # Fake datas
 users =[

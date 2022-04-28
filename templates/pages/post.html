@@ -32,43 +32,40 @@
     
         <p>{{ post.body_posts }}</p>
 
-
+        {% if comments %}
         <div class="divCommentaires">
             <h2>Commentaires</h2>
             <table>
                 <tbody>
-                    {% if comments %}
-                        {% for comment in comments%}
-                            <tr>
-                                <td>{{ comment.name_comments }}</td>
-                                <td>{{ comment.body_comments }}</td>
-                                <td>{{ comment.email_comments }}</td>
-                                <td>
-                                    <span class="fa fa-user"></span>
-                                    <span class="fa fa-trash"></span>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <p style="text-align:center">Aucun commentaire pour cet article, pour le moment !</p>
-                        </tr>
-                    {% endif %}
-                    
+                    {% for comment in comments%}
+                    <tr>
+                        <td>{{ comment.name_comments }}</td>
+                        <td>{{ comment.body_comments }}</td>
+                        <td>{{ comment.email_comments }}</td>
+                        <td>
+                            <span class="fa fa-user"></span>
+                            <span class="fa fa-trash"></span>
+                        </td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
-        </div>
 
-
-        <div class="divPagination">
-            <button>Précédent</button>
+            <div class="divPagination">
+                <button>Précédent</button>
+                
+                <button>Suivant</button>
+            </div>
             
-            <button>Suivant</button>
         </div>
+        {% else %}
+
+        <div class="divNotELement">
+            <p style="text-align:center">Aucun commentaire pour cet article, pour le moment !</p>
+        </div>
+        {% endif %}
+        
     </div>
-
-
-
 </div>
 
 
