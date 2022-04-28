@@ -1,6 +1,25 @@
+from os import setegid
 from flask import redirect, render_template, request, session, url_for
 from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
-from models.creates_tables import Posts, Todos, Comments, Albums, Photos, db
+from models.create_tables import Adresses, Compagny, Users, Posts, Comments, Albums, Photos, Todos, db
+
+import requests
+
+
+
+def getApi(param):
+
+    url='https://jsonplaceholder.typicode.com/'
+
+    reponse=requests.get(url+param)
+    
+    return reponse.json()
+    
+
+
+# getApi('users')
+
+
 
 # Fake datas
 users =[
@@ -10,48 +29,129 @@ users =[
 ]
 
 
+def add_adresse(city, street, suite, zipcode, lat, long):
+    check_adresse_value = Adresses.query.filter_by(suite = suite).first()
+
+    if(check_adresse_value != None):
+        id_adresse = check_adresse_value.id_adresse
+        
+    else:
+
+        new_adresse = Adresses(
+            city = city,
+            street = street,
+            suite = suite,
+            zipcode = zipcode,
+            lat = lat,
+            long = long
+        )
+            
+        id_adresse = 20
+
+    return id_adresse
+
+
+
+
+def add_compagny(name_compagny, catchPhrase, bs):
+    check_compagny_value = Compagny.query.filter_by(name_compagny = name_compagny).first()
+
+    if(check_compagny_value != None):
+        id_compagny = check_compagny_value.id_compagny
+            
+    else:
+
+        new_compagny = Compagny(
+            name_compagny = name_compagny,
+            catchPhrase = catchPhrase,
+            bs = bs
+        )
+
+        id_compagny = 24
+
+    return id_compagny
+
+
+
+
+
+def add_users_from_apis(users):
+    
+    
+    for user in users:
+
+        idAddr = add_adresse( user.get('address')['city'], user.get('address')['street'], user.get('address')['suite'], 
+            user.get('address')['zipcode'], user.get('address')['geo']['lat'], user.get('address')['geo']['lng'])
+
+        idComp = add_compagny( user.get('company')['name'], user.get('company')['catchPhrase'], user.get('company')['bs'])
+
+        print("id :", idAddr, idComp)
+
+        new_user = Users(
+            fullname = user.get('name'),
+            username = user.get('username'),
+            email = user.get('email'),
+            phone = user.get('phone'),
+            website = user.get('website'),
+            password = "passer",
+            id_adresse_users = idAddr,
+            id_company_users = idComp
+        )
+        print("Utilisateur ",new_user.fullname, new_user.email)
+
+
+
+
+
+
 
 # CONTROLLER DE LA PAGE HOME
 def home():
     form_user = UserForm(request.form)
 
     if request.method == 'POST':
-
-        print(form_user)
-
-        new_user = {
-            'name': form_user.fullname.data,
-            'username': form_user.username.data,
-            'email': form_user.email.data,
-            'phone': form_user.phone.data,
-            'website': form_user.website.data,
-
-        }
-
-        new_compagny = {
-            'compagny': form_user.compagny.data,
-            'bs': form_user.bs.data,
-            'catch': form_user.catch.data,
-        }
-
-        new_addresse = {
-            'ville': form_user.ville.data,
-            'rue': form_user.rue.data,
-            'suite': form_user.suite.data,
-            'zipcode': form_user.zipcode.data,
-            'lat': form_user.lat.data,
-            'long': form_user.long.data,
-        }
-
-        print("*******Adresse : ", new_addresse)
-        print("*******Compagnie : ", new_compagny)
-        print("*******User : ", new_user)
-
-
-        return redirect('/')
         
 
-    return render_template('pages/home.html', formUser=form_user, users = users)
+        if request.form.get('nombre') :
+            nombre =  request.form.get('nombre')
+
+            users_api = getApi('users')[0:int(nombre)]
+            
+            add_users_from_apis(users_api)
+
+            return redirect('/')
+
+        else:
+        
+
+            idComp = add_compagny(form_user.compagny.data, form_user.catch.data, form_user.bs.data)
+
+            idAddr = add_adresse( form_user.ville.data, form_user.rue.data, form_user.suite.data, 
+            form_user.zipcode.data, form_user.lat.data, form_user.long.data)
+
+            new_user = Users(
+                fullname = form_user.fullname.data,
+                username = form_user.username.data,
+                email = form_user.email.data,
+                phone = form_user.phone.data,
+                website = form_user.website.data,
+                password = "passer",
+                id_adresse_users = idAddr,
+                id_company_users = idComp
+            )
+
+            print(new_user.fullname, new_user.id_adresse_users, new_user.id_company_users)
+            # db.session.add(new_user)
+            # db.session.commit()
+
+        
+            print(new_user)
+
+            return redirect('/')
+        
+    return render_template('pages/home.html', formUser=form_user, users = users )
+
+
 
 
 
@@ -59,9 +159,10 @@ def home():
 def login(email):
 
     if request.method == 'POST':
+
         mail=request.form['email']
         passwd=request.form['password']
-        print("saisie : ",mail, passwd)
+
         for i in  users:
             if i['email']==mail and i['password']==passwd:
                 session["email"] = mail
@@ -75,10 +176,16 @@ def login(email):
     
 
 
+
+
+
+
 # CONTROLLER DE LA PAGE DES POSTS
 def posts():
     form_post = PostForm(request.form)
-    posts = Posts.query.filter_by(userId_post = 1).all()
+    
+    posts = Posts.query.filter_by(id_users_posts = 1).all()
+
     if "email" in session:
         for i in users:
              if i['email']==session['email']:
@@ -87,13 +194,10 @@ def posts():
         if request.method == 'POST' and form_post.validate():
             
             new_post = Posts(
-                title_post = form_post.title.data, 
-                body_post = form_post.message.data, 
-                userId_post = 1
+                title_posts = form_post.title.data, 
+                body_posts = form_post.message.data, 
+                id_users_posts = 1
             )
-
-            print(new_post)
-            print("Information de l'article : ",new_post.title_post, new_post.body_post)
 
             db.session.add(new_post)
             db.session.commit()
@@ -114,8 +218,12 @@ def posts():
 # CONTROLLER DE LA PAGE DETAIL D'UN POST
 def post(post_title):
     form_comment = CommentForm(request.form)
-    post = Posts.query.filter_by(title_post=post_title).first()
-    comments = Comments.query.filter_by(postId_comment = post.postId).all()
+    post = Posts.query.filter_by(title_posts = post_title).first()
+
+    if post == None:
+            return redirect('/posts')
+
+    comments = Comments.query.filter_by(id_posts_comments = post.id_posts).all()
 
     if "email" in session:
         for i in users:
@@ -125,20 +233,18 @@ def post(post_title):
         if request.method == 'POST' and form_comment.validate():
             
             new_comment = Comments(
-                name_comment = form_comment.title.data, 
-                body_comment = form_comment.message.data,
-                email_comment = 'alpha@sa.sn',
-                postId_comment = post.postId
+                name_comments = form_comment.title.data, 
+                body_comments = form_comment.message.data,
+                email_comments = session['email'],
+                id_posts_comments = post.id_posts
             )
 
-            print(new_comment)
             db.session.add(new_comment)
             db.session.commit()
 
             return redirect('/posts/'+post_title)
 
         return render_template('pages/post.html', formComment = form_comment, post = post,comments = comments,user=user)
-
 
     else:
         return redirect('/connexion')
@@ -162,9 +268,10 @@ def albums():
         if request.method == 'POST' and form_album.validate():
             
             new_album = Albums(
-                title_album = form_album.title.data, 
-                userId_album = 1
+                title_albums = form_album.title.data, 
+                id_users_albums = 1
             )
+            
             db.session.add(new_album)
             db.session.commit()
 
@@ -179,25 +286,31 @@ def albums():
 
 
 
+
+
+
 # CONTROLLER DE LA PAGE DETAIL D'UN ALBUM
 def album(album_name):
     form_photo = PhotoForm(request.form)
-    albumId = Albums.query.filter_by(title_album=album_name).first().albumId
-    photos = Photos.query.filter_by(albumId_photo = albumId).all()
+    album = Albums.query.filter_by(title_albums = album_name).first()
+
+    if album == None:
+        return redirect('/albums')
+        
+    photos = Photos.query.filter_by(id_albums_photos = album.id_albums).all()
     
     if  "email"  in session:
         for i in users:
              if i['email']==session['email']:
                  user = i
     
-
         if request.method == 'POST' and form_photo.validate():
             
             new_photo = Photos(
-                title_photo = form_photo.title.data,
-                url_photo = form_photo.url.data,
-                thumnail_photo = form_photo.thumbnail.data,
-                albumId_photo = albumId
+                title_photos = form_photo.title.data,
+                url = form_photo.url.data,
+                thambnailUrl = form_photo.thumbnail.data,
+                id_albums_photos = album.id_albums
             )
 
             db.session.add(new_photo)
@@ -209,8 +322,7 @@ def album(album_name):
     else:
         return redirect('/connexion')
 
-
-
+    return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos=photos, albumId = albumId )
 
 
 
@@ -222,7 +334,6 @@ def todos():
     form_todo = TodoForm(request.form)
     todos = Todos.query.all()
 
-
     if  "email"  in session:
         for i in users:
              if i['email']==session['email']:
@@ -230,13 +341,11 @@ def todos():
         if request.method == 'POST' and form_todo.validate():
                 
             new_todo = Todos(
-                title_todo = form_todo.title.data,
-                etat_todo = form_todo.etat.data,
-                userId_todo = 1
+                title_todos = form_todo.title.data,
+                status = form_todo.etat.data,
+                id_users_todos = 1
             )
 
-            print(new_todo)
-            print(new_todo.title_todo, new_todo.etat_todo)
             db.session.add(new_todo)
             db.session.commit()
 
@@ -251,6 +360,10 @@ def todos():
 
 
 
+
+
+
+
 # CONTROLLER DE LA PAGE MON COMPTE
 def compte():
     user = {}
@@ -258,24 +371,12 @@ def compte():
         for i in users:
              if i['email']==session['email']:
                  user = i
-                #  user.append(i['fullname'])
-                #  user.append(i['phone'])
-                #  user.append(i['email'])
-                 print(user)
 
-
-        
         return render_template('pages/information.html', user=user)
 
     else:
         return redirect('/connexion')
 
-# CONTROLLER logout
-
-def logout():
-
-    session.clear()
-    return redirect(url_for('.login'))
 
 
 # CONTROLLER  editer
@@ -305,9 +406,8 @@ def editPost(title):
     
     print(title)
     return render_template('pages/editerPost.html',form_post=form_post,element=element)
-
-
-def editPhoto(title):
+  
+ def editPhoto(title):
     form_photo = PhotoForm(request.form)
     element=Photos.query.filter_by(title_photo=title).first()
     if request.method == 'POST':
@@ -322,4 +422,26 @@ def editPhoto(title):
     return render_template('pages/editerPhotos.html',form_photo=form_photo,element=element)
     
 
+# fonction supprimer post
+
+def delete_post(indice_post):
+    p=Posts.query.get(indice_post)
+    db.session.delete(p)
+    db.session.commit()
+    return redirect('/posts')
+    
+def delete_album(indice_album):
+    p=Albums.query.get(indice_album)
+    db.session.delete(p)
+    db.session.commit()
+    return redirect('/albums')
+
+
+
+
+
+# CONTROLLER logout
+def logout():
+    session.clear()
+    return redirect(url_for('.login'))
 

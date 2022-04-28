@@ -31,8 +31,10 @@
         <div class="divHeadAlbum">
             <h2>{{album_name}}</h2>
             <div class="divFaIcons">
+
                <a href="/editerPhotos/{{photos.title_photo}}"> <span class="fa fa-pen"></span></a>
-                <span class="fa fa-trash"></span>
+               <a href="/album/delete/{{albumId}}"><span class="fa fa-trash"></span></a>
+
             </div>
         </div>
 
@@ -41,8 +43,11 @@
             <div class="divAlbums">
                 {% for photo in photos %}
                 <div class="singleAlbum">
-                    <img src="{{photo.url_photo}}" alt="{{photo.title_photo}}"/>
-                    <p>{{photo.title_photo}}</p>
+                    <img src="{{photo.url}}" alt="{{photo.title_photos}}"/>
+                    <div class="divPhotos">
+                        <span>{{photo.title_photos}}</span>
+                        <a href="#"><span class="fa fa-trash"></span></a>
+                    </div>
                 </div>
                 {% endfor %}
             </div>

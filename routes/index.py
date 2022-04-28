@@ -1,6 +1,7 @@
 from crypt import methods
 from flask import Blueprint
-from controllers.index import edit, editPhoto, editPost, home, login, compte, posts, post, albums, album, todos,logout
+from controllers.index import home, login, compte, posts, post, albums, album, todos, delete_post,  delete_album, logout, edit, editPhoto, editPost,
+
 
 
 routers = Blueprint('root', __name__)
@@ -25,13 +26,16 @@ routers.route('/albums/<album_name>', methods=['GET','POST'])(album)
 
 routers.route('/todos/', methods=['GET','POST'])(todos)
 
-routers.route('/logout/')(logout)
+routers.route('/posts/delete/<indice_post>')(delete_post)
 
 routers.route('/editer/<title>',methods=['GET','POST'])(edit)
 
+
 routers.route('/editerPost/<title>',methods=['GET','POST'])(editPost)
+
+routers.route('/logout/')(logout)
+
 
 routers.route('/editerPhotos/<title>',methods=['GET','POST'])(editPhoto)
 
-
-
+routers.route('/album/delete/<indice_album>')( delete_album)

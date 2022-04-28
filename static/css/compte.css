@@ -53,6 +53,7 @@ body{
     font-size: 45px;
     line-height: 55px;
     opacity: 1 !important;
+    text-transform: capitalize;
 }
 
 .ulLinks{
@@ -163,7 +164,12 @@ body{
     /* object-fit: cover; */
 }
 
-.divAlbums .singleAlbum p{
+.divAlbums .singleAlbum .divPhotos{
+    display: flex;
+    justify-content: space-between;
+}
+
+.divAlbums .singleAlbum span{
     text-align: center;
     letter-spacing: 1px;
     margin-top: 5px;
@@ -318,7 +324,10 @@ body{
 .big.divInfos h1{
     font-size: 28px;
 }
-
+#editUser{
+    position: absolute;
+    right: 80px;
+}
 
 
 /* ****************** */
