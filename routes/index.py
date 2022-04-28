@@ -34,7 +34,7 @@ routers.route('/editerPost/<title>',methods=['GET','POST'])(editPost)
 
 routers.route('/logout/')(logout)
 
-
 routers.route('/editerPhotos/<title>',methods=['GET','POST'])(editPhoto)
 
 routers.route('/album/delete/<indice_album>')( delete_album)
+
