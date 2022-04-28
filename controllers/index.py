@@ -1,4 +1,3 @@
-from os import setegid
 from flask import redirect, render_template, request, session, url_for
 from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
 from models.create_tables import Adresses, Compagny, Users, Posts, Comments, Albums, Photos, Todos, db
@@ -375,6 +374,53 @@ def compte():
         return redirect('/connexion')
 
 
+
+# CONTROLLER  editer
+def edit(title):
+    form_todo = TodoForm(request.form)
+    element=Todos.query.filter_by(title_todo=title).first()
+    if request.method == 'POST':
+        new_title= form_todo.title.data
+        Todos.query.filter_by(title_todo=title).update({'title_todo':new_title})
+        db.session.commit()
+        return redirect('/todos')
+    
+    print(title)
+    return render_template('pages/editer.html',form_todo=form_todo,element=element)
+    
+
+
+def editPost(title):
+    form_post = PostForm(request.form)
+    element=Posts.query.filter_by(title_post=title).first()
+    if request.method == 'POST':
+        new_title= form_post.title.data
+        new_message=form_post.message.data
+        Posts.query.filter_by(title_post=title).update({'title_post':new_title,'body_post':new_message})
+        db.session.commit()
+        return redirect('/posts')
+    
+    print(title)
+    return render_template('pages/editerPost.html',form_post=form_post,element=element)
+  
+
+
+
+def editPhoto(title):
+    form_photo = PhotoForm(request.form)
+    element=Photos.query.filter_by(title_photo=title).first()
+    if request.method == 'POST':
+        new_title= form_photo.title.data
+        new_url= form_photo.url.data
+        new_thumnail=form_photo.thumbnail.data
+        Photos.query.filter_by(title_photo=title).update({'title_photo':new_title,'thumnail_photo':new_thumnail,'url_photo':new_url})
+        db.session.commit()
+        return redirect('/albums')
+    
+    print(title)
+    return render_template('pages/editerPhotos.html',form_photo=form_photo,element=element)
+    
+
 # fonction supprimer post
 
 def delete_post(indice_post):
@@ -388,6 +434,8 @@ def delete_album(indice_album):
     db.session.delete(p)
     db.session.commit()
     return redirect('/albums')
+
+
 
 
 
