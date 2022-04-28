@@ -20,7 +20,3 @@ inputNumber && inputNumber.addEventListener('focusout',(e)=>{
     }
 })
 
-
-formLoad && formLoad.addEventListener('submit',(e)=>{
-    e.preventDefault()
-})
