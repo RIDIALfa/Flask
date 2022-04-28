@@ -298,13 +298,28 @@ def editPost(title):
     element=Posts.query.filter_by(title_post=title).first()
     if request.method == 'POST':
         new_title= form_post.title.data
-        new_message= form_post.message.data
+        new_message=form_post.message.data
         Posts.query.filter_by(title_post=title).update({'title_post':new_title,'body_post':new_message})
         db.session.commit()
         return redirect('/posts')
     
     print(title)
     return render_template('pages/editerPost.html',form_post=form_post,element=element)
+
+
+def editPhoto(title):
+    form_photo = PhotoForm(request.form)
+    element=Photos.query.filter_by(title_photo=title).first()
+    if request.method == 'POST':
+        new_title= form_photo.title.data
+        new_url= form_photo.url.data
+        new_thumnail=form_photo.thumbnail.data
+        Photos.query.filter_by(title_photo=title).update({'title_photo':new_title,'thumnail_photo':new_thumnail,'url_photo':new_url})
+        db.session.commit()
+        return redirect('/albums')
+    
+    print(title)
+    return render_template('pages/editerPhotos.html',form_photo=form_photo,element=element)
     
 
 
