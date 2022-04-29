@@ -508,3 +508,23 @@ def logout():
     session.clear()
     return redirect(url_for('.login'))
 
+
+
+
+# FUNCTIONS LOADERS
+def load_posts(type):
+    
+    print(getApi(type))
+
+    if type == 'posts':
+        return redirect(url_for('.posts'))
+    
+    elif type == 'todos':
+        return redirect(url_for('.todos'))
+
+    elif type == 'albums':
+        return redirect(url_for('.albums'))
+
+    elif type == 'photos':
+        return redirect(url_for('.album'))
+

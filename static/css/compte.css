@@ -346,3 +346,16 @@ body{
     align-items: center;
     justify-content: center;
 }
+
+
+
+/* ****************** */
+/* ****BTN LOAD***** */
+/* **************** */
+.loadLink{
+    background: #006778;
+    text-align: center;
+    padding: 20px 50px;
+    border-radius: 4px;
+    color: #fff;
+}
