@@ -431,6 +431,27 @@ def editPhoto(title):
     return render_template('pages/editerPhotos.html',form_photo=form_photo,element=element)
     
 
+
+def editUser(title):
+    form_user = UserForm(request.form)
+    element=Users.query.filter_by(fullname=title).first()
+    if request.method == 'POST':
+            new_fullname= form_user.title.data
+            new_username= form_user.url.data
+            new_email=form_user.thumbnail.data
+            new_email=form_user.thumbnail.data
+            new_email=form_user.thumbnail.data
+            new_email=form_user.thumbnail.data
+            Photos.query.filter_by(title_photo=title).update({'title_photo':new_title,'thumnail_photo':new_thumnail,'url_photo':new_url})
+            db.session.commit()
+            return redirect('/albums')
+    
+    print(title)
+    return render_template('pages/editerPhotos.html',form_user=form_user,element=element)
+    
+
+
+
 # fonction supprimer post
 
 def delete_post(indice_post):
