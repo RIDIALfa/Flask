@@ -14,7 +14,7 @@
 
 <div class="big divInfos">
 
-    <a href="/" id="edtUser"><span class="fa fa-pen"></span></a>
+    <a href="/users/edit/{{user['id']}}" id="editUser"><span class="fa fa-pen"></span></a>
 
     <h1 class="head">Informations Supplémentaires</h1>    
     <div id="table1">
@@ -57,6 +57,14 @@
                 <p class="p1">Suite :</p>
                 <p class="p2">Hildegard.org</p>
             </div>
+            <div class="tr">
+                <p class="p1">Coord lat :</p>
+                <p class="p2" id="long">{{user['lat']}}</p>
+            </div>
+            <div class="tr">
+                <p class="p1" >Coord long :</p>
+                <p class="p2" id="lat">{{user['long']}}</p>
+            </div>
         </div>
     </div>
     <h1 class="foot">Compagnie</h1>
@@ -68,11 +76,11 @@
             </div>
             <div class="tr1">
                 <p class="p1 p1_1">catchPhrase :</p>
-                <p class="p2" id="long">{{user['long']}}</p>
+                <p class="p2" >Lorem ipsum</p>
             </div>
             <div class="tr1">
                 <p class="p1 p1_1">Bs :</p>
-                <p class="p2" id="lat">{{user['lat']}}</p>
+                <p class="p2">Bs infos</p>
             </div>
         </div>
     </div>

@@ -322,17 +322,40 @@ body{
 
 .big.divInfos h1{
     font-size: 28px;
+    width: 80%;
 }
+
+.big.divInfos #sect2{
+    padding-top: 0 !important;
+}
+
+.divInfos{
+    position: relative;
+}
+
 #editUser{
     position: absolute;
-    right: 80px;
+    right: 4%;
 }
 
 
 /* ****************** */
 .divNotELement{
-    min-height: 75vh;
+    min-height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+
+
+/* ****************** */
+/* ****BTN LOAD***** */
+/* **************** */
+.loadLink{
+    background: #006778;
+    text-align: center;
+    padding: 20px 50px;
+    border-radius: 4px;
+    color: #fff;
 }
