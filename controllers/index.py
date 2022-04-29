@@ -471,31 +471,76 @@ def updated(type, id):
     if type == 'posts':
         form_post = PostForm(request.form)
         element = Posts.query.filter_by(id_posts = id).first()
+        if request.method == 'POST':
+            new_title= form_post.title.data
+            new_message=form_post.message.data
+            print(new_title)
+            Posts.query.filter_by(id_posts = id).update({'title_posts':new_title,'body_posts':new_message})
+            db.session.commit()
+            return redirect('/posts')
+       
         return render_template('pages/alpha_edit.html', type=type, element=element, form_post=form_post)
     
     elif type == 'photos':
         form_photo = PhotoForm(request.form)
-        element = Posts.query.filter_by(id_posts = id).first()
+        element=Photos.query.filter_by(id_albums_photos =id).first()
+        if request.method == 'POST':
+            new_title= form_photo.title.data
+            new_url= form_photo.url.data
+            new_thumnail=form_photo.thumbnail.data
+            Photos.query.filter_by(id_albums_photos =id).update({'title_photos':new_title,'thumbnailUrl':new_thumnail,'url':new_url})
+            db.session.commit()
+            return redirect('/albums')
+
         return render_template('pages/alpha_edit.html', type=type, element=element, form_photo=form_photo)
     
     elif type == 'todos':
         form_todo = TodoForm(request.form)
-        element = Posts.query.filter_by(id_posts = id).first()
+        element = Todos.query.filter_by(id_todos = id).first()
+        if request.method == 'POST':
+            new_title= form_todo.title.data
+            Todos.query.filter_by(id_todos=id).update({'title_todos':new_title})
+            db.session.commit()
+            return redirect('/todos')
         return render_template('pages/alpha_edit.html', type=type, element=element, form_todo=form_todo)
 
     elif type == 'albums':
         form_album = ALbumForm(request.form)
-        element = Posts.query.filter_by(id_posts = id).first()
+        element = Albums.query.filter_by(id_albums = id).first()
+        if request.method == 'POST':
+            new_title= form_album.title.data
+            Albums.query.filter_by(id_albums=id).update({'title_albums':new_title})
+            db.session.commit()
+            return redirect('/albums')
         return render_template('pages/alpha_edit.html', type=type, element=element, form_album=form_album)
 
     elif type == 'comments':
         form_comment = CommentForm(request.form)
-        element = Posts.query.filter_by(id_posts = id).first()
+        element = Comments.query.filter_by(id_comments = id).first()
         return render_template('pages/alpha_edit.html', type=type, element=element, form_comment=form_comment)
 
     elif type == 'users':
         form_user = UserForm(request.form)
-        element = Posts.query.filter_by(id_posts = id).first()
+        element = Users.query.filter_by(id_users = id).first()
+        if request.method == 'POST':
+            new_fullname= form_user.fullname.data
+            new_username= form_user.username.data
+            new_email=form_user.email.data
+            new_phonel=form_user.phone.data
+            new_website=form_user.website.data
+            new_ville=form_user.ville.data
+            new_rue=form_user.rue.data
+            new_suite=form_user.suite.data
+            new_zipcode=form_user.zipcode.data
+            new_lat=form_user.lat.data
+            new_long=form_user.long.data
+            new_compagny=form_user.compagny.data
+            new_bs=form_user.bs.data
+            new_catch=form_user.catch.data
+            Photos.query.filter_by(id_users=id).update({''})
+            db.session.commit()
+            return redirect('/information')
+    
         return render_template('pages/alpha_edit.html', type=type, element=element, form_user=form_user)
 
     else:
