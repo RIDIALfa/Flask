@@ -16,9 +16,6 @@ def getApi(param):
     
 
 
-# getApi('users')
-
-
 
 # Fake datas
 users =[
@@ -446,6 +443,42 @@ def delete_album(indice_album):
     return redirect('/albums')
 
 
+
+
+def updated(type, id):
+
+    if type == 'posts':
+        form_post = PostForm(request.form)
+        element = Posts.query.filter_by(id_posts = id).first()
+        return render_template('pages/alpha_edit.html', type=type, element=element, form_post=form_post)
+    
+    elif type == 'photos':
+        form_photo = PhotoForm(request.form)
+        element = Posts.query.filter_by(id_posts = id).first()
+        return render_template('pages/alpha_edit.html', type=type, element=element, form_photo=form_photo)
+    
+    elif type == 'todos':
+        form_todo = TodoForm(request.form)
+        element = Posts.query.filter_by(id_posts = id).first()
+        return render_template('pages/alpha_edit.html', type=type, element=element, form_todo=form_todo)
+
+    elif type == 'albums':
+        form_album = ALbumForm(request.form)
+        element = Posts.query.filter_by(id_posts = id).first()
+        return render_template('pages/alpha_edit.html', type=type, element=element, form_album=form_album)
+
+    elif type == 'comments':
+        form_comment = CommentForm(request.form)
+        element = Posts.query.filter_by(id_posts = id).first()
+        return render_template('pages/alpha_edit.html', type=type, element=element, form_comment=form_comment)
+
+    elif type == 'users':
+        form_user = UserForm(request.form)
+        element = Posts.query.filter_by(id_posts = id).first()
+        return render_template('pages/alpha_edit.html', type=type, element=element, form_user=form_user)
+
+    else:
+        return redirect('/compte')
 
 
 

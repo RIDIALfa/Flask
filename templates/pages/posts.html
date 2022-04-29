@@ -40,45 +40,45 @@
         <h2>Mes posts</h2>
         {% if posts %}
 
-        <table id="postTable">
-            <thead>
-                <tr>
-                    <th class="th">Titre</th>
-                    <th class="th">Extrait</th>
-                    <th class="th">Auteur</th>
-                    <th class="th">Action</th>
-                </tr>
-            </thead>
-            <tbody>
+            <table id="postTable">
+                <thead>
+                    <tr>
+                        <th class="th">Titre</th>
+                        <th class="th">Extrait</th>
+                        <th class="th">Auteur</th>
+                        <th class="th">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
                     {% for post in posts %}
                         <tr class="tr">
 
                             <td class="td">{{ post.title_posts }}</td>
                             <td class="td">{{ post.body_posts }}</td>
                             <td class="td">Leanne Graham</td>
-            
+                
                             <td classe="td">
-                                <button type="submit"><i class="fa-solid fa-eye"></i></button>
-                                <a href="/editerPost/{{post.title_post}}"><i class="fa-solid fa-pen"></i></a>
-                                <a href="/posts/delete/{{post.postId}}"><i class="fa fa-trash" ></i></a>
+                                <a href="/posts/{{post.title_posts}}"><i class="fa-solid fa-eye"></i></a>
+                                <a href="/editerPost/{{post.title_posts}}"><i class="fa-solid fa-pen"></i></a>
+                                <a href="/posts/delete/{{post.title_posts}}"><i class="fa fa-trash" ></i></a>
 
                             </td>
                         </tr>
                     {% endfor %}
-                    <tr>
-                        <div class="divPagination">
-                            <button>Précédent</button>
-                            
-                            <button>Suivant</button>
-                        </div>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <p>Aucun post pour le moment !</p>
-                    </tr>
-            </tbody>
-    
-        </table>
+                </tbody>
+            </table>
+                
+            <div class="divPagination">
+                <button>Précédent</button>
+                                
+                <button>Suivant</button>
+            </div>
+                    
+        {% else %}
+            <div class="divNotELement">
+                <p>Aucun post pour le moment !</p>
+            </div>
+
        
         {% endif %}
     
