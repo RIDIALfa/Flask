@@ -45,7 +45,10 @@ def add_adresse(city, street, suite, zipcode, lat, long):
             long = long
         )
             
-        id_adresse = 20
+        id_adresse = 1
+        db.session.add(new_adresse)
+        db.session.commit()
+        
 
     return id_adresse
 
@@ -66,7 +69,10 @@ def add_compagny(name_compagny, catchPhrase, bs):
             bs = bs
         )
 
-        id_compagny = 24
+        id_compagny = 1
+
+        db.session.add(new_compagny)
+        db.session.commit()
 
     return id_compagny
 
@@ -100,7 +106,8 @@ def add_users_from_apis(users):
 
 
 
-
+        db.session.add(new_user)
+        db.session.commit()
 
 
 
@@ -140,8 +147,8 @@ def home():
             )
 
             print(new_user.fullname, new_user.id_adresse_users, new_user.id_company_users)
-            # db.session.add(new_user)
-            # db.session.commit()
+            db.session.add(new_user)
+            db.session.commit()
 
         
             print(new_user)
