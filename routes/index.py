@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controllers.index import home, login, compte, posts, post, albums, album, todos, delete_post,  delete_album, logout, edit, editPhoto, editPost
+from controllers.index import home, login, compte, posts, post, albums, album, todos, delete_post,  delete_album, logout, edit, editPhoto, editPost, updated
 
 
 
@@ -36,5 +36,12 @@ routers.route('/logout/')(logout)
 
 routers.route('/editerPhotos/<title>',methods=['GET','POST'])(editPhoto)
 
+#Edit vAlpha
+routers.route('/<type>/edit/<id>',methods=['GET','POST'])(updated)
+
 routers.route('/album/delete/<indice_album>')( delete_album)
+
+
+
+
 
