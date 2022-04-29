@@ -18,7 +18,7 @@
         </div>
         <div class="divBtns">
             <button type="submit" id="btnSend"> Enregistrer</button>
-            <a href="/compte">Annuler</a>
+            <button id="goBack" onclick="history.back()">Annuler</button>
         </div>
     </form>
 </div>
@@ -34,7 +34,7 @@
         </div>
         <div class="divBtns">
             <button type="submit" id="btnSend"> Enregistrer</button>
-            <a href="/compte">Annuler</a>
+            <button id="goBack" onclick="history.back()">Annuler</button>
         </div>
     </form>
 </div>
@@ -52,12 +52,86 @@
         
         <div class="divBtns">
             <button type="submit" id="btnSend"> Enregistrer</button>
-            <a href="/compte">Annuler</a>
+            <button id="goBack" onclick="history.back()">Annuler</button>
         </div>
     </form>
 </div>
 
+
+{% elif type == 'users' %}
+
+<div class="divUpdated users">
+    <form id="formUser" method="post" class="post formBlock">
+        <h2>Editer un utilisateur</h2>
+        <div>
+          <div class="formGroup">
+            {{ form_user.fullname() }}
+            {{ form_user.username() }}
+            {{ form_user.email() }}
+            {{ form_user.phone() }}
+            {{ form_user.website() }}
+          </div>
+          <div class="formGroup">
+            <p>Adresse</p>
+            {{ form_user.ville() }}
+            {{ form_user.rue() }}
+            {{ form_user.suite() }}
+            {{ form_user.zipcode() }}
+            {{ form_user.lat() }}
+            {{ form_user.long() }}
+          </div>
+          <div class="formGroup">
+            <p>Compagnie</p>
+            {{ form_user.compagny(class="inputCompagny", id="compagny") }}
+            {{ form_user.bs() }}
+            {{ form_user.catch() }}
+          </div>
+        </div>
+
+        <div class="divBtns">
+            <button type="submit" id="btnSend"> Enregistrer</button>
+            <button id="goBack" onclick="history.back()">Annuler</button>
+        </div>
+    </form>
+</div>
+
+
+{% elif type == "albums" %}
+
+<div class="divUpdated">
+    <form id="formAlbum" method="post" class="post formBlock">
+        <h2>Editer un Album</h2>
+        <div>
+          {{ form_album.title() }}
+        </div>
+
+        <div class="divBtns">
+            <button type="submit" id="btnSend"> Enregistrer</button>
+            <button id="goBack" onclick="history.back()">Annuler</button>
+        </div>
+    </form>
+</div>
+
+
+{% elif type == "comments" %}
+<div class="divUpdated">
+    <form id="formComment" method="post" class="post formBlock">
+        <h2>Editer un commentaire</h2>
+        <div>
+        {{ form_comment.title(class_='postTitle') }}
+        {{ form_comment.message(class_='postMessage') }}
+        </div>
+        <div class="divBtns">
+            <button type="submit" id="btnSend"> Enregistrer</button>
+            <button id="goBack" onclick="history.back()">Annuler</button>
+        </div>
+    </form>
+</div>
+
+
 {% endif %}
+
+
 
 
 

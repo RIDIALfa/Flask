@@ -321,7 +321,7 @@ def album(album_name):
 
             return redirect('/albums/'+album_name)
 
-        return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos=photos,user=user)
+        return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos=photos,user=user, album=album)
     else:
         return redirect('/connexion')
 
