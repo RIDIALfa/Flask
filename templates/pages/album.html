@@ -32,7 +32,7 @@
             <h2>{{album_name}}</h2>
             <div class="divFaIcons album">
                <a href="/albums/edit/{{album.id_albums}}"><span class="fa fa-pen"></span></a>
-               <a href="/album/delete/{{albumId}}"><span class="fa fa-trash"></span></a>
+               <a href="/albums/delete/{{album.id_albums}}"><span class="fa fa-trash"></span></a>
             </div>
         </div>
 
@@ -48,7 +48,7 @@
                         <span>{{photo.title_photos}}</span>
                         <div>
                             <a href="/photos/edit/{{photo.id_photos}}"><span class="fa fa-pen"></span></a>
-                            <a href="#"><span class="fa fa-trash"></span></a>
+                            <a href="/photos/delete/{{photo.id_photos}}"><span class="fa fa-trash"></span></a>
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,4 @@
+from multiprocessing.dummy import current_process
 from flask import redirect, render_template, request, session, url_for
 from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
 from models.create_tables import Adresses, Compagny, Users, Posts, Comments, Albums, Photos, Todos, db
@@ -19,9 +20,9 @@ def getApi(param):
 
 # Fake datas
 users =[
-    {'id':1,'email': 'awa@sa.sn', 'password':'passer789', 'fullname':'awa diop', 'phone': 330000000, 'lat': 34.05855065769437, 'long' : -118.25096592088265},
-    {'id':2,'email': 'alpha@sa.sn', 'password':'passer123', 'fullname':'alpha diallo', 'phone': 440000000, 'lat': 14.872029, 'long' : -17.436139},
-    {'id':3,'email': 'khabane@sa.sn', 'password':'passer456', 'fullname':'khabane fall', 'phone': 550000000, 'lat': 16.7727, 'long' : -19.361339},
+    {'id':1,'email': 'awa@sa.sn', 'password':'passer789', 'fullname':'awa diop', 'phone': 330000000, 'lat': 44.05855065769437, 'long' : -44.25096592088265},
+    {'id':2,'email': 'alpha@sa.sn', 'password':'passer123', 'fullname':'alpha diallo', 'phone': 440000000, 'lat': 14.872029, 'long' : -14.436139},
+    {'id':3,'email': 'khabane@sa.sn', 'password':'passer456', 'fullname':'khabane fall', 'phone': 550000000, 'lat': 34.7727, 'long' : -14.361339},
 ]
 
 
@@ -389,22 +390,6 @@ def logout():
 
 
 
-# fonction supprimer post
-
-def delete_post(indice_post):
-    p=Posts.query.get(indice_post)
-    db.session.delete(p)
-    db.session.commit()
-    return redirect('/posts')
-    
-def delete_album(indice_album):
-    p=Albums.query.get(indice_album)
-    db.session.delete(p)
-    db.session.commit()
-    return redirect('/albums')
-
-
-
 # CONTROLLER UPDATE DATAS FROM DB
 def updated(type, id):
 
@@ -495,6 +480,43 @@ def updated(type, id):
 
     else:
         return redirect('/compte')
+
+
+
+
+
+
+# CONTROLLER DELETE DATAS FROM DB
+list_pages_delete = ['posts', 'albums', 'todos']
+
+def redirect_after_delete(page):
+    for item in list_pages_delete:
+        if page == item:
+            return page
+    return 'albums' 
+
+
+
+def delete(type, id):
+
+    if type == 'posts':
+        element = Posts.query.get(id)
+
+    elif type == 'albums':
+        element = Albums.query.get(id)
+
+    elif type == 'photos':
+        element = Photos.query.get(id)
+
+    elif type == 'todos':
+        element = Todos.query.get(id)
+
+    db.session.delete(element)
+    db.session.commit()
+
+    current_page = redirect_after_delete(type)
+
+    return redirect(f"/{current_page}")
 
 
 
