@@ -49,7 +49,16 @@
                     {% for todo in todos %}
                         <tr>
                             <td>{{ todo.title_todos}}</td>
-                            <td><span class="status done">encours</span></td>
+                            <td>
+                                {% if todo.status == 1 %}
+                                <span class="status pending">En cours</span>
+                                {% elif todo.status == 2%}
+                                <span class="status todo">A faire</span>
+                                {% else%}
+                                <span class="status done">Terminé</span>
+                                {% endif %}
+                            
+                            </td>
                             <td>{{user['fullname']}}</td>
                             <td>
                                 <a href="#"><i class="fa-solid fa-eye"></i></a>

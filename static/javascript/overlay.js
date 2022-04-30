@@ -20,3 +20,29 @@ inputNumber && inputNumber.addEventListener('focusout',(e)=>{
     }
 })
 
+
+
+
+
+// *****************************
+// INNER TEXT FOR TEXTAREA EDIT
+// *****************************
+let elementTextarea = document?.querySelector('.divUpdated textarea')
+if (elementTextarea){
+    elementTextarea.innerText = elementTextarea.getAttribute("content")
+}
+
+
+// *********************************
+// DEFAULT VALUE SELECT OPTION TODOS
+// *********************************
+let elementSelect = document?.querySelector('.divUpdated .selectOptions')
+let options = document?.querySelectorAll('.divUpdated .selectOptions option')
+if (elementSelect){
+    let selectValue = elementSelect.getAttribute('select')
+    for(let option of options){
+        if(option.value == selectValue){
+            option.setAttribute('selected', 'selected')
+        }
+    }
+}

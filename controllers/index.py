@@ -180,6 +180,22 @@ def login(email):
 
 
 
+# CONTROLLER DE LA PAGE MON COMPTE
+def compte():
+    user = {}
+    if "email" in session:
+        for i in users:
+             if i['email']==session['email']:
+                 user = i
+
+        return render_template('pages/information.html', user=user)
+
+    else:
+        return redirect('/connexion')
+
+
+
+
 
 
 
@@ -362,90 +378,14 @@ def todos():
 
 
 
+# CONTROLLER logout
+def logout():
+    session.clear()
+    return redirect(url_for('.login'))
 
 
 
 
-
-# CONTROLLER DE LA PAGE MON COMPTE
-def compte():
-    user = {}
-    if "email" in session:
-        for i in users:
-             if i['email']==session['email']:
-                 user = i
-
-        return render_template('pages/information.html', user=user)
-
-    else:
-        return redirect('/connexion')
-
-
-
-# CONTROLLER  editer
-def edit(title):
-    form_todo = TodoForm(request.form)
-    element=Todos.query.filter_by(title_todo=title).first()
-    if request.method == 'POST':
-        new_title= form_todo.title.data
-        Todos.query.filter_by(title_todo=title).update({'title_todo':new_title})
-        db.session.commit()
-        return redirect('/todos')
-    
-    print(title)
-    return render_template('pages/editer.html',form_todo=form_todo,element=element)
-    
-
-
-def editPost(title):
-    form_post = PostForm(request.form)
-    element=Posts.query.filter_by(title_post=title).first()
-    if request.method == 'POST':
-        new_title= form_post.title.data
-        new_message=form_post.message.data
-        Posts.query.filter_by(title_post=title).update({'title_post':new_title,'body_post':new_message})
-        db.session.commit()
-        return redirect('/posts')
-    
-    print(title)
-    return render_template('pages/editerPost.html',form_post=form_post,element=element)
-  
-
-
-
-def editPhoto(title):
-    form_photo = PhotoForm(request.form)
-    element=Photos.query.filter_by(title_photo=title).first()
-    if request.method == 'POST':
-        new_title= form_photo.title.data
-        new_url= form_photo.url.data
-        new_thumnail=form_photo.thumbnail.data
-        Photos.query.filter_by(title_photo=title).update({'title_photo':new_title,'thumnail_photo':new_thumnail,'url_photo':new_url})
-        db.session.commit()
-        return redirect('/albums')
-    
-    print(title)
-    return render_template('pages/editerPhotos.html',form_photo=form_photo,element=element)
-    
-
-
-def editUser(title):
-    form_user = UserForm(request.form)
-    element=Users.query.filter_by(fullname=title).first()
-    if request.method == 'POST':
-            new_fullname= form_user.title.data
-            new_username= form_user.url.data
-            new_email=form_user.thumbnail.data
-            new_email=form_user.thumbnail.data
-            new_email=form_user.thumbnail.data
-            new_email=form_user.thumbnail.data
-            Photos.query.filter_by(title_photo=title).update({'title_photo':new_title,'thumnail_photo':new_thumnail,'url_photo':new_url})
-            db.session.commit()
-            return redirect('/albums')
-    
-    print(title)
-    return render_template('pages/editerPhotos.html',form_user=form_user,element=element)
-    
 
 
 
@@ -465,7 +405,7 @@ def delete_album(indice_album):
 
 
 
-
+# CONTROLLER UPDATE DATAS FROM DB
 def updated(type, id):
 
     if type == 'posts':
@@ -479,30 +419,37 @@ def updated(type, id):
             db.session.commit()
             return redirect('/posts')
        
-        return render_template('pages/alpha_edit.html', type=type, element=element, form_post=form_post)
-    
+        return render_template('pages/edit.html', type=type, element=element, form_post=form_post)
+
+
     elif type == 'photos':
         form_photo = PhotoForm(request.form)
-        element=Photos.query.filter_by(id_albums_photos =id).first()
+        element=Photos.query.filter_by(id_photos =id).first()
+
         if request.method == 'POST':
             new_title= form_photo.title.data
             new_url= form_photo.url.data
             new_thumnail=form_photo.thumbnail.data
-            Photos.query.filter_by(id_albums_photos =id).update({'title_photos':new_title,'thumbnailUrl':new_thumnail,'url':new_url})
+            Photos.query.filter_by(id_photos =id).update({'title_photos':new_title, 'url':new_url, 'thambnailUrl':new_thumnail})
             db.session.commit()
             return redirect('/albums')
 
-        return render_template('pages/alpha_edit.html', type=type, element=element, form_photo=form_photo)
-    
+        return render_template('pages/edit.html', type=type, element=element, form_photo=form_photo)
+
+
     elif type == 'todos':
         form_todo = TodoForm(request.form)
         element = Todos.query.filter_by(id_todos = id).first()
+        
         if request.method == 'POST':
             new_title= form_todo.title.data
-            Todos.query.filter_by(id_todos=id).update({'title_todos':new_title})
+            new_etat = form_todo.etat.data
+            Todos.query.filter_by(id_todos=id).update({'title_todos':new_title, 'status':new_etat})
             db.session.commit()
             return redirect('/todos')
-        return render_template('pages/alpha_edit.html', type=type, element=element, form_todo=form_todo)
+        
+        return render_template('pages/edit.html', type=type, element=element, form_todo=form_todo)
+
 
     elif type == 'albums':
         form_album = ALbumForm(request.form)
@@ -512,12 +459,15 @@ def updated(type, id):
             Albums.query.filter_by(id_albums=id).update({'title_albums':new_title})
             db.session.commit()
             return redirect('/albums')
-        return render_template('pages/alpha_edit.html', type=type, element=element, form_album=form_album)
+
+        return render_template('pages/edit.html', type=type, element=element, form_album=form_album)
+
 
     elif type == 'comments':
         form_comment = CommentForm(request.form)
         element = Comments.query.filter_by(id_comments = id).first()
-        return render_template('pages/alpha_edit.html', type=type, element=element, form_comment=form_comment)
+        return render_template('pages/edit.html', type=type, element=element, form_comment=form_comment)
+
 
     elif type == 'users':
         form_user = UserForm(request.form)
@@ -541,17 +491,11 @@ def updated(type, id):
             db.session.commit()
             return redirect('/information')
     
-        return render_template('pages/alpha_edit.html', type=type, element=element, form_user=form_user)
+        return render_template('pages/edit.html', type=type, element=element, form_user=form_user)
 
     else:
         return redirect('/compte')
 
-
-
-# CONTROLLER logout
-def logout():
-    session.clear()
-    return redirect(url_for('.login'))
 
 
 
