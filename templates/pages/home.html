@@ -64,16 +64,22 @@
             <tbody>
                 {% for user in users %}
                   <tr>
-                    <td><a id="loginHomeLink" href="{{'/connexion/'+user.get('email')}}">{{ user.fullname }}</a></td>
+                    <td><a id="loginHomeLink" href="{{'/connexion/'+user.email}}">{{ user.fullname }}</a></td>
                     <td>{{user.email}}</td>
-                    <td>771432678</td>
-                    <td>google.com</td>
+                    <td>{{user.phone}}</td>
+                    <td>{{user.website}}</td>
                   </tr>
                 {% endfor %}
             </tbody>
           </table>
+
         {% else %}
-          <p>Aucun utilisateurs pour le moment !</p>
+        <div class="div-no-user">          
+          <p>Aucun utilisateur pour le moment !</p>
+          <p>Veuillez ajouter un utilisateur manuellement ou charger des utilisateurs au niveau de l'APIs !</p>
+        </div>
+
         {% endif %}
+        
 </div>
 {% endblock %}

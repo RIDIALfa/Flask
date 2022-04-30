@@ -30,11 +30,9 @@
     <div class="divContainerAlbum">
         <div class="divHeadAlbum">
             <h2>{{album_name}}</h2>
-            <div class="divFaIcons">
-
-               <a href="/albums/edit/{{album.id_albums}}"> <span class="fa fa-pen"></span></a>
-               <a href="/album/delete/{{albumId}}"><span class="fa fa-trash"></span></a>
-
+            <div class="divFaIcons album">
+               <a href="/albums/edit/{{album.id_albums}}"><span class="fa fa-pen"></span></a>
+               <a href="/albums/delete/{{album.id_albums}}"><span class="fa fa-trash"></span></a>
             </div>
         </div>
 
@@ -43,11 +41,15 @@
             <div class="divAlbums">
                 {% for photo in photos %}
                 <div class="singleAlbum">
-                    <img src="{{photo.url}}" alt="{{photo.title_photos}}"/>
+                    <div class="divImage">
+                        <img src="{{photo.url}}" alt="{{photo.title_photos}}"/>
+                    </div>
                     <div class="divPhotos">
                         <span>{{photo.title_photos}}</span>
-                        <a href="/photos/edit/{{photo.id_albums_photos}}"><span class="fa fa-pen"></span></a>
-                        <a href="#"><span class="fa fa-trash"></span></a>
+                        <div>
+                            <a href="/photos/edit/{{photo.id_photos}}"><span class="fa fa-pen"></span></a>
+                            <a href="/photos/delete/{{photo.id_photos}}"><span class="fa fa-trash"></span></a>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}

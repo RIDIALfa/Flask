@@ -107,7 +107,7 @@ input[value="Ajouter"]{
 }
 
 .fa-pen{
-    color: rgb(6, 90, 62);
+    color: rgb(6, 90, 62) !important;
 }
 .fa-solid{
     margin: 2%;

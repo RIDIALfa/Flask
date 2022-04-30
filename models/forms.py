@@ -18,7 +18,7 @@ class ALbumForm(Form):
 
 class TodoForm(Form):
     title = StringField('title',[validators.length(max=100),validators.DataRequired()],render_kw={"placeholder":"Titre"})
-    etat = SelectField('Etat', choices=[(1, 'En cours'), (2, 'A faire'), (3, 'Terminé')])
+    etat = SelectField('Etat', choices=[(1, 'A faire'), (2, 'En cours'), (3, 'Terminé')])
 
 
 

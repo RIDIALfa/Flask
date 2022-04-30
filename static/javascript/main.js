@@ -75,10 +75,10 @@ switch(pathname){
 // RECUPERATION DES COORDONNEES DE L'USER
 // **************************************
 let elementLat = document?.querySelector('#lat')
-const lat =parseFloat(elementLat.innerText)
+const lat =parseFloat(elementLat?.innerText)
 
 let elementLong = document?.querySelector('#long')
-const long = parseFloat(elementLong.innerText)
+const long = parseFloat(elementLong?.innerText)
 
 let map;
 let coords = { lat: lat , lng: long}
@@ -119,9 +119,3 @@ let showPosition = (position) => {
 }
 
 // getLocation()
-
-
-
-// ************
-// LINK GO BACK
-// ************

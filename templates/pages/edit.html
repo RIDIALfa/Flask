@@ -13,8 +13,8 @@
     <form id="formPost" method="post" class="post formBlock">
         <h2>Editer un post</h2>
         <div>
-          {{ form_post.title() }}
-          {{ form_post.message()}}
+          {{ form_post.title(value=element.title_posts) }}
+          {{ form_post.message(content=element.body_posts)}}
         </div>
         <div class="divBtns">
             <button type="submit" id="btnSend"> Enregistrer</button>
@@ -29,8 +29,8 @@
     <form id="formTodo" method="post" class="post formBlock">
         <h2>Editer un Todo</h2>
         <div>
-          {{ form_todo.title() }}
-          {{ form_todo.etat() }}
+          {{ form_todo.title(value=element.title_todos) }}
+          {{ form_todo.etat(select=element.status, class="selectOptions") }}
         </div>
         <div class="divBtns">
             <button type="submit" id="btnSend"> Enregistrer</button>
@@ -45,9 +45,9 @@
     <form id="formPhoto" method="post" class="post formBlock">
         <h2>Editer un photo</h2>
         <div>
-          {{ form_photo.title() }}
-          {{ form_photo.url() }}
-          {{ form_photo.thumbnail()}}
+          {{ form_photo.title(value=element.title_photos) }}
+          {{ form_photo.url(value=element.url) }}
+          {{ form_photo.thumbnail(value=element.thumbnailUrl)}}
         </div>
         
         <div class="divBtns">
@@ -102,7 +102,7 @@
     <form id="formAlbum" method="post" class="post formBlock">
         <h2>Editer un Album</h2>
         <div>
-          {{ form_album.title() }}
+          {{ form_album.title(value=element.title_albums) }}
         </div>
 
         <div class="divBtns">

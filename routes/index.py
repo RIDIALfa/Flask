@@ -1,8 +1,8 @@
 from crypt import methods
 from flask import Blueprint
 from controllers.index import home, login, compte, posts, post, albums, album, todos, logout
-from controllers.index import delete_post,  delete_album
-from controllers.index import edit, editPhoto, editPost, updated
+from controllers.index import updated, delete
+from controllers.index import show
 from controllers.index import load_posts
 
 
@@ -30,23 +30,17 @@ routers.route('/albums/<album_name>', methods=['GET','POST'])(album)
 
 routers.route('/todos/', methods=['GET','POST'])(todos)
 
-routers.route('/posts/delete/<indice_post>')(delete_post)
-
-routers.route('/editer/<title>',methods=['GET','POST'])(edit)
-
-
-routers.route('/editerPost/<title>',methods=['GET','POST'])(editPost)
-
 routers.route('/logout/')(logout)
 
-routers.route('/editerPhotos/<title>',methods=['GET','POST'])(editPhoto)
-
-#Edit vAlpha
+#######ROUTE EDIT 
 routers.route('/<type>/edit/<id>',methods=['GET','POST'])(updated)
 
-routers.route('/album/delete/<indice_album>')( delete_album)
+#######ROUTE DELETE
+routers.route('/<type>/delete/<id>')(delete)
 
+#######ROUTE SHOW ['Comment, todos']
+routers.route('/<type>/show/<id>')(show)
 
-#LOAD DATA FROM APIs
+#######LOAD DATA FROM APIs
 routers.route('/charger_donnees/<type>')(load_posts)
 

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Detail {{type}}</title>
+{% endblock %}
+
+
+{% block contenu %}
+
+
+{% if type == 'todos' %}
+
+<div class="divUpdated">
+    <div id="formTodo" class="post formBlock">
+        <h2>Détail du Todo</h2>
+        <div>
+          {{ form_todo.title(value=element.title_todos) }}
+          {{ form_todo.etat(select=element.status, class="selectOptions") }}
+        </div>
+        <div class="divBtns">
+            <button id="goBack" onclick="history.back()">Fermer</button>
+        </div>
+    </div>
+</div>
+
+
+
+{% elif type == "comments" %}
+<div class="divUpdated">
+    <div id="formComment" class="post formBlock">
+        <h2>Détail du commentaire</h2>
+        <div>
+        {{ form_comment.title(class_='postTitle', value=element.name_comments) }}
+        {{ form_comment.message(class_='postMessage', content=element.body_comments) }}
+        </div>
+        <div class="divBtns">
+            <button id="goBack" onclick="history.back()">Fermer</button>
+        </div>
+    </div>
+</div>
+
+
+{% endif %}
+
+
+
+
+
+{% endblock %}

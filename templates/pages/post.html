@@ -43,8 +43,9 @@
                         <td>{{ comment.body_comments }}</td>
                         <td>{{ comment.email_comments }}</td>
                         <td>
-                            <span class="fa fa-user"></span>
-                            <span class="fa fa-trash"></span>
+                            <a href="/comments/show/{{comment.id_comments}}"><i class="fa-solid fa-eye"></i></a>
+                            <a id="editer" href="/comments/edit/{{comment.id_comments}}"><i class="fa-solid fa-pen"></i></a>
+                            <a href="/comments/delete/{{comment.id_comments}}"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                     {% endfor %}

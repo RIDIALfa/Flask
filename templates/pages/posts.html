@@ -55,12 +55,12 @@
 
                             <td class="td">{{ post.title_posts }}</td>
                             <td class="td">{{ post.body_posts }}</td>
-                            <td class="td">Leanne Graham</td>
+                            <td class="td">{{user['fullname']}}</td>
                 
                             <td class="td">
                                 <a href="/posts/{{post.title_posts}}"><i class="fa-solid fa-eye"></i></a>
                                 <a href="/posts/edit/{{post.id_posts}}"><i class="fa-solid fa-pen"></i></a>
-                                <a href="/posts/delete/{{post.title_posts}}"><i class="fa fa-trash" ></i></a>
+                                <a href="/posts/delete/{{post.id_posts}}"><i class="fa fa-trash" ></i></a>
 
                             </td>
                         </tr>
