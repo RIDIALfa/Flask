@@ -2,6 +2,7 @@ from crypt import methods
 from flask import Blueprint
 from controllers.index import home, login, compte, posts, post, albums, album, todos, logout
 from controllers.index import updated, delete
+from controllers.index import show
 from controllers.index import load_posts
 
 
@@ -37,6 +38,8 @@ routers.route('/<type>/edit/<id>',methods=['GET','POST'])(updated)
 #######ROUTE DELETE
 routers.route('/<type>/delete/<id>')(delete)
 
+#######ROUTE SHOW ['Comment, todos']
+routers.route('/<type>/show/<id>')(show)
 
 #######LOAD DATA FROM APIs
 routers.route('/charger_donnees/<type>')(load_posts)

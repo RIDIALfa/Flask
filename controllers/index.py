@@ -522,6 +522,25 @@ def delete(type, id):
 
 
 
+# CONTROLLER SHOW SINGLE COMMENT AND TODOS
+def show(type,id):
+    
+    if type == 'todos':
+        form_todo = TodoForm(request.form)
+        element = Todos.query.filter_by(id_todos = id).first()        
+        return render_template('pages/show.html', type=type, element=element, form_todo=form_todo)
+
+
+    elif type == 'comments':
+        form_comment = CommentForm(request.form)
+        element = Comments.query.filter_by(id_comments = id).first()
+        return render_template('pages/show.html', type=type, element=element, form_comment=form_comment)
+
+    else:
+        return redirect(url_for('.compte'))
+
+
+
 # FUNCTIONS LOADERS
 def load_posts(type):
     
