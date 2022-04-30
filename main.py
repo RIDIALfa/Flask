@@ -1,7 +1,8 @@
+from json.tool import main
 from flask import Flask, render_template
 from routes.index import routers
 from flask_sqlalchemy import SQLAlchemy
-
+from models.create_tables import create_all_tables
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'groupe3'
@@ -10,7 +11,6 @@ app.config['SECRET_KEY'] = 'groupe3'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://groupe3:passer123@localhost/projet_flask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
 
 
 #Pour gerer les routes
@@ -25,4 +25,5 @@ def not_found(error):
 
 
 if __name__=='__main__':
+    create_all_tables()
     app.run(debug=True,port=5000)

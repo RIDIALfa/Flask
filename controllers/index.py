@@ -19,11 +19,11 @@ def getApi(param):
 
 
 # Fake datas
-users =[
-    {'id':1,'email': 'awa@sa.sn', 'password':'passer789', 'fullname':'awa diop', 'phone': 330000000, 'lat': 44.05855065769437, 'long' : -44.25096592088265},
-    {'id':2,'email': 'alpha@sa.sn', 'password':'passer123', 'fullname':'alpha diallo', 'phone': 440000000, 'lat': 14.872029, 'long' : -14.436139},
-    {'id':3,'email': 'khabane@sa.sn', 'password':'passer456', 'fullname':'khabane fall', 'phone': 550000000, 'lat': 34.7727, 'long' : -14.361339},
-]
+# users =[
+#     {'id':1,'email': 'awa@sa.sn', 'password':'passer789', 'fullname':'awa diop', 'phone': 330000000, 'lat': 44.05855065769437, 'long' : -44.25096592088265},
+#     {'id':2,'email': 'alpha@sa.sn', 'password':'passer123', 'fullname':'alpha diallo', 'phone': 440000000, 'lat': 14.872029, 'long' : -14.436139},
+#     {'id':3,'email': 'khabane@sa.sn', 'password':'passer456', 'fullname':'khabane fall', 'phone': 550000000, 'lat': 34.7727, 'long' : -14.361339},
+# ]
 
 
 def add_adresse(city, street, suite, zipcode, lat, long):
@@ -94,7 +94,7 @@ def add_users_from_apis(users):
             fullname = user.get('name'),
             username = user.get('username'),
             email = user.get('email'),
-            phone = user.get('phone'),
+            phone = user.get('phone').split('x')[0],
             website = user.get('website'),
             password = "passer",
             id_adresse_users = idAddr,
@@ -112,6 +112,12 @@ def add_users_from_apis(users):
 # CONTROLLER DE LA PAGE HOME
 def home():
     form_user = UserForm(request.form)
+    users = Users.query.all()
+
+    print(users)
+
+    for user in users:
+        print(user.email)
 
     if request.method == 'POST':
         
@@ -163,12 +169,13 @@ def home():
 def login(email):
 
     if request.method == 'POST':
+        users = Users.query.all()
 
         mail=request.form['email']
         passwd=request.form['password']
 
-        for i in  users:
-            if i['email']==mail and i['password']==passwd:
+        for user in  users:
+            if user.email == mail and user.password == passwd:
                 session["email"] = mail
                 return redirect('/compte')
             
@@ -183,13 +190,14 @@ def login(email):
 
 # CONTROLLER DE LA PAGE MON COMPTE
 def compte():
-    user = {}
     if "email" in session:
-        for i in users:
-             if i['email']==session['email']:
-                 user = i
+        user = Users.query.filter_by(email = session['email']).first()
+        adresse = Adresses.query.filter_by(id_adresse = user.id_adresse_users ).first()
+        compagny = Compagny.query.filter_by(id_compagny = user.id_company_users ).first()
 
-        return render_template('pages/information.html', user=user)
+        print("Utilisateur",user)
+
+        return render_template('pages/information.html', user = user, compagny = compagny, adresse = adresse)
 
     else:
         return redirect('/connexion')
@@ -207,9 +215,7 @@ def posts():
     posts = Posts.query.filter_by(id_users_posts = 1).all()
 
     if "email" in session:
-        for i in users:
-             if i['email']==session['email']:
-                 user = i
+        user = Users.query.filter_by(email = session['email']).first()
 
         if request.method == 'POST' and form_post.validate():
             
@@ -246,9 +252,8 @@ def post(post_title):
     comments = Comments.query.filter_by(id_posts_comments = post.id_posts).all()
 
     if "email" in session:
-        for i in users:
-             if i['email']==session['email']:
-                 user = i
+        user = Users.query.filter_by(email = session['email']).first()
+
 
         if request.method == 'POST' and form_comment.validate():
             
@@ -281,9 +286,7 @@ def albums():
     albums = Albums.query.all()
 
     if "email"  in session:
-        for i in users:
-             if i['email']==session['email']:
-                 user = i
+        user = Users.query.filter_by(email = session['email']).first()
 
         if request.method == 'POST' and form_album.validate():
             
@@ -320,16 +323,14 @@ def album(album_name):
     photos = Photos.query.filter_by(id_albums_photos = album.id_albums).all()
     
     if  "email"  in session:
-        for i in users:
-             if i['email']==session['email']:
-                 user = i
+        user = Users.query.filter_by(email = session['email']).first()
     
         if request.method == 'POST' and form_photo.validate():
             
             new_photo = Photos(
                 title_photos = form_photo.title.data,
                 url = form_photo.url.data,
-                thambnailUrl = form_photo.thumbnail.data,
+                thumbnailUrl = form_photo.thumbnail.data,
                 id_albums_photos = album.id_albums
             )
 
@@ -355,9 +356,8 @@ def todos():
     todos = Todos.query.all()
 
     if  "email"  in session:
-        for i in users:
-             if i['email']==session['email']:
-                 user = i
+        user = Users.query.filter_by(email = session['email']).first()
+
         if request.method == 'POST' and form_todo.validate():
                 
             new_todo = Todos(
@@ -415,7 +415,7 @@ def updated(type, id):
             new_title= form_photo.title.data
             new_url= form_photo.url.data
             new_thumnail=form_photo.thumbnail.data
-            Photos.query.filter_by(id_photos =id).update({'title_photos':new_title, 'url':new_url, 'thambnailUrl':new_thumnail})
+            Photos.query.filter_by(id_photos =id).update({'title_photos':new_title, 'url':new_url, 'thumbnailUrl':new_thumnail})
             db.session.commit()
             return redirect('/albums')
 

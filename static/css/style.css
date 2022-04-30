@@ -259,6 +259,23 @@ span{
     text-align: center;
 }
 
+.div-no-user{
+    text-align: center;
+}
+
+.div-no-user p{
+    font-size: 25px;
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    line-height: 40px;
+
+}
+
+.div-no-user p:first-child{
+    color: #FD9E9E;
+    font-weight: bold;
+    font-size: 30px;
+}
 
 
 

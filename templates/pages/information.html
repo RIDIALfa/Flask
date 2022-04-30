@@ -6,6 +6,10 @@
 
 {% block contenuUser%}
 
+
+
+{% if user %}
+
 <div class="divMaps">
     <div id="map"></div>
 </div>
@@ -14,56 +18,56 @@
 
 <div class="big divInfos">
 
-    <a href="/users/edit/{{user['id']}}" id="editUser"><span class="fa fa-pen"></span></a>
+    <a href="/users/edit/{{ user.id_users }}" id="editUser"><span class="fa fa-pen"></span></a>
 
     <h1 class="head">Informations Supplémentaires</h1>    
     <div id="table1">
         <div id="sect1">
             <div class="tr">
                 <p class="p1">Nom d'utilsateur :</p>
-                <p class="p2"> Bret</p>
+                <p class="p2">{{ user.username }}</p>
             </div>
             <div class="tr">
                 <p class="p1">Nom complet :</p>
-                <p class="p2">{{user['fullname']}}</p>
+                <p class="p2">{{ user.fullname }}</p>
             </div>
             <div class="tr">
                 <p class="p1">Téléphone :</p>
-                <p class="p2">{{user['phone']}}</p>
+                <p class="p2">{{ user.phone }}</p>
             </div>
             <div class="tr">
                 <p class="p1">Site web :</p>
-                <p class="p2">AboBusiness.org</p>
+                <p class="p2">{{ user.website }}</p>
             </div>
             <div class="tr">
                 <p class="p1">Email :</p>
-                <p class="p2">{{user['email']}}</p>
+                <p class="p2">{{ user.email }}</p>
             </div>
         </div>
         <div id="sect2">
             <div class="tr">
                 <p class="p1">Zipcode :</p>
-                <p class="p2">Bret</p>
+                <p class="p2">{{adresse.zipcode }}</p>
             </div>
             <div class="tr">
                 <p class="p1">Ville :</p>
-                <p class="p2">Leanne Grahman</p>
+                <p class="p2">{{ adresse.city }}</p>
             </div>
             <div class="tr">
                 <p class="p1">Rue :</p>
-                <p class="p2">1-12-4354-45</p>
+                <p class="p2">{{ adresse.street }}</p>
             </div>
             <div class="tr">
                 <p class="p1">Suite :</p>
-                <p class="p2">Hildegard.org</p>
+                <p class="p2">{{ adresse.suite }}</p>
             </div>
             <div class="tr">
                 <p class="p1">Coord lat :</p>
-                <p class="p2" id="long">{{user['lat']}}</p>
+                <p class="p2" id="long">{{ adresse.lat }}</p>
             </div>
             <div class="tr">
                 <p class="p1" >Coord long :</p>
-                <p class="p2" id="lat">{{user['long']}}</p>
+                <p class="p2" id="lat">{{ adresse.long }}</p>
             </div>
         </div>
     </div>
@@ -72,18 +76,25 @@
         <div id="sect3">
             <div class="tr1">
                 <p class="p1 p1_1">Nom :</p>
-                <p class="p2">Bret</p>
+                <p class="p2">{{ compagny.name_compagny }}</p>
             </div>
             <div class="tr1">
                 <p class="p1 p1_1">catchPhrase :</p>
-                <p class="p2" >Lorem ipsum</p>
+                <p class="p2" >{{ compagny.catchPhrase }}</p>
             </div>
             <div class="tr1">
                 <p class="p1 p1_1">Bs :</p>
-                <p class="p2">Bs infos</p>
+                <p class="p2">{{ compagny.bs }}</p>
             </div>
         </div>
     </div>
 </div>
+
+{% else %}
+
+<p>Chargement incorrect !</p>
+
+
+{% endif %}
 
 {% endblock %}

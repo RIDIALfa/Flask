@@ -1,3 +1,4 @@
+from email.policy import default
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -62,6 +63,8 @@ class Users(db.Model):
     phone = db.Column(db.String(50), nullable = True)
     website = db.Column(db.String(100), nullable = True)
     password = db.Column(db.String(100), nullable = False)
+    origine = db.Column(db.Integer, nullable = False, default=1)
+    
 
     # users childreen relations
     posts = db.relationship("Posts", backref = "users")
@@ -84,6 +87,7 @@ class Posts(db.Model):
     title_posts = db.Column(db.String(150), nullable = False)
     body_posts = db.Column(db.Text, nullable = False)
     id_users_posts = db.Column(db.Integer, db.ForeignKey('users.id_users'))
+    visible_posts = db.Column(db.Integer, default=1)
 
     # users childreen relations
     comments = db.relationship("Comments", backref='posts')
@@ -102,6 +106,7 @@ class Comments(db.Model):
     email_comments = db.Column(db.String(100), nullable = False)
     body_comments = db.Column(db.Text, nullable = False)
     id_posts_comments = db.Column(db.Integer, db.ForeignKey('posts.id_posts'))
+    visible_comments = db.Column(db.Integer, default=1)
 
     def __repr__(self):
         return '<Comments %r>' % self.name_comments
@@ -114,6 +119,7 @@ class Todos(db.Model):
     title_todos = db.Column(db.String(100), nullable = False)
     status = db.Column(db.Integer, nullable = False)
     id_users_todos = db.Column(db.Integer, db.ForeignKey('users.id_users'))
+    visible_todos = db.Column(db.Integer, default=1)
 
     def __repr__(self):
         return '<Todos %r>' % self.title_todos
@@ -126,6 +132,7 @@ class Albums(db.Model):
     id_albums = db.Column(db.Integer, primary_key = True)
     title_albums = db.Column(db.String(150), nullable=False)
     id_users_albums = db.Column(db.Integer, db.ForeignKey('users.id_users'))
+    visible_albums = db.Column(db.Integer, default=1)
 
     photos = db.relationship('Photos', backref ='albums')
 
@@ -141,8 +148,9 @@ class Photos(db.Model):
     id_photos = db.Column(db.Integer, primary_key = True)
     title_photos = db.Column(db.String(150), nullable=False)
     url = db.Column(db.String(150), nullable=False)
-    thambnailUrl = db.Column(db.String(150), nullable=False)
+    thumbnailUrl = db.Column(db.String(150), nullable=False)
     id_albums_photos = db.Column(db.Integer, db.ForeignKey('albums.id_albums'))
+    visible_photos = db.Column(db.Integer, default=1)
 
 
     def __repr__(self):
@@ -150,11 +158,6 @@ class Photos(db.Model):
 
 
 
-
-if __name__=='__main__':
+def create_all_tables():
     db.create_all()
-
-def create_all_table():
-    if __name__=='__main__':
-        db.create_all()
-        return print('Tables created !')
+    print('Tables created !')
