@@ -1,9 +1,8 @@
-from multiprocessing.dummy import current_process
+import requests
 from flask import redirect, render_template, request, session, url_for
 from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
 from models.create_tables import Adresses, Compagny, Users, Posts, Comments, Albums, Photos, Todos, db
 
-import requests
 
 
 
@@ -16,14 +15,6 @@ def getApi(param):
     return reponse.json()
     
 
-
-
-# Fake datas
-# users =[
-#     {'id':1,'email': 'awa@sa.sn', 'password':'passer789', 'fullname':'awa diop', 'phone': 330000000, 'lat': 44.05855065769437, 'long' : -44.25096592088265},
-#     {'id':2,'email': 'alpha@sa.sn', 'password':'passer123', 'fullname':'alpha diallo', 'phone': 440000000, 'lat': 14.872029, 'long' : -14.436139},
-#     {'id':3,'email': 'khabane@sa.sn', 'password':'passer456', 'fullname':'khabane fall', 'phone': 550000000, 'lat': 34.7727, 'long' : -14.361339},
-# ]
 
 
 def add_adresse(city, street, suite, zipcode, lat, long):
@@ -43,10 +34,10 @@ def add_adresse(city, street, suite, zipcode, lat, long):
             long = long
         )
             
-        id_adresse = 1
         db.session.add(new_adresse)
         db.session.commit()
-        
+
+        id_adresse = Adresses.query.filter_by(suite = suite).first()
 
     return id_adresse
 
@@ -67,10 +58,11 @@ def add_compagny(name_compagny, catchPhrase, bs):
             bs = bs
         )
 
-        id_compagny = 1
-
+    
         db.session.add(new_compagny)
         db.session.commit()
+
+        id_compagny = Compagny.query.filter_by(name_compagny = name_compagny).first()
 
     return id_compagny
 
@@ -146,6 +138,7 @@ def home():
                 phone = form_user.phone.data,
                 website = form_user.website.data,
                 password = "passer",
+                origine = 0,
                 id_adresse_users = idAddr,
                 id_company_users = idComp
             )
@@ -195,8 +188,6 @@ def compte():
         adresse = Adresses.query.filter_by(id_adresse = user.id_adresse_users ).first()
         compagny = Compagny.query.filter_by(id_compagny = user.id_company_users ).first()
 
-        print("Utilisateur",user)
-
         return render_template('pages/information.html', user = user, compagny = compagny, adresse = adresse)
 
     else:
@@ -211,18 +202,20 @@ def compte():
 # CONTROLLER DE LA PAGE DES POSTS
 def posts():
     form_post = PostForm(request.form)
-    
-    posts = Posts.query.filter_by(id_users_posts = 1).all()
+
 
     if "email" in session:
         user = Users.query.filter_by(email = session['email']).first()
+
+        posts = Posts.query.filter_by(id_users_posts = user.id_users).all()
+
 
         if request.method == 'POST' and form_post.validate():
             
             new_post = Posts(
                 title_posts = form_post.title.data, 
                 body_posts = form_post.message.data, 
-                id_users_posts = 1
+                id_users_posts = user.id_users
             )
 
             db.session.add(new_post)
@@ -283,24 +276,22 @@ def post(post_title):
 # CONTROLLER DE LA PAGE DES ALBUMS
 def albums():
     form_album = ALbumForm(request.form)
-    albums = Albums.query.all()
 
     if "email"  in session:
+
         user = Users.query.filter_by(email = session['email']).first()
+        albums = Albums.query.filter_by(id_users_albums = user.id_users).all()
 
         if request.method == 'POST' and form_album.validate():
             
-            new_album = Albums(
-                title_albums = form_album.title.data, 
-                id_users_albums = 1
-            )
+            new_album = Albums(title_albums = form_album.title.data, id_users_albums = user.id_users)
             
             db.session.add(new_album)
             db.session.commit()
 
             return redirect('/albums')
         
-        return render_template('pages/albums.html', formAlbum = form_album, albums=albums,user=user)
+        return render_template('pages/albums.html', formAlbum = form_album, albums = albums, user=user)
 
     else:
         return redirect('/connexion')
@@ -353,17 +344,18 @@ def album(album_name):
 # CONTROLLER DE LA PAGE DES TODOS
 def todos():
     form_todo = TodoForm(request.form)
-    todos = Todos.query.all()
+    
 
     if  "email"  in session:
         user = Users.query.filter_by(email = session['email']).first()
+        todos = Todos.query.filter_by(id_users_todos = user.id_users).all()
 
         if request.method == 'POST' and form_todo.validate():
                 
             new_todo = Todos(
                 title_todos = form_todo.title.data,
                 status = form_todo.etat.data,
-                id_users_todos = 1
+                id_users_todos = user.id_users
             )
 
             db.session.add(new_todo)
@@ -393,93 +385,105 @@ def logout():
 # CONTROLLER UPDATE DATAS FROM DB
 def updated(type, id):
 
-    if type == 'posts':
-        form_post = PostForm(request.form)
-        element = Posts.query.filter_by(id_posts = id).first()
-        if request.method == 'POST':
-            new_title= form_post.title.data
-            new_message=form_post.message.data
-            print(new_title)
-            Posts.query.filter_by(id_posts = id).update({'title_posts':new_title,'body_posts':new_message})
-            db.session.commit()
-            return redirect('/posts')
-       
-        return render_template('pages/edit.html', type=type, element=element, form_post=form_post)
+    user = Users.query.filter_by(email = session['email']).first()
 
+    if user.id_users == int(id):
 
-    elif type == 'photos':
-        form_photo = PhotoForm(request.form)
-        element=Photos.query.filter_by(id_photos =id).first()
-
-        if request.method == 'POST':
-            new_title= form_photo.title.data
-            new_url= form_photo.url.data
-            new_thumnail=form_photo.thumbnail.data
-            Photos.query.filter_by(id_photos =id).update({'title_photos':new_title, 'url':new_url, 'thumbnailUrl':new_thumnail})
-            db.session.commit()
-            return redirect('/albums')
-
-        return render_template('pages/edit.html', type=type, element=element, form_photo=form_photo)
-
-
-    elif type == 'todos':
-        form_todo = TodoForm(request.form)
-        element = Todos.query.filter_by(id_todos = id).first()
+        if type == 'posts':
+            form_post = PostForm(request.form)
+            element = Posts.query.filter_by(id_posts = id).first()
+            if request.method == 'POST':
+                new_title= form_post.title.data
+                new_message=form_post.message.data
+                print(new_title)
+                Posts.query.filter_by(id_posts = id).update({'title_posts':new_title,'body_posts':new_message})
+                db.session.commit()
+                return redirect('/posts')
         
-        if request.method == 'POST':
-            new_title= form_todo.title.data
-            new_etat = form_todo.etat.data
-            Todos.query.filter_by(id_todos=id).update({'title_todos':new_title, 'status':new_etat})
-            db.session.commit()
-            return redirect('/todos')
+            return render_template('pages/edit.html', type=type, element=element, form_post=form_post)
+
+
+        elif type == 'photos':
+            form_photo = PhotoForm(request.form)
+            element=Photos.query.filter_by(id_photos =id).first()
+
+            if request.method == 'POST':
+                new_title= form_photo.title.data
+                new_url= form_photo.url.data
+                new_thumnail=form_photo.thumbnail.data
+                Photos.query.filter_by(id_photos =id).update({'title_photos':new_title, 'url':new_url, 'thumbnailUrl':new_thumnail})
+                db.session.commit()
+                return redirect('/albums')
+
+            return render_template('pages/edit.html', type=type, element=element, form_photo=form_photo)
+
+
+        elif type == 'todos':
+            form_todo = TodoForm(request.form)
+            element = Todos.query.filter_by(id_todos = id).first()
+            
+            if request.method == 'POST':
+                new_title= form_todo.title.data
+                new_etat = form_todo.etat.data
+                Todos.query.filter_by(id_todos=id).update({'title_todos':new_title, 'status':new_etat})
+                db.session.commit()
+                return redirect('/todos')
+            
+            return render_template('pages/edit.html', type=type, element=element, form_todo=form_todo)
+
+
+        elif type == 'albums':
+            form_album = ALbumForm(request.form)
+            element = Albums.query.filter_by(id_albums = id).first()
+            if request.method == 'POST':
+                new_title= form_album.title.data
+                Albums.query.filter_by(id_albums=id).update({'title_albums':new_title})
+                db.session.commit()
+                return redirect('/albums')
+
+            return render_template('pages/edit.html', type=type, element=element, form_album=form_album)
+
+
+        elif type == 'comments':
+            form_comment = CommentForm(request.form)
+            element = Comments.query.filter_by(id_comments = id).first()
+            return render_template('pages/edit.html', type=type, element=element, form_comment=form_comment)
+
+
+        elif type == 'users':
+            form_user = UserForm(request.form)
+            element = Users.query.filter_by(id_users = id).first()
+            compagny =  Compagny.query.filter_by(id_compagny  = element.id_company_users).first()
+            adresse = Adresses.query.filter_by(id_adresse  = element.id_adresse_users ).first()
+
+            print(compagny.name_compagny, adresse.zipcode)
+            
+            if request.method == 'POST':
+                new_fullname = form_user.fullname.data
+                new_username = form_user.username.data
+                new_email = form_user.email.data
+                new_phonel = form_user.phone.data
+                new_website = form_user.website.data
+                new_ville = form_user.ville.data
+                new_rue = form_user.rue.data
+                new_suite = form_user.suite.data
+                new_zipcode = form_user.zipcode.data
+                new_lat = form_user.lat.data
+                new_long = form_user.long.data
+                new_compagny = form_user.compagny.data
+                new_bs = form_user.bs.data
+                new_catch = form_user.catch.data
+                # Users.query.filter_by(id_users = id).update({''})
+
+                # db.session.commit()
+                return redirect('/information')
         
-        return render_template('pages/edit.html', type=type, element=element, form_todo=form_todo)
+            return render_template('pages/edit.html', type=type, element=element, form_user=form_user, compagny = compagny , adresse = adresse)
 
+        else:
+            return redirect('/compte')
 
-    elif type == 'albums':
-        form_album = ALbumForm(request.form)
-        element = Albums.query.filter_by(id_albums = id).first()
-        if request.method == 'POST':
-            new_title= form_album.title.data
-            Albums.query.filter_by(id_albums=id).update({'title_albums':new_title})
-            db.session.commit()
-            return redirect('/albums')
-
-        return render_template('pages/edit.html', type=type, element=element, form_album=form_album)
-
-
-    elif type == 'comments':
-        form_comment = CommentForm(request.form)
-        element = Comments.query.filter_by(id_comments = id).first()
-        return render_template('pages/edit.html', type=type, element=element, form_comment=form_comment)
-
-
-    elif type == 'users':
-        form_user = UserForm(request.form)
-        element = Users.query.filter_by(id_users = id).first()
-        if request.method == 'POST':
-            new_fullname= form_user.fullname.data
-            new_username= form_user.username.data
-            new_email=form_user.email.data
-            new_phonel=form_user.phone.data
-            new_website=form_user.website.data
-            new_ville=form_user.ville.data
-            new_rue=form_user.rue.data
-            new_suite=form_user.suite.data
-            new_zipcode=form_user.zipcode.data
-            new_lat=form_user.lat.data
-            new_long=form_user.long.data
-            new_compagny=form_user.compagny.data
-            new_bs=form_user.bs.data
-            new_catch=form_user.catch.data
-            Photos.query.filter_by(id_users=id).update({''})
-            db.session.commit()
-            return redirect('/information')
-    
-        return render_template('pages/edit.html', type=type, element=element, form_user=form_user)
-
-    else:
-        return redirect('/compte')
+    return redirect('/')
 
 
 

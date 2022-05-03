@@ -160,4 +160,3 @@ class Photos(db.Model):
 
 def create_all_tables():
     db.create_all()
-    print('Tables created !')

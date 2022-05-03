@@ -28,7 +28,9 @@
 
     <div class="btns">
         <button class="btnForm">Ajouter</button>
-        <a href="/charger_donnees/todos" id="loadTodos" class="loadLink">Charger</a>
+        {% if user.origine == 1 %}
+            <a href="/charger_donnees/todos" id="loadTodos" class="loadLink unique">Charger</a>
+        {% endif %}
     </div>
     
     <div class="divTodos">
