@@ -44,6 +44,7 @@ body{
     position: absolute;
     left: 14%;
     top: 20px;
+    z-index: 44;
 }
 #spanBars.mask{
     left: 1% ;
@@ -211,14 +212,6 @@ body{
     margin-top: 5px;
 }
 
-.divPagination button{
-    background: #006778;
-    color: #ffffff;
-    border: none;
-    padding: 15px;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
 
 
@@ -327,6 +320,11 @@ body{
     border-radius: 4px;
 }
 
+.divContainerPosts h2{
+    font-size: 35px;
+    margin-bottom: 30px;
+}
+
 .divContainerPosts #postTable tr th.th{
     text-transform: uppercase;
     padding: 20px 0;
@@ -336,10 +334,35 @@ body{
     padding: 30px 0;
 }
 
-.divContainerPosts h2{
-    font-size: 35px;
-    margin-bottom: 30px;
+.divContainerPosts #postTable tr td.td:nth-child(1),
+.divContainerPosts #postTable tr td.td:nth-child(2){
+    /* overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; */
+ }
+
+.divContainerPosts #postTable tr td.td:nth-child(1){
+    width: 25%;
+    /* background-color: yellow; */
 }
+
+.divContainerPosts #postTable tr td.td:nth-child(2){
+    width: 35%;
+    /* background-color: red; */
+}
+
+.divContainerPosts #postTable tr td.td:nth-child(3){
+    width: 20%;
+    /* background: #FD9E9E; */
+}
+
+.divContainerPosts #postTable tr td.td:nth-child(4){
+    width: 10%;
+    /* background: aqua; */
+}
+
 
 
 /* ***************************** */
@@ -396,11 +419,27 @@ body{
     color: #fff;
 }
 
-/* #loadPosts.loadLink.unique,
-#loadTodos.loadLink.unique,
-#loadAlbums.loadLink.unique,
-#loadPosts .loadLink.unique
-{
-    background: #ffffff !important;
-    color: #000000 !important;
-} */
+
+
+/* ************************* */
+/* ********PAGINATION****** */
+/* *********************** */
+.divPagination{
+    text-align: center;
+}
+.divPagination button{
+    background: #006778;
+    color: #ffffff;
+    border: none;
+    padding: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.divPagination .page-link{
+    background-color: #bbbbbb;
+    padding: 15px;
+    border-radius: 50%;
+    color: #ffffff;
+    margin: 20px 0;
+}

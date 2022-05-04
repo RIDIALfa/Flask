@@ -1,3 +1,5 @@
+from tkinter import NONE
+from turtle import pos
 import requests
 from flask import redirect, render_template, request, session, url_for
 from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
@@ -209,6 +211,12 @@ def posts():
 
         posts = Posts.query.filter_by(id_users_posts = user.id_users).all()
 
+        page = request.args.get('page', 1, type=int)
+        posts_paginate = Posts.query.filter_by(id_users_posts = user.id_users).paginate(page=page, per_page = 5)
+
+        print(posts_paginate.pages, "Nombre totale de page")
+        print(posts_paginate.page, "Page courant")
+        print(posts_paginate.has_next, "Page suivant")
 
         if request.method == 'POST' and form_post.validate():
             
@@ -223,7 +231,12 @@ def posts():
 
             return redirect('/posts')
 
-        return render_template('pages/posts.html', formPost = form_post, posts=posts,user=user)
+        # posts_ = Posts.query.paginate(per_page = 2)
+        # print(posts_.pages, "Nombre totale de page")
+        # print(posts_.page, "Page courant")
+        # print(posts_.has_next, "Page suivant")
+
+        return render_template('pages/posts.html', formPost = form_post, posts=posts,user=user, posts_paginate= posts_paginate)
     else:
 
         return redirect('/connexion')
@@ -543,9 +556,44 @@ def show(type,id):
 # FUNCTIONS LOADERS
 def load_posts(type):
     
-    print(getApi(type))
+
+    # GET CURRENT USER ID FROM APIs
+    users_api = getApi('users')
+    for user in users_api:
+        if user.get('email') == session['email']:
+            user_id = user.get('id')
 
     if type == 'posts':
+
+        all_posts_from_apis = getApi(type)
+        all_comments_from_apis = getApi('comments')
+        current_user_id = Users.query.filter_by(email = session['email']).first().id_users
+
+        for post in all_posts_from_apis :
+            if post.get('userId') == user_id:
+                new_post = Posts(
+                    title_posts = post.get('title'), 
+                    body_posts = post.get('body'), 
+                    id_users_posts = current_user_id
+                )
+                db.session.add(new_post)
+                db.session.commit()
+
+                # Ajout les commentaires pour l'actuel post 
+                for comment in all_comments_from_apis:
+                    if comment.get('postId') == post.get('id'):
+                        print("element dans comment",new_post.id_posts)
+
+                        new_comment = Comments(
+                            name_comments = comment.get('name'), 
+                            body_comments = comment.get('body'),
+                            email_comments = comment.get('email'),
+                            id_posts_comments = new_post.id_posts
+                        )
+                        db.session.add(new_comment)
+            
+            db.session.commit()
+                    
         return redirect(url_for('.posts'))
     
     elif type == 'todos':

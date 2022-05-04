@@ -46,3 +46,17 @@ if (elementSelect){
         }
     }
 }
+
+
+
+
+
+
+// *******************************************************
+// ********DESACTIVE LE LINK CHARGER AU PREMIER CLICK*****
+// *******************************************************
+let loadPosts = document?.querySelector('#loadPosts')
+loadPosts && loadPosts.addEventListener('click', () => {
+    loadPosts.classList.add('clicked')
+    loadPosts.style.display = 'none'
+})
