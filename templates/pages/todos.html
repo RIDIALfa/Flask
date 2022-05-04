@@ -52,10 +52,10 @@
                         <tr>
                             <td>{{ todo.title_todos}}</td>
                             <td>
-                                {% if todo.status == 1 %}
-                                <span class="status pending">En cours</span>
-                                {% elif todo.status == 2%}
+                                {% if todo.status == 2 %}
                                 <span class="status todo">A faire</span>
+                                {% elif todo.status == 2%}
+                                <span class="status pending">En cours</span>
                                 {% else%}
                                 <span class="status done">Terminé</span>
                                 {% endif %}
