@@ -31,7 +31,9 @@
 <div class="divContainerPosts">
     <div class="btns">
         <button class="btnForm">Ajouter</button>
-        <a href="/charger_donnees/posts" id="loadPosts" class="loadLink">Charger</a>
+        {% if user.origine == 1 %}
+            <a href="/charger_donnees/posts" id="loadPosts" class="loadLink unique">Charger</a>
+        {% endif %}
     </div>
     
     

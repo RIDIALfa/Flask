@@ -27,6 +27,10 @@ body{
     background: #43919B;
     flex: 1;
 }
+.divSideBar.mask{
+    display: none;
+}
+
 #bars{
     display: none;
 }
@@ -40,6 +44,9 @@ body{
     position: absolute;
     left: 14%;
     top: 20px;
+}
+#spanBars.mask{
+    left: 1% ;
 }
 
 
@@ -145,10 +152,11 @@ body{
     margin-right: 10px;
     background-color: #ffffff;
 }
-.btns button:last-child{
+.btns a:last-child{
     background-color: #006778;
     color: #ffffff;
 }
+
 
 .divContainerAlbum{
     background-color: #ffffff;
@@ -387,3 +395,12 @@ body{
     border-radius: 4px;
     color: #fff;
 }
+
+/* #loadPosts.loadLink.unique,
+#loadTodos.loadLink.unique,
+#loadAlbums.loadLink.unique,
+#loadPosts .loadLink.unique
+{
+    background: #ffffff !important;
+    color: #000000 !important;
+} */

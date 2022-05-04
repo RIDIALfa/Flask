@@ -119,3 +119,20 @@ let showPosition = (position) => {
 }
 
 // getLocation()
+
+
+
+//****************************** */
+// ********TOGGLE BAR ***********/
+// *****************************/
+document?.querySelector('#spanBars').addEventListener('click', ()=>{
+    if(document?.querySelector('.divSideBar').classList.contains('mask')){
+        document?.querySelector('.divSideBar').classList.remove('mask')
+        document?.querySelector('#spanBars').classList.remove('mask')
+    }else{
+        document?.querySelector('.divSideBar').classList.add('mask')
+        document?.querySelector('#spanBars').classList.add('mask')
+    }
+})
+
+console.log(document?.querySelector('.divSideBar'))

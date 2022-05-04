@@ -65,26 +65,26 @@
         <h2>Editer un utilisateur</h2>
         <div>
           <div class="formGroup">
-            {{ form_user.fullname() }}
-            {{ form_user.username() }}
-            {{ form_user.email() }}
-            {{ form_user.phone() }}
-            {{ form_user.website() }}
+            {{ form_user.fullname(value=element.fullname) }}
+            {{ form_user.username(value=element.username) }}
+            {{ form_user.email(value=element.email) }}
+            {{ form_user.phone(value=element.phone) }}
+            {{ form_user.website(value=element.website) }}
           </div>
           <div class="formGroup">
             <p>Adresse</p>
-            {{ form_user.ville() }}
-            {{ form_user.rue() }}
-            {{ form_user.suite() }}
-            {{ form_user.zipcode() }}
-            {{ form_user.lat() }}
-            {{ form_user.long() }}
+            {{ form_user.ville(value=adresse.city) }}
+            {{ form_user.rue(value=adresse.street) }}
+            {{ form_user.suite(value=adresse.suite) }}
+            {{ form_user.zipcode(value=adresse.zipcode ) }}
+            {{ form_user.lat(value=adresse.lat) }}
+            {{ form_user.long(value=adresse.long) }}
           </div>
           <div class="formGroup">
             <p>Compagnie</p>
-            {{ form_user.compagny(class="inputCompagny", id="compagny") }}
-            {{ form_user.bs() }}
-            {{ form_user.catch() }}
+            {{ form_user.compagny(class="inputCompagny", id="compagny", value=compagny.name_compagny) }}
+            {{ form_user.bs(value=compagny.catchPhrase) }}
+            {{ form_user.catch(value=compagny.bs) }}
           </div>
         </div>
 
