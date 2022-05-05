@@ -134,5 +134,3 @@ document?.querySelector('#spanBars').addEventListener('click', ()=>{
         document?.querySelector('#spanBars').classList.add('mask')
     }
 })
-
-console.log(document?.querySelector('.divSideBar'))
