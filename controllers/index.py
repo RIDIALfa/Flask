@@ -214,10 +214,6 @@ def posts():
         page = request.args.get('page', 1, type=int)
         posts_paginate = Posts.query.filter_by(id_users_posts = user.id_users).paginate(page=page, per_page = 5)
 
-        print(posts_paginate.pages, "Nombre totale de page")
-        print(posts_paginate.page, "Page courant")
-        print(posts_paginate.has_next, "Page suivant")
-
         if request.method == 'POST' and form_post.validate():
             
             new_post = Posts(
@@ -230,11 +226,6 @@ def posts():
             db.session.commit()
 
             return redirect('/posts')
-
-        # posts_ = Posts.query.paginate(per_page = 2)
-        # print(posts_.pages, "Nombre totale de page")
-        # print(posts_.page, "Page courant")
-        # print(posts_.has_next, "Page suivant")
 
         return render_template('pages/posts.html', formPost = form_post, posts=posts,user=user, posts_paginate= posts_paginate)
     else:
