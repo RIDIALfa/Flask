@@ -1,9 +1,8 @@
-from crypt import methods
 from flask import Blueprint
 from controllers.index import home, login, compte, posts, post, albums, album, todos, logout
 from controllers.index import updated, delete
 from controllers.index import show
-from controllers.index import load_posts
+from controllers.index import load_data
 
 
 
@@ -42,5 +41,5 @@ routers.route('/<type>/delete/<id>')(delete)
 routers.route('/<type>/show/<id>')(show)
 
 #######LOAD DATA FROM APIs
-routers.route('/charger_donnees/<type>')(load_posts)
+routers.route('/charger_donnees/<type>')(load_data)
 
