@@ -562,7 +562,8 @@ def show(type,id):
 
 
 # FUNCTIONS LOADERS
-def load_posts(type):
+def load_data(type):
+    current_user_id = Users.query.filter_by(email = session['email']).first().id_users
     
 
     # GET CURRENT USER ID FROM APIs
@@ -575,6 +576,9 @@ def load_posts(type):
 
 
     if type == 'posts':
+        var_post='users/'+str(user_id)+'/posts'
+        posts_from_apis=getApi(var_post) 
+
 
         all_posts_from_apis = getApi(type)
         all_comments_from_apis = getApi('comments')
@@ -585,24 +589,51 @@ def load_posts(type):
                     title_posts = post.get('title'), 
                     body_posts = post.get('body'), 
                     id_users_posts = current_user_id
-                )
-                db.session.add(new_post)
-                db.session.commit()
+            )
 
-                # Ajout les commentaires pour l'actuel post 
-                for comment in all_comments_from_apis:
-                    if comment.get('postId') == post.get('id'):
-                        print("element dans comment",new_post.id_posts)
+            db.session.add(new_post)
+            db.session.commit()
 
-                        new_comment = Comments(
-                            name_comments = comment.get('name'), 
-                            body_comments = comment.get('body'),
-                            email_comments = comment.get('email'),
-                            id_posts_comments = new_post.id_posts
-                        )
-                        db.session.add(new_comment)
+            id_post=post.get(id)
+            var_comment='posts/'+id_post+'/comments'
+            comments_from_apis=getApi(var_comment)    
+
+            for comment in comments_from_apis:
+                new_comment=Comments(
+                             name_comments = comment.get('name'), 
+                             body_comments = comment.get('body'),
+                             email_comments = comment.get('email'),
+                             id_posts_comments = new_post.id_posts
+                         )
+                db.session.add(new_comment)
             
             db.session.commit()
+
+                
+        # for post in all_posts_from_apis :
+        #     if post.get('userId') == user_id:
+        #         new_post = Posts(
+        #             title_posts = post.get('title'), 
+        #             body_posts = post.get('body'), 
+        #             id_users_posts = current_user_id
+        #         )
+        #         db.session.add(new_post)
+        #         db.session.commit()
+
+        #         # Ajout les commentaires pour l'actuel post 
+        #         for comment in all_comments_from_apis:
+        #             if comment.get('postId') == post.get('id'):
+        #                 print("element dans comment",new_post.id_posts)
+
+        #                 new_comment = Comments(
+        #                     name_comments = comment.get('name'), 
+        #                     body_comments = comment.get('body'),
+        #                     email_comments = comment.get('email'),
+        #                     id_posts_comments = new_post.id_posts
+        #                 )
+        #                 db.session.add(new_comment)
+            
+        #     db.session.commit()
                     
         return redirect(url_for('.posts'))
     
@@ -622,12 +653,34 @@ def load_posts(type):
                 )
             db.session.add(new_todo)
         db.session.commit()
-        # print("Mes todos", todos)
+
         return redirect(url_for('.todos'))
 
     elif type == 'albums':
+        var_albums='users/'+str(user_id)+'/albums'
+        albums_from_apis=getApi(var_albums) 
+
+        for album in albums_from_apis:
+            new_album=Albums(
+                title_albums=album.get('title'),
+                id_users_albums=current_user_id
+            )
+            db.session.add(new_album)
+            db.session.commit()
+             
+            # id_album=album.get(id)
+            # var_photo='albums/'+str(id_album)+'/photos'
+            # photos_from_apis=getApi(var_photo)    
+
+            # for photo in photos_from_apis:
+            #     new_photo=Photos(
+            #         title_photo=photo.get('title'),
+            #         url=photo.get('url'),
+            #         thumpnailUrl=photo.get('thumpnailUrl')
+            #     )
+                    
+            #     db.session.add(new_photo)
+            #     db.session.commit()
+
         return redirect(url_for('.albums'))
-
-    elif type == 'photos':
-        return redirect(url_for('.album'))
-
+        
