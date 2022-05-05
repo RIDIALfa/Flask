@@ -576,64 +576,32 @@ def load_data(type):
 
 
     if type == 'posts':
-        var_post='users/'+str(user_id)+'/posts'
-        posts_from_apis=getApi(var_post) 
 
-
-        all_posts_from_apis = getApi(type)
-        all_comments_from_apis = getApi('comments')
-
-        for post in all_posts_from_apis :
-            if post.get('userId') == user_id:
-                new_post = Posts(
-                    title_posts = post.get('title'), 
-                    body_posts = post.get('body'), 
-                    id_users_posts = current_user_id
+        posts_from_apis=getApi('users/'+str(user_id)+'/posts') 
+ 
+        for post in posts_from_apis :
+            new_post = Posts(
+                title_posts = post.get('title'), 
+                body_posts = post.get('body'), 
+                id_users_posts = current_user_id
             )
 
             db.session.add(new_post)
             db.session.commit()
 
-            id_post=post.get(id)
-            var_comment='posts/'+id_post+'/comments'
-            comments_from_apis=getApi(var_comment)    
+            id_post=new_post.id_posts
+            comments_from_apis=getApi('posts/'+str(id_post)+'/comments')
 
             for comment in comments_from_apis:
-                new_comment=Comments(
-                             name_comments = comment.get('name'), 
-                             body_comments = comment.get('body'),
-                             email_comments = comment.get('email'),
-                             id_posts_comments = new_post.id_posts
-                         )
+                new_comment = Comments(
+                    name_comments = comment.get('name'), 
+                    body_comments = comment.get('body'),
+                    email_comments = comment.get('email'),
+                    id_posts_comments = new_post.id_posts
+                )
                 db.session.add(new_comment)
-            
-            db.session.commit()
+                db.session.commit()
 
-                
-        # for post in all_posts_from_apis :
-        #     if post.get('userId') == user_id:
-        #         new_post = Posts(
-        #             title_posts = post.get('title'), 
-        #             body_posts = post.get('body'), 
-        #             id_users_posts = current_user_id
-        #         )
-        #         db.session.add(new_post)
-        #         db.session.commit()
-
-        #         # Ajout les commentaires pour l'actuel post 
-        #         for comment in all_comments_from_apis:
-        #             if comment.get('postId') == post.get('id'):
-        #                 print("element dans comment",new_post.id_posts)
-
-        #                 new_comment = Comments(
-        #                     name_comments = comment.get('name'), 
-        #                     body_comments = comment.get('body'),
-        #                     email_comments = comment.get('email'),
-        #                     id_posts_comments = new_post.id_posts
-        #                 )
-        #                 db.session.add(new_comment)
-            
-        #     db.session.commit()
                     
         return redirect(url_for('.posts'))
     

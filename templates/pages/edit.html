@@ -118,8 +118,8 @@
     <form id="formComment" method="post" class="post formBlock">
         <h2>Editer un commentaire</h2>
         <div>
-        {{ form_comment.title(class_='postTitle') }}
-        {{ form_comment.message(class_='postMessage') }}
+        {{ form_comment.title(class_='postTitle', value = element.name_comments) }}
+        {{ form_comment.message(class_='postMessage', content=element.body_comments) }}
         </div>
         <div class="divBtns">
             <button type="submit" id="btnSend"> Enregistrer</button>
