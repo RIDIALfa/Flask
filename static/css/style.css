@@ -67,8 +67,9 @@ padding: 40px 20px;
 }
 
 table#tableHome{
-    width: 80%;
-    border-spacing:0
+    width: 100%;
+    border-spacing:0;
+    margin-bottom: 50px;
 }
 
 table#tableHome th{
@@ -113,35 +114,7 @@ table#tableHome td{
     color: #fff;
     border-radius: 0 30px 30px 0;
 }
-/* dl{
-    display: flex;
-    flex-direction: column;
-} */
-/* #enrigist{
-    width: 120px;
-    border: none;
-    position: absolute;
-    right: 25px;
-    height: 40px;
-    color: #fff;
-    background-color: #43919B;
-    
-} */
-/* #title{
-    height: 40px;
-} */
-/* #message{
-    height: 250px;
-    background-color:#ECFFFD;
-} */
-/* h2{
-    position: absolute;
-    top: 3px;
-    right: 145px;
-} */
-/* .post{
-    height: 400px;
-} */
+
 span{
     position:absolute;
     /* hello */
@@ -278,8 +251,41 @@ span{
 }
 
 
+.divHome{
+    width: 80%;
+}
 
 
+
+/* ************************* */
+/* ********PAGINATION****** */
+/* *********************** */
+.divPagination{
+    /* text-align: center; */
+    font-size: 20px;
+    font-family: sans-serif;
+}
+.divPagination button{
+    background: #006778;
+    color: #ffffff;
+    border: none;
+    padding: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
+.divPagination .page-link{
+    background: #C4C4C4;
+    padding: 15px;
+    border-radius: 50%;
+    color: #000000;
+    margin: 20px 0;
+    text-decoration: none;
+    font-weight: bold;
+}
 
 
 
