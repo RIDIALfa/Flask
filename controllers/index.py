@@ -1,5 +1,3 @@
-from tkinter import NONE
-from turtle import pos, st
 import requests
 from flask import redirect, render_template, request, session, url_for
 from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
@@ -350,6 +348,8 @@ def todos():
         user = Users.query.filter_by(email = session['email']).first()
         todos = Todos.query.filter_by(id_users_todos = user.id_users).all()
 
+        page = request.args.get('page', 1, type=int)
+        todos_paginate = Todos.query.filter_by(id_users_todos = user.id_users).paginate(page=page, per_page = 5)
         if request.method == 'POST' and form_todo.validate():
                 
             new_todo = Todos(
@@ -363,7 +363,7 @@ def todos():
 
             return redirect('/todos')
 
-        return render_template('pages/todos.html', formTodo = form_todo, todos=todos ,user=user)
+        return render_template('pages/todos.html', formTodo = form_todo, todos=todos ,user=user,todos_paginate=todos_paginate)
         
     else:
         return redirect('/connexion')
@@ -570,12 +570,14 @@ def load_posts(type):
     for user in users_api:
         if user.get('email') == session['email']:
             user_id = user.get('id')
+    
+    current_user_id = Users.query.filter_by(email = session['email']).first().id_users
+
 
     if type == 'posts':
 
         all_posts_from_apis = getApi(type)
         all_comments_from_apis = getApi('comments')
-        current_user_id = Users.query.filter_by(email = session['email']).first().id_users
 
         for post in all_posts_from_apis :
             if post.get('userId') == user_id:
@@ -605,6 +607,22 @@ def load_posts(type):
         return redirect(url_for('.posts'))
     
     elif type == 'todos':
+        print(user_id)
+        todos = getApi('users/'+str(user_id)+'/todos')
+        for todo in todos:
+            if todo.get('completed'):
+                complet=3
+            else:
+                complet=1
+    
+            new_todo=Todos(
+                title_todos = todo.get('title'), 
+                status = complet, 
+                id_users_todos = current_user_id
+                )
+            db.session.add(new_todo)
+        db.session.commit()
+        # print("Mes todos", todos)
         return redirect(url_for('.todos'))
 
     elif type == 'albums':
