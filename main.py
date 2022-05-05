@@ -1,4 +1,3 @@
-from json.tool import main
 from flask import Flask, render_template
 from routes.index import routers
 from flask_sqlalchemy import SQLAlchemy

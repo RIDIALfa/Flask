@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import Blueprint
 from controllers.index import home, login, compte, posts, post, albums, album, todos, logout
 from controllers.index import updated, delete
