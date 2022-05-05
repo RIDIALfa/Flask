@@ -52,6 +52,7 @@
 
 
         {% if users %}
+        <div class="divHome">
           <table id="tableHome">
             <thead>
                 <tr>
@@ -62,7 +63,7 @@
                 </tr>  
             </thead>
             <tbody>
-                {% for user in users %}
+                {% for user in users.items %}
                   <tr>
                     <td><a id="loginHomeLink" href="{{'/connexion/'+user.email}}">{{ user.fullname }}</a></td>
                     <td>{{user.email}}</td>
@@ -73,6 +74,33 @@
             </tbody>
           </table>
 
+          {% if users_length > 5 %}
+            <div class="divPagination">
+              <!-- {% if users.has_prev%}
+                  <button>Précédent</button>
+              {% else%}
+                  <button disabled>Précédent block</button>
+              {% endif %} -->
+              
+              {% for page in users.iter_pages() %}
+
+                  {% if page%}
+                      <a href="?page={{page}}" class="page-link">{{page}}</a>
+                  {% else %}
+                      <a class="page-link">...</a>
+                  {% endif%}
+
+              {% endfor %}
+
+              <!-- {% if users.has_next%}
+                  <button>Suivant</button>
+              {% else%}
+                  <button>Suivant block</button>
+              {% endif %} -->
+            </div>
+          {% endif %}
+          
+        </div>
         {% else %}
         <div class="div-no-user">          
           <p>Aucun utilisateur pour le moment !</p>
