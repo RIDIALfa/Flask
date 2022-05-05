@@ -434,12 +434,14 @@ body{
     padding: 15px;
     border-radius: 4px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .divPagination .page-link{
-    background-color: #bbbbbb;
+    background: #C4C4C4;
     padding: 15px;
     border-radius: 50%;
-    color: #ffffff;
+    color: #000000;
     margin: 20px 0;
+    font-weight: bold;
 }

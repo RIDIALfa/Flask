@@ -1,5 +1,3 @@
-from turtle import title
-from webbrowser import get
 import requests
 from flask import redirect, render_template, request, session, url_for
 from models.forms import CommentForm, PhotoForm, TodoForm, UserForm, PostForm, ALbumForm
@@ -39,7 +37,7 @@ def add_adresse(city, street, suite, zipcode, lat, long):
         db.session.add(new_adresse)
         db.session.commit()
 
-        id_adresse = Adresses.query.filter_by(suite = suite).first()
+        id_adresse = Adresses.query.filter_by(suite = suite).first().id_adresse
 
     return id_adresse
 
@@ -64,7 +62,7 @@ def add_compagny(name_compagny, catchPhrase, bs):
         db.session.add(new_compagny)
         db.session.commit()
 
-        id_compagny = Compagny.query.filter_by(name_compagny = name_compagny).first()
+        id_compagny = Compagny.query.filter_by(name_compagny = name_compagny).first().id_compagny
 
     return id_compagny
 
@@ -82,8 +80,6 @@ def add_users_from_apis(users):
 
         idComp = add_compagny( user.get('company')['name'], user.get('company')['catchPhrase'], user.get('company')['bs'])
 
-        print("id :", idAddr, idComp)
-
         new_user = Users(
             fullname = user.get('name'),
             username = user.get('username'),
@@ -94,32 +90,30 @@ def add_users_from_apis(users):
             id_adresse_users = idAddr,
             id_company_users = idComp
         )
-        print("Utilisateur ",new_user.fullname, new_user.email)
-
-
+    
 
         db.session.add(new_user)
-        db.session.commit()
+    db.session.commit()
 
 
 
 # CONTROLLER DE LA PAGE HOME
 def home():
     form_user = UserForm(request.form)
-    users = Users.query.all()
+    page = request.args.get('page', 1, type=int)
+    users = Users.query.paginate(page=page, per_page = 5)
+    users_apis_length = len(Users.query.filter_by(origine = 1).all())
 
-    print(users)
 
-    for user in users:
-        print(user.email)
 
     if request.method == 'POST':
         
 
         if request.form.get('nombre') :
             nombre =  request.form.get('nombre')
+            step = users_apis_length + int(nombre)
 
-            users_api = getApi('users')[0:int(nombre)]
+            users_api = getApi('users')[users_apis_length : step]
             
             add_users_from_apis(users_api)
 
@@ -154,7 +148,7 @@ def home():
 
             return redirect('/')
         
-    return render_template('pages/home.html', formUser=form_user, users = users )
+    return render_template('pages/home.html', formUser=form_user, users = users, users_length = len(Users.query.all()))
 
 
 
@@ -354,6 +348,8 @@ def todos():
         user = Users.query.filter_by(email = session['email']).first()
         todos = Todos.query.filter_by(id_users_todos = user.id_users).all()
 
+        page = request.args.get('page', 1, type=int)
+        todos_paginate = Todos.query.filter_by(id_users_todos = user.id_users).paginate(page=page, per_page = 5)
         if request.method == 'POST' and form_todo.validate():
                 
             new_todo = Todos(
@@ -367,7 +363,7 @@ def todos():
 
             return redirect('/todos')
 
-        return render_template('pages/todos.html', formTodo = form_todo, todos=todos ,user=user)
+        return render_template('pages/todos.html', formTodo = form_todo, todos=todos ,user=user,todos_paginate=todos_paginate)
         
     else:
         return redirect('/connexion')
@@ -458,13 +454,12 @@ def updated(type, id):
         element = Users.query.filter_by(id_users = id).first()
         compagny =  Compagny.query.filter_by(id_compagny  = element.id_company_users).first()
         adresse = Adresses.query.filter_by(id_adresse  = element.id_adresse_users ).first()
-        print(compagny.name_compagny, adresse.zipcode)
         
         if request.method == 'POST':
             new_fullname = form_user.fullname.data
             new_username = form_user.username.data
             new_email = form_user.email.data
-            new_phonel = form_user.phone.data
+            new_phone = form_user.phone.data
             new_website = form_user.website.data
             new_ville = form_user.ville.data
             new_rue = form_user.rue.data
@@ -475,9 +470,31 @@ def updated(type, id):
             new_compagny = form_user.compagny.data
             new_bs = form_user.bs.data
             new_catch = form_user.catch.data
-            # Users.query.filter_by(id_users = id).update({''})
-            # db.session.commit()
-            return redirect('/information')
+
+            Adresses.query.filter_by(id_adresse = element.id_adresse_users).update({
+                'street' : new_rue,
+                'suite' : new_suite,
+                'city' : new_ville,
+                'zipcode' : new_zipcode,
+                'lat' : new_lat,
+                'long' : new_long
+            })
+
+            Compagny.query.filter_by(id_compagny = element.id_company_users).update({
+                'name_compagny' : new_compagny,
+                'catchPhrase' : new_catch,
+                'bs' : new_bs,
+            })
+
+            Users.query.filter_by(id_users = id).update({
+                'fullname': new_fullname,
+                'username': new_username,
+                'email': new_email,
+                'phone': new_phone,
+                'website': new_website,
+            })
+            db.session.commit()
+            return redirect('/compte')
     
         return render_template('pages/edit.html', type=type, element=element, form_user=form_user, compagny = compagny , adresse = adresse)
     
@@ -554,6 +571,9 @@ def load_data(type):
     for user in users_api:
         if user.get('email') == session['email']:
             user_id = user.get('id')
+    
+    current_user_id = Users.query.filter_by(email = session['email']).first().id_users
+
 
     if type == 'posts':
         var_post='users/'+str(user_id)+'/posts'
@@ -562,8 +582,10 @@ def load_data(type):
 
         all_posts_from_apis = getApi(type)
         all_comments_from_apis = getApi('comments')
-        for post in posts_from_apis:
-            new_post=Posts(
+
+        for post in all_posts_from_apis :
+            if post.get('userId') == user_id:
+                new_post = Posts(
                     title_posts = post.get('title'), 
                     body_posts = post.get('body'), 
                     id_users_posts = current_user_id
@@ -616,19 +638,22 @@ def load_data(type):
         return redirect(url_for('.posts'))
     
     elif type == 'todos':
-        var_todos='users/'+str(user_id)+'/todos'
-        todos_from_apis=getApi(var_todos) 
-
-        for todo in todos_from_apis:
+        print(user_id)
+        todos = getApi('users/'+str(user_id)+'/todos')
+        for todo in todos:
+            if todo.get('completed'):
+                complet=3
+            else:
+                complet=1
+    
             new_todo=Todos(
-                title_todos = todo.get('title'),
-                status = todo.get('status'),
-                id_users_todos =current_user_id
-               # visible_todos =#alpha
-            )
-
+                title_todos = todo.get('title'), 
+                status = complet, 
+                id_users_todos = current_user_id
+                )
             db.session.add(new_todo)
-            db.session.commit()
+        db.session.commit()
+
         return redirect(url_for('.todos'))
 
     elif type == 'albums':

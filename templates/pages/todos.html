@@ -48,11 +48,11 @@
             </thead>
             <tbody>
                 
-                    {% for todo in todos %}
+                    {% for todo in todos_paginate.items %}
                         <tr>
                             <td>{{ todo.title_todos}}</td>
                             <td>
-                                {% if todo.status == 2 %}
+                                {% if todo.status == 1%}
                                 <span class="status todo">A faire</span>
                                 {% elif todo.status == 2%}
                                 <span class="status pending">En cours</span>
@@ -74,11 +74,29 @@
             </tbody>
         </table>
         <div class="divPagination">
+            {% if todos_paginate.has_prev%}
             <button>Précédent</button>
-            
-            <button>Suivant</button>
-        </div>
+            {% else%}
+                    <button disabled>Précédent block</button>
+                {% endif %}
+                
+                {% for page in todos_paginate.iter_pages() %}
 
+                    {% if page%}
+                        <a href="/todos?page={{page}}" class="page-link">{{page}}</a>
+                    {% else %}
+                        <a class="page-link">...</a>
+                    {% endif%}
+
+                {% endfor %}
+
+                {% if todos_paginate.has_next%}
+            
+                    <button>Suivant</button>
+            {% else%}
+                    <button>Suivant block</button>
+            {% endif %}
+        </div>
 
         {% else %}
            
