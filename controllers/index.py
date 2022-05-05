@@ -147,7 +147,7 @@ def home():
             print(new_user)
 
             return redirect('/')
-        
+    print(users_apis_length)
     return render_template('pages/home.html', formUser=form_user, users = users, users_length = len(Users.query.all()))
 
 
