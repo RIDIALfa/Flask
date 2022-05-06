@@ -24,11 +24,16 @@
     padding: 25px 0;
 }
 
+#tableTodoList tbody tr td:first-child{
+    width: 40%;
+}
+
 #tableTodoList td span.status{
     background: #ECFFFD;
     padding: 15px 20px;
     font-size: 20px;
     border-radius: 30px;
+    color: #fff;
 }
 
 #tableTodoList td span.status.done{

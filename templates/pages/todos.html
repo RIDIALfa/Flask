@@ -42,13 +42,13 @@
                 <tr>
                     <th>titre</th>
                     <th>état</th>
-                    <th>auteur</th>
+                    <!-- <th>auteur</th> -->
                     <th>actions</th>
                 </tr>
             </thead>
             <tbody>
                 
-                    {% for todo in todos_paginate.items %}
+                    {% for todo in todos.items %}
                         <tr>
                             <td>{{ todo.title_todos}}</td>
                             <td>
@@ -61,7 +61,7 @@
                                 {% endif %}
                             
                             </td>
-                            <td>{{user['fullname']}}</td>
+                            <!-- <td>{{user['fullname']}}</td> -->
                             <td>
                                 <a href="/todos/show/{{todo.id_todos}}"><i class="fa-solid fa-eye"></i></a>
                                 <a id="editer" href="/todos/edit/{{todo.id_todos}}"><i class="fa-solid fa-pen"></i></a>
@@ -73,14 +73,16 @@
                 
             </tbody>
         </table>
-        <div class="divPagination">
-            {% if todos_paginate.has_prev%}
-            <button>Précédent</button>
-            {% else%}
-                    <button disabled>Précédent block</button>
+        
+            {% if length > 5 %}
+            <div class="divPagination">
+                {% if todos.has_prev%}
+                    <a class="prev_next_link left" href="/todos?page={{todos.prev_num}}"><i class="fa-solid fa-arrow-left"></i>Précédent</a>
+                {% else%}
+                    <a class="prev_next_link lock left">Précédent</a>
                 {% endif %}
                 
-                {% for page in todos_paginate.iter_pages() %}
+                {% for page in todos.iter_pages() %}
 
                     {% if page%}
                         <a href="/todos?page={{page}}" class="page-link">{{page}}</a>
@@ -90,13 +92,13 @@
 
                 {% endfor %}
 
-                {% if todos_paginate.has_next%}
-            
-                    <button>Suivant</button>
-            {% else%}
-                    <button>Suivant block</button>
+                {% if todos.has_next%}
+                    <a class="prev_next_link right" href="/todos?page={{todos.next_num}}">Suivant<i class="fa-solid fa-arrow-right"></i> </a>
+                {% else%}
+                    <a class="prev_next_link lock right">Suivant</a>
+                {% endif %}
+            </div>
             {% endif %}
-        </div>
 
         {% else %}
            

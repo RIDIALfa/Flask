@@ -426,8 +426,9 @@ body{
 /* *********************** */
 .divPagination{
     text-align: center;
+    margin-bottom: 40px;
 }
-.divPagination button{
+.divPagination a.prev_next_link{
     background: #006778;
     color: #ffffff;
     border: none;
@@ -437,11 +438,26 @@ body{
     font-weight: bold;
 }
 
+.divPagination a.prev_next_link.lock{
+    background: #d7d7d7;
+}
+
+.divPagination a.prev_next_link.left{
+    margin-right: 20px;
+}
+.divPagination a.prev_next_link.right{
+    margin-left: 20px;
+}
+
+.divPagination a.prev_next_link .fa-solid{
+    margin: 0 4px;
+}
+
 .divPagination .page-link{
     background: #C4C4C4;
     padding: 15px;
     border-radius: 50%;
     color: #000000;
-    margin: 20px 0;
+    margin: 20px 0 !important;
     font-weight: bold;
 }

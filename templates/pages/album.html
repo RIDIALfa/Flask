@@ -25,7 +25,7 @@
     <div class="btns">
         <button class="btnForm">Ajouter</button>
         {% if user.origine == 1 %}
-            <a href="/charger_donnees/photos" id="loadPhotos" class="loadLink unique">Charger</a>
+            <a href="/charger/photos/{{album_name}}" id="loadPhotos" class="loadLink unique">Charger</a>
         {% endif %}
     </div>
     
@@ -55,12 +55,6 @@
                     </div>
                 </div>
                 {% endfor %}
-            </div>
-
-            <div class="divPagination">
-                <button>Précédent</button>
-                
-                <button>Suivant</button>
             </div>
 
         {% else %}

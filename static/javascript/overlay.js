@@ -12,18 +12,6 @@ btnquit && btnquit.addEventListener("click",()=>{
 })
 
 
-inputNumber && inputNumber.addEventListener('focusout',(e)=>{
-    let value = e.target.value
-
-    if( value < 1 || value > 5){
-        e.target.value = '' 
-    }
-})
-
-
-
-
-
 // *****************************
 // INNER TEXT FOR TEXTAREA EDIT
 // *****************************
@@ -46,3 +34,34 @@ if (elementSelect){
         }
     }
 }
+
+
+// *************************************
+// *******LOAD FORM BLOCK REFRESH*******
+// *************************************
+
+// $("#formLoad").on('submit', (e)=>{
+//     $.ajax({
+//         data : {
+//             nombre : $('#inputNumber').val(),
+//         },
+//         type : 'POST',
+//         url : '/'
+//     })
+//     .done((data) => {
+//         if (data.error) {
+//             console.error('Bakhoul')
+//         }
+//         else {
+
+//             $('#inputNumber').val('')
+//             console.log(data.users)
+//             setTimeout(function(){
+//                 $( "#tableHome" ).load('#tableHome');
+//              }, 10); 
+//         }
+//     });
+//     e.preventDefault()
+// })
+
+

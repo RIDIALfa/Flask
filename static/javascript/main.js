@@ -50,12 +50,10 @@ let pathname = window.location.pathname
 switch(pathname){
 
     case '/posts/':
-    case '/post/':
         linkPosts.classList.add('active')
         break
 
     case '/albums/':
-    case '/album/':
         linkAlbums.classList.add('active')
         break
     
@@ -65,7 +63,6 @@ switch(pathname){
 
     default:
         linkUser.classList.add('active')
-        console.log("pas dans todo")
 }
 
 

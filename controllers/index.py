@@ -57,7 +57,6 @@ def add_compagny(name_compagny, catchPhrase, bs):
             catchPhrase = catchPhrase,
             bs = bs
         )
-
     
         db.session.add(new_compagny)
         db.session.commit()
@@ -90,10 +89,10 @@ def add_users_from_apis(users):
             id_adresse_users = idAddr,
             id_company_users = idComp
         )
-    
 
         db.session.add(new_user)
     db.session.commit()
+
 
 
 
@@ -104,11 +103,8 @@ def home():
     users = Users.query.paginate(page=page, per_page = 5)
     users_apis_length = len(Users.query.filter_by(origine = 1).all())
 
-
-
     if request.method == 'POST':
         
-
         if request.form.get('nombre') :
             nombre =  request.form.get('nombre')
             step = users_apis_length + int(nombre)
@@ -121,7 +117,6 @@ def home():
 
         else:
         
-
             idComp = add_compagny(form_user.compagny.data, form_user.catch.data, form_user.bs.data)
 
             idAddr = add_adresse( form_user.ville.data, form_user.rue.data, form_user.suite.data, 
@@ -139,15 +134,11 @@ def home():
                 id_company_users = idComp
             )
 
-            print(new_user.fullname, new_user.id_adresse_users, new_user.id_company_users)
             db.session.add(new_user)
             db.session.commit()
 
-        
-            print(new_user)
-
             return redirect('/')
-    print(users_apis_length)
+
     return render_template('pages/home.html', formUser=form_user, users = users, users_length = len(Users.query.all()))
 
 
@@ -171,7 +162,6 @@ def login(email):
         msg = "Email ou mot de passe incorrect !"
         return render_template("pages/connexion.html", msg=msg)
         
-
     return render_template('pages/connexion.html',email=email)
     
 
@@ -199,14 +189,11 @@ def compte():
 def posts():
     form_post = PostForm(request.form)
 
-
     if "email" in session:
         user = Users.query.filter_by(email = session['email']).first()
 
-        posts = Posts.query.filter_by(id_users_posts = user.id_users).all()
-
         page = request.args.get('page', 1, type=int)
-        posts_paginate = Posts.query.filter_by(id_users_posts = user.id_users).paginate(page=page, per_page = 5)
+        posts = Posts.query.filter_by(id_users_posts = user.id_users).paginate(page=page, per_page = 5)
 
         if request.method == 'POST' and form_post.validate():
             
@@ -221,7 +208,7 @@ def posts():
 
             return redirect('/posts')
 
-        return render_template('pages/posts.html', formPost = form_post, posts=posts,user=user, posts_paginate= posts_paginate)
+        return render_template('pages/posts.html', formPost = form_post, posts = posts, user = user, length = len(Posts.query.all()))
     else:
 
         return redirect('/connexion')
@@ -239,8 +226,9 @@ def post(post_title):
 
     if post == None:
             return redirect('/posts')
-
-    comments = Comments.query.filter_by(id_posts_comments = post.id_posts).all()
+        
+    page = request.args.get('page', 1, type=int)
+    comments = Comments.query.filter_by(id_posts_comments = post.id_posts).paginate(page=page, per_page = 5)
 
     if "email" in session:
         user = Users.query.filter_by(email = session['email']).first()
@@ -260,7 +248,7 @@ def post(post_title):
 
             return redirect('/posts/'+post_title)
 
-        return render_template('pages/post.html', formComment = form_comment, post = post,comments = comments,user=user)
+        return render_template('pages/post.html', formComment = form_comment, post = post, comments = comments,user = user)
 
     else:
         return redirect('/connexion')
@@ -278,7 +266,9 @@ def albums():
     if "email"  in session:
 
         user = Users.query.filter_by(email = session['email']).first()
-        albums = Albums.query.filter_by(id_users_albums = user.id_users).all()
+
+        page = request.args.get('page', 1, type=int)
+        albums = Albums.query.filter_by(id_users_albums = user.id_users).paginate(page=page, per_page = 10)
 
         if request.method == 'POST' and form_album.validate():
             
@@ -289,7 +279,7 @@ def albums():
 
             return redirect('/albums')
         
-        return render_template('pages/albums.html', formAlbum = form_album, albums = albums, user=user)
+        return render_template('pages/albums.html', formAlbum = form_album, albums = albums, user=user, length = len(Albums.query.filter_by(id_users_albums = user.id_users).all()))
 
     else:
         return redirect('/connexion')
@@ -328,7 +318,7 @@ def album(album_name):
 
             return redirect('/albums/'+album_name)
 
-        return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos=photos,user=user, album=album)
+        return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos = photos, user = user, album = album)
     else:
         return redirect('/connexion')
 
@@ -343,13 +333,13 @@ def album(album_name):
 def todos():
     form_todo = TodoForm(request.form)
     
-
     if  "email"  in session:
+        
         user = Users.query.filter_by(email = session['email']).first()
-        todos = Todos.query.filter_by(id_users_todos = user.id_users).all()
 
         page = request.args.get('page', 1, type=int)
-        todos_paginate = Todos.query.filter_by(id_users_todos = user.id_users).paginate(page=page, per_page = 5)
+        todos = Todos.query.filter_by(id_users_todos = user.id_users).paginate(page=page, per_page = 5)
+        
         if request.method == 'POST' and form_todo.validate():
                 
             new_todo = Todos(
@@ -363,7 +353,7 @@ def todos():
 
             return redirect('/todos')
 
-        return render_template('pages/todos.html', formTodo = form_todo, todos=todos ,user=user,todos_paginate=todos_paginate)
+        return render_template('pages/todos.html', formTodo = form_todo, todos = todos ,user = user, length = len(Todos.query.all()))
         
     else:
         return redirect('/connexion')
@@ -380,14 +370,10 @@ def logout():
 
 
 
-
-
 # CONTROLLER UPDATE DATAS FROM DB
 def updated(type, id):
 
     user = Users.query.filter_by(email = session['email']).first()
-
-
 
     if type == 'posts':
         form_post = PostForm(request.form)
@@ -395,7 +381,7 @@ def updated(type, id):
         if request.method == 'POST':
             new_title= form_post.title.data
             new_message=form_post.message.data
-            print(new_title)
+
             Posts.query.filter_by(id_posts = id).update({'title_posts':new_title,'body_posts':new_message})
             db.session.commit()
             return redirect('/posts')
@@ -560,20 +546,25 @@ def show(type,id):
         return redirect(url_for('.compte'))
 
 
+# GET CURRENT USER ID FROM APIs
 
-# FUNCTIONS LOADERS
-def load_data(type):
-    current_user_id = Users.query.filter_by(email = session['email']).first().id_users
-    
 
-    # GET CURRENT USER ID FROM APIs
+
+def get_current_user_id():
     users_api = getApi('users')
+    
     for user in users_api:
         if user.get('email') == session['email']:
             user_id = user.get('id')
-    
-    current_user_id = Users.query.filter_by(email = session['email']).first().id_users
 
+    return user_id
+
+
+# FUNCTIONS LOADERS
+def load_data(type):
+
+    current_user_id = Users.query.filter_by(email = session['email']).first().id_users
+    user_id = get_current_user_id()
 
     if type == 'posts':
 
@@ -606,7 +597,6 @@ def load_data(type):
         return redirect(url_for('.posts'))
     
     elif type == 'todos':
-        print(user_id)
         todos = getApi('users/'+str(user_id)+'/todos')
         for todo in todos:
             if todo.get('completed'):
@@ -636,19 +626,34 @@ def load_data(type):
             db.session.add(new_album)
             db.session.commit()
              
-            # id_album=album.get(id)
-            # var_photo='albums/'+str(id_album)+'/photos'
-            # photos_from_apis=getApi(var_photo)    
-
-            # for photo in photos_from_apis:
-            #     new_photo=Photos(
-            #         title_photo=photo.get('title'),
-            #         url=photo.get('url'),
-            #         thumpnailUrl=photo.get('thumpnailUrl')
-            #     )
-                    
-            #     db.session.add(new_photo)
-            #     db.session.commit()
-
         return redirect(url_for('.albums'))
-        
+
+
+
+def load_photos(name_album):
+    
+    user_id = get_current_user_id()
+
+    albums_from_apis = getApi('users/'+str(user_id)+'/albums')
+    
+    current_album = Albums.query.filter_by(title_albums =  name_album).first()
+
+    for album in albums_from_apis:
+
+        if album.get('title') == name_album:
+            photos = getApi('albums/'+str(album.get('id'))+'/photos')
+
+            for photo in photos:
+                
+                new_photo = Photos(
+                    title_photos = photo.get('title'),
+                    url = photo.get('url'),
+                    thumbnailUrl = photo.get('thumbnailUrl'),
+                    id_albums_photos = current_album.id_albums
+                )
+                    
+                db.session.add(new_photo)
+                db.session.commit()
+
+
+    return redirect("/albums/"+name_album)

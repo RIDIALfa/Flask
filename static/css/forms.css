@@ -132,10 +132,10 @@
     top: 0;
     background: linear-gradient(to right, #000000d7, #000000d4);
     width: 100%;
-    z-index: 4;
+    z-index: 45;
     display: none;
     padding: 100px 0;
-    min-height: 100vh;
+    min-height: -webkit-fill-available;
 }
 
 
