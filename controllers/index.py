@@ -5,7 +5,9 @@ from models.create_tables import Adresses, Compagny, Users, Posts, Comments, Alb
 
 
 
-
+##################################
+##############CALL APIs###########
+##################################
 def getApi(param):
 
     url='https://jsonplaceholder.typicode.com/'
@@ -13,10 +15,14 @@ def getApi(param):
     reponse=requests.get(url+param)
     
     return reponse.json()
+
+
+   
     
 
-
-
+##################################
+############ADD ADDRESSE##########
+##################################
 def add_adresse(city, street, suite, zipcode, lat, long):
     check_adresse_value = Adresses.query.filter_by(suite = suite).first()
 
@@ -44,6 +50,10 @@ def add_adresse(city, street, suite, zipcode, lat, long):
 
 
 
+
+##################################
+##############ADD COMPANY#########
+##################################
 def add_compagny(name_compagny, catchPhrase, bs):
     check_compagny_value = Compagny.query.filter_by(name_compagny = name_compagny).first()
 
@@ -68,7 +78,9 @@ def add_compagny(name_compagny, catchPhrase, bs):
 
 
 
-
+####################################################
+############GET USERS DATAs AND ADD TO DB###########
+####################################################
 def add_users_from_apis(users):
     
     
@@ -96,7 +108,10 @@ def add_users_from_apis(users):
 
 
 
-# CONTROLLER DE LA PAGE HOME
+
+##################################
+###CONTROLLER DE LA PAGE HOME#####
+##################################
 def home():
     form_user = UserForm(request.form)
     page = request.args.get('page', 1, type=int)
@@ -144,8 +159,9 @@ def home():
 
 
 
-
-# CONTROLLER DE LA PAGE DE CONNEXION
+##########################################
+####CONTROLLER DE LA PAGE DE CONNEXION####
+##########################################
 def login(email):
 
     if request.method == 'POST':
@@ -167,7 +183,11 @@ def login(email):
 
 
 
-# CONTROLLER DE LA PAGE MON COMPTE
+
+
+#######################################
+####CONTROLLER DE LA PAGE MON COMPTE###
+#######################################
 def compte():
     if "email" in session:
         user = Users.query.filter_by(email = session['email']).first()
@@ -184,8 +204,9 @@ def compte():
 
 
 
-
-# CONTROLLER DE LA PAGE DES POSTS
+########################################
+#####CONTROLLER DE LA PAGE DES POSTS####
+########################################
 def posts():
     form_post = PostForm(request.form)
 
@@ -193,7 +214,7 @@ def posts():
         user = Users.query.filter_by(email = session['email']).first()
 
         page = request.args.get('page', 1, type=int)
-        posts = Posts.query.filter_by(id_users_posts = user.id_users).paginate(page=page, per_page = 5)
+        posts = Posts.query.filter_by(id_users_posts = user.id_users, visible_posts = 1 ).paginate(page=page, per_page = 5)
 
         if request.method == 'POST' and form_post.validate():
             
@@ -218,8 +239,9 @@ def posts():
 
 
 
-
-# CONTROLLER DE LA PAGE DETAIL D'UN POST
+############################################
+####CONTROLLER DE LA PAGE DETAIL D'UN POST##
+############################################
 def post(post_title):
     form_comment = CommentForm(request.form)
     post = Posts.query.filter_by(title_posts = post_title).first()
@@ -228,7 +250,9 @@ def post(post_title):
             return redirect('/posts')
         
     page = request.args.get('page', 1, type=int)
-    comments = Comments.query.filter_by(id_posts_comments = post.id_posts).paginate(page=page, per_page = 5)
+    query_comments = Comments.query.filter_by(id_posts_comments = post.id_posts, visible_comments= 1)
+
+    comments = query_comments.paginate(page=page, per_page = 5)
 
     if "email" in session:
         user = Users.query.filter_by(email = session['email']).first()
@@ -248,7 +272,7 @@ def post(post_title):
 
             return redirect('/posts/'+post_title)
 
-        return render_template('pages/post.html', formComment = form_comment, post = post, comments = comments,user = user)
+        return render_template('pages/post.html', formComment = form_comment, post = post, comments = comments,user = user, length = len(query_comments.all()))
 
     else:
         return redirect('/connexion')
@@ -258,8 +282,9 @@ def post(post_title):
 
 
 
-
-# CONTROLLER DE LA PAGE DES ALBUMS
+#########################################
+#####CONTROLLER DE LA PAGE DES ALBUMS####
+#########################################
 def albums():
     form_album = ALbumForm(request.form)
 
@@ -268,7 +293,10 @@ def albums():
         user = Users.query.filter_by(email = session['email']).first()
 
         page = request.args.get('page', 1, type=int)
-        albums = Albums.query.filter_by(id_users_albums = user.id_users).paginate(page=page, per_page = 10)
+        query_albums = Albums.query.filter_by(id_users_albums = user.id_users, visible_albums = 1)
+        
+        albums = query_albums.paginate(page=page, per_page = 10)
+
 
         if request.method == 'POST' and form_album.validate():
             
@@ -279,7 +307,7 @@ def albums():
 
             return redirect('/albums')
         
-        return render_template('pages/albums.html', formAlbum = form_album, albums = albums, user=user, length = len(Albums.query.filter_by(id_users_albums = user.id_users).all()))
+        return render_template('pages/albums.html', formAlbum = form_album, albums = albums, user=user, length = len(query_albums.all()))
 
     else:
         return redirect('/connexion')
@@ -290,8 +318,9 @@ def albums():
 
 
 
-
-# CONTROLLER DE LA PAGE DETAIL D'UN ALBUM
+#############################################
+# CONTROLLER DE LA PAGE DETAIL D'UN ALBUM####
+#############################################
 def album(album_name):
     form_photo = PhotoForm(request.form)
     album = Albums.query.filter_by(title_albums = album_name).first()
@@ -299,8 +328,12 @@ def album(album_name):
     if album == None:
         return redirect('/albums')
         
-    photos = Photos.query.filter_by(id_albums_photos = album.id_albums).all()
-    
+    query_photos = Photos.query.filter_by(id_albums_photos = album.id_albums, visible_photos = 1)
+
+    page = request.args.get('page', 1, type=int)
+    photos = query_photos.paginate(page=page, per_page = 10)
+
+
     if  "email"  in session:
         user = Users.query.filter_by(email = session['email']).first()
     
@@ -318,7 +351,7 @@ def album(album_name):
 
             return redirect('/albums/'+album_name)
 
-        return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos = photos, user = user, album = album)
+        return render_template('pages/album.html', formPhoto = form_photo, album_name = album_name, photos = photos, user = user, album = album, length = len(query_photos.all()))
     else:
         return redirect('/connexion')
 
@@ -329,7 +362,10 @@ def album(album_name):
 
 
 
-# CONTROLLER DE LA PAGE DES TODOS
+
+#######################################
+# CONTROLLER DE LA PAGE DES TODOS######
+#######################################
 def todos():
     form_todo = TodoForm(request.form)
     
@@ -338,7 +374,8 @@ def todos():
         user = Users.query.filter_by(email = session['email']).first()
 
         page = request.args.get('page', 1, type=int)
-        todos = Todos.query.filter_by(id_users_todos = user.id_users).paginate(page=page, per_page = 5)
+        query_todos = Todos.query.filter_by(id_users_todos = user.id_users, visible_todos= 1)
+        todos = query_todos.paginate(page=page, per_page = 5)
         
         if request.method == 'POST' and form_todo.validate():
                 
@@ -353,7 +390,7 @@ def todos():
 
             return redirect('/todos')
 
-        return render_template('pages/todos.html', formTodo = form_todo, todos = todos ,user = user, length = len(Todos.query.all()))
+        return render_template('pages/todos.html', formTodo = form_todo, todos = todos ,user = user, length = len(query_todos.all()))
         
     else:
         return redirect('/connexion')
@@ -361,7 +398,11 @@ def todos():
 
 
 
-# CONTROLLER logout
+
+
+##################################
+##### CONTROLLER LOGOUT ##########
+##################################
 def logout():
     session.clear()
     return redirect(url_for('.login'))
@@ -369,8 +410,9 @@ def logout():
 
 
 
-
-# CONTROLLER UPDATE DATAS FROM DB
+###################################
+# CONTROLLER UPDATE DATAS FROM DB##
+###################################
 def updated(type, id):
 
     user = Users.query.filter_by(email = session['email']).first()
@@ -492,13 +534,18 @@ def updated(type, id):
 
 
 
-# CONTROLLER DELETE DATAS FROM DB
-list_pages_delete = ['posts', 'albums', 'todos']
+
+#######################################
+#####CONTROLLER DELETE DATAS FROM DB###
+#######################################
+list_pages_delete = ['posts', 'albums', 'todos', 'comments']
 
 def redirect_after_delete(page):
     for item in list_pages_delete:
         if page == item:
             return page
+        elif page == 'comments':
+            return 'posts'
     return 'albums' 
 
 
@@ -506,18 +553,22 @@ def redirect_after_delete(page):
 def delete(type, id):
 
     if type == 'posts':
-        element = Posts.query.get(id)
+        Posts.query.filter_by(id_posts=id).update({'visible_posts': 0})
+
 
     elif type == 'albums':
-        element = Albums.query.get(id)
+        Albums.query.filter_by(id_albums=id).update({'visible_albums': 0})
+
+    elif type == 'comments':
+        Comments.query.filter_by(id_comments=id).update({'visible_comments': 0})
 
     elif type == 'photos':
-        element = Photos.query.get(id)
+        Photos.query.filter_by(id_photos=id).update({'visible_photos': 0})
+
 
     elif type == 'todos':
-        element = Todos.query.get(id)
+        Todos.query.filter_by(id_todos=id).update({'visible_todos': 0})
 
-    db.session.delete(element)
     db.session.commit()
 
     current_page = redirect_after_delete(type)
@@ -528,7 +579,10 @@ def delete(type, id):
 
 
 
-# CONTROLLER SHOW SINGLE COMMENT AND TODOS
+
+##################################################
+#####CONTROLLER SHOW SINGLE COMMENT AND TODOS#####
+##################################################
 def show(type,id):
     
     if type == 'todos':
@@ -546,10 +600,12 @@ def show(type,id):
         return redirect(url_for('.compte'))
 
 
-# GET CURRENT USER ID FROM APIs
 
 
 
+###################################
+####GET CURRENT USER ID FROM APIs##
+###################################
 def get_current_user_id():
     users_api = getApi('users')
     
@@ -560,7 +616,12 @@ def get_current_user_id():
     return user_id
 
 
-# FUNCTIONS LOADERS
+
+
+
+#######################################
+######## FUNCTION LOADER DATAs#########
+#######################################
 def load_data(type):
 
     current_user_id = Users.query.filter_by(email = session['email']).first().id_users
@@ -630,6 +691,11 @@ def load_data(type):
 
 
 
+
+
+##############################################
+##############LOAD PHOTOS FROM APIs###########
+##############################################
 def load_photos(name_album):
     
     user_id = get_current_user_id()

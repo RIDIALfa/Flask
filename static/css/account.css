@@ -92,6 +92,12 @@ h1{
 .td{
     text-align: center;
 }
+
+#postTable .td{
+    font-size: 20px;
+    line-height: 30px;
+}
+
 input[value="Charger"]{
     margin-left: 2%;
     font-size: xx-large;

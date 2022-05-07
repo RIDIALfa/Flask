@@ -203,7 +203,18 @@ body{
 }
 .divAlbums .singleAlbum .divPhotos{
     display: flex;
+    flex-direction: column-reverse;
     justify-content: space-between;
+    align-items: center;
+}
+
+.divAlbums .singleAlbum .divPhotos > span{
+    font-size: 20px;
+}
+
+.divAlbums .singleAlbum .divPhotos div{
+    width: 100%;
+    text-align: end;
 }
 
 .divAlbums .singleAlbum span{
@@ -290,6 +301,9 @@ body{
 
 .divCommentaires table tr td{
     padding: 20px;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
 }
 
 .divCommentaires table tr td:last-child{
@@ -306,6 +320,24 @@ body{
     color: #f05;
 }
 
+.divCommentaires table tr td:nth-child(1){
+    width: 20%;
+}
+
+.divCommentaires table tr td:nth-child(2){
+    width: 40%;
+
+}
+
+.divCommentaires table tr td:nth-child(3){
+    width: 20%;
+
+}
+
+.divCommentaires table tr td:nth-child(4){
+    width: 10%;
+
+}
 
 
 /* ******************************* */
@@ -460,4 +492,15 @@ body{
     color: #000000;
     margin: 20px 0 !important;
     font-weight: bold;
+}
+
+.divPagination .page-link.active{
+    background: #FD9E9E;
+    color: #ffffff;
+}
+
+
+.divCommentaires table,
+.divTodos table{
+    margin-bottom: 50px;
 }

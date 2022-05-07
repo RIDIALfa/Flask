@@ -131,3 +131,19 @@ document?.querySelector('#spanBars').addEventListener('click', ()=>{
         document?.querySelector('#spanBars').classList.add('mask')
     }
 })
+
+
+
+//******************************************* */
+// ********LINK CURRENT PAGINATION ***********/
+// ******************************************/
+let search_pagination = window.location.search
+let current_paginate = search_pagination.split('=')[1]
+let page_links = document?.querySelectorAll('.page-link')
+
+
+for(page of page_links){
+    if(page.innerText === current_paginate){
+        page.classList.add('active')
+    }
+}

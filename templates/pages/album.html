@@ -39,9 +39,9 @@
         </div>
 
 
-        {% if photos %}
+        {% if photos.items %}
             <div class="divAlbums">
-                {% for photo in photos %}
+                {% for photo in photos.items %}
                 <div class="singleAlbum">
                     <div class="divImage">
                         <img src="{{photo.url}}" alt="{{photo.title_photos}}"/>
@@ -56,6 +56,33 @@
                 </div>
                 {% endfor %}
             </div>
+
+
+            {% if length > 5 %}
+            <div class="divPagination">
+                {% if photos.has_prev%}
+                    <a class="prev_next_link left" href="/albums/{{album_name}}?page={{photos.prev_num}}"><i class="fa-solid fa-arrow-left"></i>Précédent</a>
+                {% else%}
+                    <a class="prev_next_link lock left">Précédent</a>
+                {% endif %}
+                
+                {% for page in photos.iter_pages() %}
+
+                    {% if page%}
+                        <a href="/albums/{{album_name}}?page={{page}}" class="page-link">{{page}}</a>
+                    {% else %}
+                        <a class="page-link">...</a>
+                    {% endif%}
+
+                {% endfor %}
+
+                {% if photos.has_next%}
+                    <a class="prev_next_link right" href="/albums/{{album_name}}?page={{photos.next_num}}">Suivant<i class="fa-solid fa-arrow-right"></i> </a>
+                {% else%}
+                    <a class="prev_next_link lock right">Suivant</a>
+                {% endif %}
+            </div>
+            {% endif %}
 
         {% else %}
             
