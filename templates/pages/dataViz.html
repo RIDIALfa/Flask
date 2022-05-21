@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <title>Visualizing Time Series Data with Chart.js</title>
+</head>
+<style>
+    body{
+    background-color:white;
+   }
+   
+   #charts{
+    margin:auto;
+    background-color: cayan;
+   }
+</style>
+
+<body>
+     
+    <!-- <canvas id="charts" style="width:100%;max-width:700px"></canvas> -->
+
+    <!-- <script>
+        charts = document.getElementById("charts");//html canvas
+        //values of x and y axes
+        var days = {{listename}}//["Mon", "Tue", "Wed", "Thur","Fri", "Sat", "Sun"];//x axes
+        var litres = {{listepost}}//[150, 90, 95, 130, 85, 180, 85];//y axes
+        //create a line chart
+        new Chart(charts, {
+            type: 'bar', //This is a line chart
+            data: {
+            labels: {{listename}}, //x-axes data 
+            datasets: [{
+                label:"Line Chart",
+                data: {{listepost}}, //y-axes data 
+                borderColor: 'black',
+                fill: false,
+            }]
+        },
+    });
+    </script> -->
+<canvas id="myChart" style='max-width:1000px; max-height:350px'></canvas>
+<script>
+const ctx = document.getElementById('myChart').getContext('2d');
+//console.log('{{listename}}'.split(','))
+mydata='{{listename}}'.split(',').map(d => {
+    d=d.replace('&#39;','')
+    d=d.replace('&#39;','')
+    d=d.replace('[','')
+    d=d.replace(']','')
+
+    return d
+})
+
+listepost='{{listepost}}'.split(',').map(d=>{
+    d=d.replace('[','')
+    d=d.replace(']','')
+    return d
+})
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: mydata,
+        datasets: [{
+            label: '# Number of posts for every user',
+            data: listepost,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(5, 159, 164, 0.8)',
+                'rgba(5, 169, 84, 0.6)',
+
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(5, 159, 64, 1)',
+                'rgba(5, 169, 84, 0.6)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+console.log(listepost)
+console.log(typeof(listepost))
+
+
+</script>
+    
+</body>
+</html>
