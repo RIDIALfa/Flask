@@ -1,5 +1,5 @@
-from crypt import methods
 from flask import Blueprint
+from controllers.index import afficheUser, creerAlbum, creerComment, creerPhoto, creerPost, creerTodo, creerUser, modifAlbum, modifComments, modifPhoto, modifPost, modifUser, visualisation
 from controllers.index import  home, login, compte, posts, post, albums, album, todos, logout
 from controllers.index import updated, delete
 from controllers.index import show
@@ -78,4 +78,21 @@ routers.route('/api/<type>/', methods=['PUT'])(api_put)
 
 # routers.route('/api/users/<id>/albums/')(api_userAlbums)
 
+#######VISUALISATION POSTS
+routers.route('/viz')(visualisation)
+routers.route('/api/users')(afficheUser)
 
+# ajouter des données
+routers.route('/api/user',methods=['Post'])(creerUser)
+routers.route('/api/todo',methods=['Post'])(creerTodo)
+routers.route('/api/post',methods=['Post'])(creerPost)
+routers.route('/api/album',methods=['Post'])(creerAlbum)
+routers.route('/api/photo',methods=['Post'])(creerPhoto)
+routers.route('/api/post/comment',methods=['Post'])(creerComment)
+
+# modifier des données
+routers.route('/api/users/<id>',methods=['Put'])(modifUser)
+routers.route('/api/post/<id>',methods=['Put'])(modifPost)
+routers.route('/api/album/<id>',methods=['Put'])(modifAlbum)
+routers.route('/api/albums/photos/<id>',methods=['Put'])(modifPhoto)
+routers.route('/api/posts/comments/<id>',methods=['Put'])(modifComments)

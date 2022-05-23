@@ -719,6 +719,208 @@ def load_photos(name_album):
 
     return redirect("/albums/"+name_album)
 
+  
+  
+  
+  
+  
+  
+def visualisation():
+        
+    users=Users.query.all()
+    todos=Todos.query.all()
+    status=[]
+    listuser=[]
+    listpost=[]
+    length_afaire = 0
+    length_termine = 0
+    length_encours = 0
+    for todo in todos:
+        if todo.status==1:
+            length_afaire+=1
+        elif todo.status==2:
+            length_encours+=1
+        elif todo.status==3:
+            length_termine+=1
+
+    nb_status=[length_afaire,length_encours,length_termine]
+    for user in users:
+        listuser.append(user.username)
+        listpost.append(len(user.posts))
+        #print(user.fullname,len(user.posts))
+        # postuser={'user':user.fullname,'nbpost':len(user.posts)}
+        # listuser.append(postuser)
+
+
+    return render_template('pages/viz.html', listuser=listuser,listpost=listpost,nb_status=nb_status,status=status)
+
+
+def afficheUser():
+    user=[]
+    list_users=Users.query.all()
+
+    for el in list_users:
+        id=el.id_adresse_users
+        id_comp=el.id_company_users
+        adresse=Adresses.query.filter_by(id_adresse=id).first()
+        compagnie=Compagny.query.filter_by(id_compagny=id_comp).first()
+
+        dict={
+            "name":el.fullname,
+            "username":el.username,
+            "email":el.email,
+            "phone":el.phone,
+            "website":el.website,  
+            "adresse": {
+                "street":adresse.street,
+                "suite":adresse.suite,
+               "city":adresse.city,
+               "zipcode":adresse.zipcode,
+               "geo":{
+                   "lat":adresse.lat,
+                   "long":adresse.long
+               }
+            },
+            "compagny":{
+                "name":compagnie.name_compagny,
+                "catchPhrase":compagnie.catchPhrase,
+                "bs":compagnie.bs
+
+
+
+            }
+        }
+        user.append(dict)
+
+    return jsonify(user)
+
+
+
+def creerUser():
+    data=request.get_json()
+    adr = Adresses(city=data.get("adresse")['city'],street=data.get("adresse")['street'],suite=data.get("adresse")['suite'],zipcode=data.get("adresse")['zipcode'],lat=data.get("adresse")['geo']['lat'],long=data.get("adresse")['geo']['long'])
+    compagnie=Compagny(bs=data.get("compagny")['bs'],catchPhrase=data.get("compagny")['catchPhrase'],name_compagny=data.get("compagny")['name'])
+    
+    db.session.add(adr)
+    db.session.add(compagnie)
+    db.session.commit()
+
+    get_id_add = Adresses.query.filter_by(city=data.get("adresse")['city']).first().id_adresse
+    get_id_comp=Compagny.query.filter_by(bs=data.get("compagny")['bs']).first().id_compagny
+
+
+    user = Users(fullname=data.get("username"),username=data.get("name"),email=data.get("email"),phone=data.get("phone"),website=data.get("website"),password="paser",id_adresse_users=get_id_add,id_company_users=get_id_comp)
+    db.session.add(user)
+    db.session.commit()
+    # print(data)
+
+    return 'ok'
+def creerTodo():
+    data=request.get_json()
+    todo=Todos(title_todos=data.get("title"),status=data.get("status"),id_users_todos=data.get("userid"))
+    db.session.add(todo)
+    db.session.commit()
+    return 'ok'
+
+def creerPost():
+    data=request.get_json()
+    post=Posts(title_posts=data.get("titre"),body_posts=data.get("extrait"),id_users_posts=data.get("id_post"))
+    db.session.add(post)
+    db.session.commit()
+    return 'ok'
+
+def creerAlbum():
+    data=request.get_json()
+    album=Albums(title_albums=data.get("title"),id_users_albums=data.get("id_user"))
+    db.session.add(album)
+    db.session.commit()
+
+    return 'ok'
+
+def creerPhoto():
+    data=request.get_json()
+    photo=Photos(title_photos=data.get("title"),url=data.get("url"),thumbnailUrl=data.get("thumbnailUrl"),id_albums_photos=data.get("id_album"))
+    db.session.add(photo)
+    db.session.commit()
+
+    return 'ok'
+
+def creerComment():
+    data= request.get_json()
+    comment=Comments(name_comments=data.get("name"),email_comments=data.get("email"),body_comments=data.get("comment"),id_posts_comments=data.get("id_post_comment"))
+    db.session.add(comment)
+    db.session.commit()
+    return 'ok'
+
+def modifUser(id):
+    users=[]
+    data=request.get_json()
+    list_users=Users.query.all()
+
+    for el in list_users:
+        if id==el.id_users:
+            el.fullname=data.get("fullname")
+            el.username=data.get("username")
+            el.email=data.get('email')
+            el.phone=data.get('phone')
+            el.website=data.get('website')
+            el. adresse.street=data.get('street')
+            el.adresse.suite=data.get('suite')
+            el.adresse.city=data.get('city')
+            el.adresse.zipcode=data.get('zipcode')
+            el.adresse.lat=data.get('lat')
+            el.adresse.long=data.get('long')
+            el.compagny.name_compagny=data.get('name_compagnie')
+            el.compagny.catchPhrase=data.get('catchPhrase')
+            el.compagny.bs=data.get('bs')
+            db.session.commit()
+
+    return 'ok'
+
+def modifPost(id):
+    data=request.get_json()
+    post = Posts.query.get(id)
+    post.title_posts = data.get('title')
+    post.body_posts = data.get('body')
+    post.id_users_posts = data.get('userId')
+
+    db.session.commit()
+    return 'ok'
+
+
+def modifAlbum(id):
+    data=request.get_json()
+    album=Albums.query.get(id)
+    album.title_albums=data.get('title')
+    album.id_users_albums=data.get('userId')
+
+    db.session.commit()
+    return 'ok'
+
+def modifPhoto(id):
+    data=request.get_json()
+    photo=Photos.query.get(id)
+    photo.title_photos=data.get('title')
+    photo.url=data.get('url')
+    photo.thumbnailUrl=data.get('thumbnailUrl')
+    photo.id_albums_photos=data.get('albumId')
+
+    db.session.commit()
+    return 'ok'
+
+
+def modifComments(id):
+    data=request.get_json()
+    comment=Comments.query.get(id)
+    comment.name_comments=data.get('name')
+    comment.email_comments=data.get('email')
+    comment.body_comments=data.get('body')
+    comment.id_posts_comments=data.get('postId')
+
+    db.session.commit()
+    return 'ok'
+
+=======
 ###################################
 ####GET DATA FROM DB FOR VISUALISATIONS##
 ###################################
