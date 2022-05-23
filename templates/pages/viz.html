@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block contenu %}
+
+<canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+
+<canvas id="circulaire" style="width:100%;max-width:600px"></canvas>
+
+<script>
+    // diagramme en barre
+    const ctx=document.getElementById('myChart').getContext('2d');
+    mydata='{{listuser}}'.split(',').map(d=>{
+       d=d.replace('&#39;','')
+       d=d.replace('&#39;','')
+       d=d.replace('[','')
+       d=d.replace(']','')
+
+       return d
+
+   })  
+
+   listpost='{{listpost}}'.split(',').map(d=>{
+       d=d.replace('[','')
+       d=d.replace(']','')
+
+       return d
+
+   })  
+
+   var barColors = [
+  "#b91d47",
+  "#00aba9",
+  "#2b5797",
+  "#FFFF00",
+  "#800000",
+  "#0000FF",
+  "#00FF00"
+];
+
+
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: mydata,
+    datasets: [{
+      backgroundColor: barColors,
+      data: listpost
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "histogramme des users et des posts"
+    }
+  }
+});
+
+// diagramme circulaire
+
+
+    todos='{{nb_status}}'.split(',').map(a=>{
+       a=a.replace('[','')
+       a=a.replace(']','')
+       a=Number(a)
+       return a
+
+
+   }) 
+   console.log(todos);
+    var etats=["a faire","en cours","terminer"] 
+   var barColors = [
+  "#b91d47",
+  "#00aba9",
+  "#2b5797"
+];
+new Chart("circulaire", {
+  type: "doughnut",
+  data: {
+    labels: etats,
+    datasets: [{
+        backgroundColor: barColors,
+        data: todos
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "histogramme des todos"
+    }
+  }
+});
+console.log(todos);
+</script>
+{% endblock %}
