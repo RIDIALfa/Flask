@@ -40,27 +40,29 @@ def visualisation():
 # #############KHABS##########
 # ############################
 def dataViz():
+    
     listename=[]
     listepost=[]
     users=Users.query.all()
-    # posts=Posts.query.all()
+
     for user in users:
         listename.append(user.username)
         listepost.append(len(user.posts))
-    
-    liste=['users','posts']
-    val=[listename, listepost]
 
     todos=Todos.query.all()
     todosValue=[0,0,0]
     listeValue=["A faire", "Terminer", "En cour"]
+    
     for todo in todos:
+        
         if todo.status==1:
-            todosValue[0]+=1
-        elif todo.status==2:
-            todosValue[1]+=1
+            todosValue[0] += 1
+        
+        elif todo.status == 2:
+            todosValue[1] += 1
+
         else: 
-            todosValue[2]+=1
+            todosValue[2] += 1
     
 
     return render_template('pages/dataViz.html', listename=listename, listepost=listepost)

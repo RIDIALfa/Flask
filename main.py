@@ -11,6 +11,7 @@ app.config['SECRET_KEY'] = 'groupe3'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://groupe3:passer123@localhost/projet_flask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JSON_SORT_KEYS'] = False
 db = SQLAlchemy(app)
 
 

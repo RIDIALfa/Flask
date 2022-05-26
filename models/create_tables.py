@@ -6,7 +6,6 @@ app = Flask(__name__)
     
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://groupe3:passer123@localhost/projet_flask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    
 db = SQLAlchemy(app)
 
 

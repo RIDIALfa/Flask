@@ -1,107 +1,301 @@
-from flask import jsonify
-from requests import request
+from flask import jsonify, request
 from models.create_tables import Adresses, Albums, Comments, Compagny, Photos, Posts, Todos, Users, db
 
 
-# ############################
-# #############KAWA###########
-# ############################
-def afficheUser():
-    user=[]
-    list_users=Users.query.all()
 
-    for el in list_users:
-        id=el.id_adresse_users
-        id_comp=el.id_company_users
-        adresse=Adresses.query.filter_by(id_adresse=id).first()
-        compagnie=Compagny.query.filter_by(id_compagny=id_comp).first()
+# RETURNS ALL DICTS
+def userdict(user):
+    
+    adresse = Adresses.query.filter_by(id_adresse = user.id_adresse_users).first()
+    compagnie = Compagny.query.filter_by(id_compagny = user.id_company_users).first()
 
-        dict={
-            "name":el.fullname,
-            "username":el.username,
-            "email":el.email,
-            "phone":el.phone,
-            "website":el.website,  
-            "adresse": {
-                "street":adresse.street,
-                "suite":adresse.suite,
-               "city":adresse.city,
-               "zipcode":adresse.zipcode,
-               "geo":{
-                   "lat":adresse.lat,
-                   "long":adresse.long
-               }
-            },
-            "compagny":{
-                "name":compagnie.name_compagny,
-                "catchPhrase":compagnie.catchPhrase,
-                "bs":compagnie.bs
-
-
-
+    return {
+        'id': user.id_users,
+        'fulname':user.fullname,
+        'lastname':user.username,
+        'email':user.email,
+        'phone': user.phone,
+        'website': user.website,
+        "adresse": {
+            "street":adresse.street,
+            "suite":adresse.suite,
+            "city":adresse.city,
+            "zipcode":adresse.zipcode,
+            "geo":{
+                "lat":adresse.lat,
+                "long":adresse.long
             }
+        },
+        "compagny":{
+            "name":compagnie.name_compagny,
+            "catchPhrase":compagnie.catchPhrase,
+            "bs":compagnie.bs
         }
-        user.append(dict)
-
-    return jsonify(user)
+    }
 
 
+
+
+def postdict(post):
+
+    return { 
+        'id':post.id_posts,
+        'title_posts': post.title_posts,
+        'body_posts': post.body_posts,
+        'id_users_posts': post.id_users_posts,
+        'visible_posts': post.visible_posts
+    }
+
+
+
+
+
+def todosdict(todo):
+
+    return {
+        'id':todo.id_todos, 
+        'title_todos': todo.title_todos,
+        'status': todo.status, 
+        'id_users_todos': todo.id_users_todos
+    }
+
+
+
+def albumdict(album):
+    
+    return {
+        'id_albums': album.id_albums,
+        'title_albums': album.title_albums,
+        'id_users_albums': album.id_users_albums,
+        'visible_albums' : album.visible_albums
+    }
+
+
+
+
+def commentdict(com):
+    
+    return {
+        'name_comments': com.name_comments,
+        'email_comments': com.email_comments,
+        'body_comments' : com.body_comments,
+        'id_posts_comments' : com.id_posts_comments
+    }
+
+
+
+
+def photodict(post):
+    
+    return {
+        'title_photos': post.title_photos,
+        'url': post.url,
+        'thumbnailUrl': post.thumbnailUrl,
+        'id_albums_photos': post.id_albums_photos
+    }
+
+
+
+
+
+# ##############################
+# ############# AWA ############
+# ##############################
 
 def creerUser():
     data=request.get_json()
-    adr = Adresses(city=data.get("adresse")['city'],street=data.get("adresse")['street'],suite=data.get("adresse")['suite'],zipcode=data.get("adresse")['zipcode'],lat=data.get("adresse")['geo']['lat'],long=data.get("adresse")['geo']['long'])
-    compagnie=Compagny(bs=data.get("compagny")['bs'],catchPhrase=data.get("compagny")['catchPhrase'],name_compagny=data.get("compagny")['name'])
+    
+    adr = Adresses(city=data.get("adresse")['city'],
+        street = data.get("adresse")['street'],
+        suite = data.get("adresse")['suite'],
+        zipcode = data.get("adresse")['zipcode'],
+        lat = data.get("adresse")['geo']['lat'],
+        long = data.get("adresse")['geo']['long']
+    )
+
+    compagnie = Compagny(bs = data.get("compagny")['bs'],
+        catchPhrase = data.get("compagny")['catchPhrase'],
+        name_compagny = data.get("compagny")['name']
+    )
     
     db.session.add(adr)
     db.session.add(compagnie)
     db.session.commit()
 
-    get_id_add = Adresses.query.filter_by(city=data.get("adresse")['city']).first().id_adresse
-    get_id_comp=Compagny.query.filter_by(bs=data.get("compagny")['bs']).first().id_compagny
+    get_id_add = Adresses.query.filter_by(city = data.get("adresse")['city']).first().id_adresse
+    get_id_comp = Compagny.query.filter_by(bs = data.get("compagny")['bs']).first().id_compagny
 
 
-    user = Users(fullname=data.get("username"),username=data.get("name"),email=data.get("email"),phone=data.get("phone"),website=data.get("website"),password="paser",id_adresse_users=get_id_add,id_company_users=get_id_comp)
+    user = Users(
+        fullname = data.get("username"),
+        username = data.get("name"),
+        email = data.get("email"),
+        phone = data.get("phone"),
+        website = data.get("website"),
+        password = "paser",
+        id_adresse_users = get_id_add,
+        id_company_users = get_id_comp
+    )
+
     db.session.add(user)
     db.session.commit()
-    # print(data)
 
-    return 'ok'
-def creerTodo():
-    data=request.get_json()
-    todo=Todos(title_todos=data.get("title"),status=data.get("status"),id_users_todos=data.get("userid"))
-    db.session.add(todo)
-    db.session.commit()
-    return 'ok'
+    return "L'utilisateur a été ajouté avec succès !"
+
+
 
 def creerPost():
-    data=request.get_json()
-    post=Posts(title_posts=data.get("titre"),body_posts=data.get("extrait"),id_users_posts=data.get("id_post"))
-    db.session.add(post)
-    db.session.commit()
-    return 'ok'
+    try:
+        title = request.get_json().get('titre')
+        body = request.get_json().get('message')
+        user = request.get_json().get('userid')
 
-def creerAlbum():
-    data=request.get_json()
-    album=Albums(title_albums=data.get("title"),id_users_albums=data.get("id_user"))
-    db.session.add(album)
-    db.session.commit()
+        if title and body and user:
+            post=Posts(
+                title_posts = title,
+                body_posts = body,
+                id_users_posts = user
+            )
 
-    return 'ok'
+            db.session.add(post)
+            db.session.commit()
 
-def creerPhoto():
-    data=request.get_json()
-    photo=Photos(title_photos=data.get("title"),url=data.get("url"),thumbnailUrl=data.get("thumbnailUrl"),id_albums_photos=data.get("id_album"))
-    db.session.add(photo)
-    db.session.commit()
+            return "L'article a été ajouté avec succès !"
 
-    return 'ok'
+        else : 
+            return "Donner des valeurs aux différentes clés (titre, extrait, userid)", 400
+
+    except AttributeError:
+        return "Ce triplet de clés (titre, extrait, userid) n'existe pas dans le JSON", 400
+
+
+
 
 def creerComment():
-    data= request.get_json()
-    comment=Comments(name_comments=data.get("name"),email_comments=data.get("email"),body_comments=data.get("comment"),id_posts_comments=data.get("id_post_comment"))
-    db.session.add(comment)
-    db.session.commit()
-    return 'ok'
+    
+    try:
+
+        data = request.get_json()
+        name = data.get("titre"),
+        email = data.get("email"),
+        body = data.get("message"),
+        post = data.get("postid")
+
+        if name and email and body and post :
+
+            comment = Comments(
+                name_comments = name,
+                email_comments = email,
+                body_comments = body,
+                id_posts_comments = post
+            )
+
+            db.session.add(comment)
+            db.session.commit()
+
+            return "Le commentaire a été ajouté avec succès !"
+
+        else :
+            return "Donner des valeurs aux différentes clés (titre, email, message, postid) ou format de données incorrect !", 400
+    
+    except AttributeError:
+        return "Ce quadriplet de clés (titre, email, message, postid) n'existe pas dans le JSON", 400
+
+
+
+
+
+
+def creerAlbum():
+
+    try :
+        data=request.get_json()
+        title = data.get("titre")
+        user = data.get("userid")
+
+        if title and user and type(user) == int:
+
+            album=Albums(
+                title_albums = title,
+                id_users_albums = user
+            )
+
+            db.session.add(album)
+            db.session.commit()
+
+            return "L'album a été ajouté avec succès !"
+        else :
+            return "Donner des valeurs aux différentes clés (titre, userid) ou format de données incorrect !", 400
+    
+    except AttributeError:
+        return "Ce couple de clés (titre, userid) n'existe pas dans le JSON", 400
+
+
+
+def creerPhoto():
+
+    try:
+        data = request.get_json()
+        title = data.get('titre')
+        url = data.get("url"),
+        thumbnail = data.get("thumbnail"),
+        album = data.get("albumid")
+
+        if title and url and thumbnail and album and type(album) == int:
+
+            photo = Photos(
+                title_photos = title,
+                url = url,
+                thumbnailUrl = thumbnail,
+                id_albums_photos = album
+            )
+
+            db.session.add(photo)
+            db.session.commit()
+
+            return "La photo a été ajouté avec succès !"
+        
+        else :
+            return "Donner des valeurs aux différentes clés (titre, url, thumbnail, albumid) ou format de données incorrect !", 400
+    
+    except AttributeError:
+        return "Ce quadriplet de clés (titre, url, thumbnail, albumid) n'existe pas dans le JSON", 400
+
+
+
+
+
+def creerTodo():
+    
+    try:
+        data=request.get_json()
+        title = data.get('titre')
+        etat = data.get('etat')
+        user = data.get('userid')
+
+        if title and etat and user and type(etat)== int:
+
+            todo = Todos (
+                title_todos = title,
+                status = etat,
+                id_users_todos = user
+            )
+
+            db.session.add(todo)
+            db.session.commit()
+
+            return "Le Todo a été ajouté avec succès !"
+        else:
+            return "Donner des valeurs aux différentes clés (titre, etat, userid), ou format de donné incorrect !", 400
+
+    except AttributeError:
+        return "Ce triplet de clés (titre, etat, userid) n'existe pas dans le JSON", 400
+
+
+
+# ##################################
+# ######## MODIFICATION ############
+# ##################################
 
 def modifUser(id):
     users=[]
@@ -173,265 +367,6 @@ def modifComments(id):
 
 
 
-###################################
-####        API USERS            ##
-###################################
-
-def userdict(user):
-    nodict={
-                'fulname':user.fullname,
-                'lastname':user.username,
-                'id': user.id_users,
-                'email':user.email,
-                'phone': user.phone,
-                'website': user.website,
-                'origin': user.origine 
-            }
-    return nodict
-
-def postDict(post):
-    nodict={ 
-        'id':post.id_posts,
-        'title_posts': post.title_posts,
-        'body_posts': post.body_posts,
-        'id_users_posts': post.id_users_posts,
-        'visible_posts': post.visible_posts
-    }
-    return  nodict
-
-def todosDict(todo):
-    nodict={
-        'id':todo.id_todos, 
-    'title_todos': todo.title_todos,
-    'status': todo.status, 
-    'id_users_todos': todo.id_users_todos
-    }
-    return nodict
-def albumDict(album):
-    nodict={
-        'id_albums': album.id_albums,
-        'title_albums': album.title_albums,
-        'id_users_albums': album.id_users_albums,
-        'visible_albums' : album.visible_albums
-    }
-    return nodict
-
-def commentDict(com):
-    nodict={
-        'name_comments': com.name_comments,
-        'email_comments': com.email_comments,
-        'body_comments' : com.body_comments,
-        'id_posts_comments' : com.id_posts_comments
-    }
-
-def photoDict(post):
-    nodict={
-
-    'title_photos': post.title_photos,
-    'url': post.url,
-    'thumbnailUrl': post.thumbnailUrl,
-    'id_albums_photos': post.id_albums_photos
-    }
-    return nodict
-
-def api_users(id='maobe'):
-    userlist=[]
-
-    if id=='maobe':
-        users=Users.query.all()
-        for user in users:
-            userDict=userdict(user)
-            userlist.append(userDict)
-    else:
-        user=Users.query.filter_by(id_users =  id).first()
-        userDict=userdict(user)
-        userlist.append(userDict)
-
-    return jsonify(userlist)   
-
-
-
-def api_userType(id='maobé', theType='', num='maobé',use='maobé'):
-    
-    result=[]
-    if id=='maobé':
-            
-        if theType=='posts':
-            posts=Posts.query.all()
-            for post in posts:
-                if post.id_posts==num:
-                    result=[]
-                    postd=postDict(post)
-                    result.append(postd)
-                    break
-                else: 
-                    postd=postDict(post)
-                    result.append(postd)
-    
-        elif theType=='todos':
-            todos=Todos.query.all()
-            for todo in todos:
-                if todo.id_todos==num:
-                    result=[]
-                    todod=todosDict(todo)
-                    result.append(todod)
-                    break
-                else:
-                    todod=todosDict(todo)
-                    result.append(todod)
-            
-        elif theType=='albums':
-            albs=Albums.query.all()
-            for alb in albs:
-                
-                if alb.id_albums==num:
-                    result=[]
-                    albd=albumDict(alb)
-                    result.append(albd)
-                    break
-                else:
-                    albd=albumDict(alb)
-                    result.append(albd)
-                        
-        elif theType=='photos':
-            photos=Photos.query.all()
-            for el in photos:
-                if el.id_photos==num:
-                    result=[]
-                    phot=photoDict(el)
-                    result.append(phot)
-                    break
-                else:
-                    phot=photoDict(el)
-                    result.append(phot)
-        elif theType=='comments':
-            comments=Comments.query.all()
-            for el in comments:
-                if el.id_comments==num:
-                    result=[]
-                    com=commentDict(el)
-                    result.append(com)  
-                    break
-                else:
-                    com=commentDict(el)
-                    result.append(com) 
-    else:
-        
-            if theType=='posts':
-                posts=Users.query.filter_by(id_users =  id).first().posts
-                for post in posts:
-                    postd=postDict(post)
-                    result.append(postd)
-        
-            elif theType=='todos':
-                todos=Users.query.filter_by(id_users =  id).first().todos
-                for todo in todos:
-                    todod=todosDict(todo)
-                    result.append(todod)
-                
-            elif theType=='albums':
-                albs=Users.query.filter_by(id_users =  id).first().albums
-                for alb in albs:
-                    albd=albumDict(alb)
-                    result.append(albd)
-
-    return jsonify(result)
-
-def api_PostComment(id):
-    post=Posts.query.filter_by(id_posts=id).first()
-    coms=Comments.query.all()
-    liste=[] 
-    for com in coms:
-        if com.id_posts_comments==post.id_posts:
-                pos=commentDict(com)
-                liste.append(pos)
-    return jsonify(liste)
-    
-def api_albumPhoto(id):
-    liste=[]
-    photos=Albums.query.filter_by(id_albums=id).first().photos
-    for photo in photos:
-        phot=photoDict(photo)
-        liste.append(phot)
-    return jsonify(liste)
-
-
-def api_delete(id, type):
-    if type=='users':
-        user=Users.query.filter_by(id_users=id).first()
-        posts=user.posts
-        albums=user.albums
-       # photos=albums.photos
-        todos=user.todos
-        for post in posts:
-            post.visible_posts=0
-        for album in albums:
-            album.visible_photos=0
-        #for photo in photos:
-        #    photo.update({'visible_photos':0})
-        for todo in todos:
-            todo.visible_todos=0
-        return user.fullname+' and his childreen were deleted with succes'
-    elif type=='posts':
-        posts=Posts.query.filter_by(id_posts=id).first()
-        comments=posts.comments
-        thisUser=request.get_json().get('userid')
-        postUser=posts.id_users_posts
-
-        if thisUser==postUser:
-            for comment in comments:
-                comment.visible_comments=0
-            posts.visible_posts=0
-            return 'the post and his comments were deleted with succes'
-        else:
-            return 'ce post n est pas celui de cet utilsateur',403
-    elif type=='todos':
-        todo=Todos.query.filter_by(id_todos=id).first()
-        thisTodo=request.get_json().get('userid')
-        todoUser=todo.id_users_todos
-
-        if thisTodo==todoUser:
-            todo.visible_todos=0
-            return 'todo deleted succesfully'
-        else:
-            return 'ce todo n est pas celui de l\'utilasateur connecté', 403
-
-    
-    elif type=='albums':
-        album=Albums.query.filter_by(id_albums=id).first()
-        thisAlb=request.get_json().get('userid')
-        albUser=album.id_users_albums
-
-        if thisAlb==albUser:
-            album.visible_albums=0
-            photos=album.photos
-            for photo in photos:
-                photo.visible_photos
-            return 'album with his phtoos were deleted succesfully'
-
-        else:
-            return 'cet album n\'est pas celui de l\'utilasateur connecté', 403
-
-    elif type=='photos':
-        photo=Photos.query.filter_by(id_photos=id).first()
-        thisPhoto=request.get_json().get('userid')
-        photoUser=photo.id_users_albums
-
-        if thisPhoto==photoUser:
-            photo.visibile_photos=0
-            return 'photo deleted with succes'
-        else:
-            return 'this photo is not for the connected user', 403
-    elif type=='comments':
-        comment=Comments.query.filter_by(id_comments=id).first()
-        thisComment=request.get_json().get('userid')
-        commentUser=comment.id_users_comments
-
-        if thisComment==commentUser:
-            comment.visibile_comments=0
-            return 'comment deleted with succes'
-        else:
-            return 'this comment is not for the connected user', 403
 
 def api_put(type):
     if type=='albums':
@@ -454,3 +389,261 @@ def api_put(type):
         photo.thumbnailUrl= request.get_json().get('thumbnailUrl')
 
         return 'photos updated succesfully'
+
+
+
+###################################
+####        API USERS            ##
+###################################
+def api_users(id = None):
+    userlist=[]
+
+    if id == None :
+        users=Users.query.all()
+
+        for user in users:
+            user_dict = userdict(user)
+            userlist.append(user_dict)
+    
+    else:
+
+        user=Users.query.filter_by(id_users = id).first()
+        user_dict=userdict(user)
+        userlist.append(user_dict)
+
+    return jsonify(userlist)   
+
+
+
+def api_userType(id = None, type = '', num = None):
+    
+    result=[]
+    if id == None:
+
+        if type=='posts':
+            posts=Posts.query.filter_by(visible_posts = 1).all()
+            for post in posts:
+                if post.id_posts==num:
+                    result=[]
+                    postd=postdict(post)
+                    result.append(postd)
+                    break
+                else: 
+                    postd=postdict(post)
+                    result.append(postd)
+    
+        elif type=='todos':
+            todos=Todos.query.filter_by(visible_todos = 1).all()
+            for todo in todos:
+                if todo.id_todos==num:
+                    result=[]
+                    todod=todosdict(todo)
+                    result.append(todod)
+                    break
+                else:
+                    todod=todosdict(todo)
+                    result.append(todod)
+            
+        elif type=='albums':
+            albs=Albums.query.filter_by(visible_albums = 1).all()
+            for alb in albs:
+                
+                if alb.id_albums==num:
+                    result=[]
+                    albd=albumdict(alb)
+                    result.append(albd)
+                    break
+                else:
+                    albd=albumdict(alb)
+                    result.append(albd)
+                        
+        elif type=='photos':
+            photos=Photos.query.filter_by(visible_photos = 1).all()
+            for el in photos:
+                if el.id_photos==num:
+                    result=[]
+                    phot=photodict(el)
+                    result.append(phot)
+                    break
+                else:
+                    phot=photodict(el)
+                    result.append(phot)
+
+        elif type=='comments':
+            comments=Comments.query.filter_by(visible_comments = 1).all()
+            for el in comments:
+                if el.id_comments==num:
+                    result=[]
+                    com=commentdict(el)
+                    result.append(com)  
+                    break
+                else:
+                    com=commentdict(el)
+                    result.append(com) 
+    else:
+
+        if type=='posts':
+            posts=Users.query.filter_by(id_users =  id).first().posts
+            for post in posts:
+                postd=postdict(post)
+                result.append(postd)
+        
+        elif type=='todos':
+            todos=Users.query.filter_by(id_users =  id).first().todos
+            for todo in todos:
+                todod=todosdict(todo)
+                result.append(todod)
+                
+        elif type=='albums':
+            albs=Users.query.filter_by(id_users =  id).first().albums
+            for alb in albs:
+                albd=albumdict(alb)
+                result.append(albd)
+
+    return jsonify(result)
+
+
+
+
+
+def api_PostComment(id):
+
+    result = [] 
+    comments = Posts.query.filter_by(id_posts=id).first().comments
+
+    for com in comments:
+
+        comment = commentdict(com)
+        result.append(comment)
+
+    return jsonify(result)
+    
+
+
+
+
+def api_albumPhoto(id):
+    
+    result = []
+    photos = Albums.query.filter_by(id_albums=id).first().photos
+
+    for photo in photos:
+        photo = photodict(photo)
+        result.append(photo)
+    
+    return jsonify(result)
+
+
+
+visible = 0
+
+def api_delete(id, type):
+
+    if type == 'users':
+        user=Users.query.filter_by(id_users=id).first()
+        posts = user.posts
+        albums = user.albums
+        todos = user.todos
+        
+        for post in posts:
+            post.visible_posts = visible
+
+            for comment in post.comments:
+                comment.visible_comments = visible
+        
+        for album in albums:
+            album.visible_albums = visible
+            
+            for photo in album.photos:
+                photo.visible_photos = visible
+        
+        for todo in todos:
+            todo.visible_todos = visible
+
+        return user.fullname + ' supprimé avec succès !'
+
+
+
+    elif type == 'posts':
+        posts = Posts.query.filter_by(id_posts=id).first()
+        comments = posts.comments
+        current_user = request.get_json().get('userid')
+        post_user_id = posts.id_users_posts
+
+        if current_user == post_user_id:
+
+            for comment in comments:
+                comment.visible_comments = visible
+            
+            posts.visible_posts = visible
+            
+            return "L'article et ses commentaires ont été supprimés avec succès."
+        
+        else:
+            return "Désolé vous ne pouvez pas supprimé cet Article. Assurez-vous d'avoir les accès nécessaires.", 403
+
+
+
+    elif type=='todos':
+        todo=Todos.query.filter_by(id_todos=id).first()
+        current_user=request.get_json().get('userid')
+        todo_user_id=todo.id_users_todos
+
+        if current_user == todo_user_id:
+            todo.visible_todos = visible
+            
+            return "Todo supprimé avec succès"
+        
+        else:
+            return "Désolé vous ne pouvez pas supprimé ce Todo. Assurez-vous d'avoir les accès nécessaires.", 403
+
+
+    
+    elif type == 'albums':
+        album = Albums.query.filter_by(id_albums=id).first()
+        current_user = request.get_json().get('userid')
+        todo_user_id = album.id_users_albums
+
+        if current_user == todo_user_id:
+
+            for photo in album.photos:
+                photo.visible_photos = visible
+            
+            album.visible_albums = visible
+            
+            return "L'album avec ses photos ont été supprimés avec succès."
+
+        else:
+            return "Désolé vous ne pouvez pas supprimé cet Album. Assurez-vous d'avoir les accès nécessaires.", 403
+
+
+
+
+    elif type == 'photos':
+        photo = Photos.query.filter_by(id_photos=id).first()
+        current_user = request.get_json().get('userid')
+        photo_user_id = photo.id_users_albums
+
+        if current_user == photo_user_id:
+            photo.visibile_photos = visible
+
+            return 'Photo supprimée avec succès'
+
+        else:
+            return "Désolé vous ne pouvez pas supprimé cette photo. Assurez-vous d'avoir les accès nécessaires.", 403
+
+    
+    elif type=='comments':
+        comment=Comments.query.filter_by(id_comments=id).first()
+        current_user=request.get_json().get('userid')
+        comment_user_id=comment.id_users_comments
+
+        if current_user == comment_user_id:
+
+            comment.visibile_comments=visible
+            
+            return 'Commentaire supprimé avec succès'
+
+        else:
+            return "Désolé vous ne pouvez pas supprimé ce commentaire. Assurez-vous d'avoir les accès nécessaires.", 403
+
