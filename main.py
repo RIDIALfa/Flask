@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 from routes.index import routers
 from routes.api import apis
+from routes.consommation_api import consommation
+
 from routes.visualisation import visualisations
 from flask_sqlalchemy import SQLAlchemy
 from models.create_tables import create_all_tables
@@ -19,6 +21,8 @@ db = SQLAlchemy(app)
 app.register_blueprint(routers)
 app.register_blueprint(apis)
 app.register_blueprint(visualisations)
+app.register_blueprint(consommation)
+
 
 
 #Pour la page 404
