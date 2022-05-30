@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='consommation_api/style.css') }}">
+    <title>Connexion</title>
+</head>
+<body>
+    <div id="container">
+
+        <form method="post" id="connexion">
+            <div class="login">        
+                 <h2 id="connect">Connexion</h2>
+            </div>
+            <div class="message">
+                <p>Email ou mot de passe incorrect !
+                </p>
+            </div>
+            <div id="saissie">
+                 <input type="text" placeholder="Votre adresse email" name="email"  required>
+
+                 <input type="password" placeholder="Mot de passe" name="password" required>
+            </div>
+
+            <input type="submit" id='submit' value='Se Connecter' >
+        
+        </form>
+    </div>
+
+
+    
+</body>
+</html>
