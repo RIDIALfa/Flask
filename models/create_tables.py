@@ -15,11 +15,11 @@ db = SQLAlchemy(app)
 
 
 ###TAB UTULISATEUR
-class Utilisateur(db.MOdel):
+class Utilisateur(db.Model):
     __tablename__ = 'utilisateur'
-    email = db.column(db.String(200), nullable=False, unique=True)
-    password = db.column(db.String(75), nullable=False)
-    profile = db.column(db.String, nullable=False)
+    email = db.Column(db.String(200), nullable=False, unique=True)
+    password = db.Column(db.String(75), nullable=False)
+    profile = db.Column(db.String, nullable=False)
 
 ####TAB COMPAGNY
 class Adresses(db.Model):
