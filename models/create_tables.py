@@ -14,6 +14,13 @@ db = SQLAlchemy(app)
 ###############################
 
 
+###TAB UTULISATEUR
+class Utulisateur(db.MOdel):
+    __tablename__='utulisateur'
+    email=db.column(db.String(200), nullable=False, unique=True)
+    passWord=db.column(db.String(8), nullable=False)
+    profile=db.column(db.String, nullable=False)
+
 ####TAB COMPAGNY
 class Adresses(db.Model):
     __tablename__ = 'adresses'
@@ -25,7 +32,7 @@ class Adresses(db.Model):
     zipcode = db.Column(db.String(100), nullable = False)
     lat = db.Column(db.String(50), nullable = False)
     long = db.Column(db.String(50), nullable = False)
-
+    
     # Adresses childreen relations
     users = db.relationship('Users', backref = "adresses")
 
@@ -43,7 +50,7 @@ class Compagny(db.Model):
     catchPhrase = db.Column(db.String(150), nullable = True)
     bs = db.Column(db.String(150), nullable = False)
 
-    # Compagny childreen relations
+    # Compagny childreen relationsh
     users = db.relationship("Users", backref = "compagny")
 
     def __ref__(self):
@@ -62,7 +69,7 @@ class Users(db.Model):
     website = db.Column(db.String(100), nullable = True)
     password = db.Column(db.String(100), nullable = False)
     origine = db.Column(db.Integer, nullable = False, default=1)
-    
+    visible_users = db.Column(db.Integer, default=1)
 
     # users childreen relations
     posts = db.relationship("Posts", backref = "users")
