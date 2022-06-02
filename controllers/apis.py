@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from models.create_tables import Adresses, Albums, Comments, Compagny, Photos, Posts, Todos, Users, db
+from models.create_tables import Adresses, Albums, Comments, Compagny, Photos, Posts, Todos, Users, Utilisateur, db
 
 
 
@@ -647,3 +647,19 @@ def api_delete(id, type):
         else:
             return "Désolé vous ne pouvez pas supprimé ce commentaire. Assurez-vous d'avoir les accès nécessaires.", 403
 
+
+
+
+def api_utilisateur():
+    utilisateurs = Utilisateur.query.all()
+    listes = []
+
+    for user in utilisateurs:
+        new_dict = {
+            "email" : user.email,
+            "password" : user.password,
+            "profile" : user.profile
+        }
+        listes.append(new_dict)
+
+    return jsonify(listes)
