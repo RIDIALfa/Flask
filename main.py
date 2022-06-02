@@ -7,8 +7,13 @@ from routes.visualisation import visualisations
 from flask_sqlalchemy import SQLAlchemy
 from models.create_tables import create_all_tables
 
+from flask_cors import CORS
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'groupe3'
+CORS(app)
+
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://groupe3:passer123@localhost/projet_flask'

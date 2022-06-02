@@ -110,4 +110,17 @@
         {% endif %}
         
 </div>
+<script>
+ fetch('http://localhost:5000/api/users/')
+.then(response => response.json())
+.then(data => function(){
+    ligne+=`<tr>
+                <td class="no"> <input type="checkbox" name="rowcheck" class="rowcheck"></td>
+                <td>${data.fullname}</td>
+                <td>${data.email}</td>
+                <td>${data.phone}</td>
+                <td>${data.website}</td>
+            </tr>`
+})
+</script>
 {% endblock %}

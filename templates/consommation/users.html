@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./../../static/css/promesse.css">
+    <script src="./../../static/javascript/promesse.js" defer></script>
+</head>
+<body>
+    
+
+    <div class="popup">
+
+        
+        <form id="formUser" method="post" class="post formBlock">
+            <button id="btnQuite">x</button>
+            <h2>Mettre à jour un utilisateur</h2>
+            <div>
+              <div class="formGroup">
+                <input id="fullname" maxlength="100" name="fullname" placeholder="Nom complet" required="" type="text" value="">
+                <input id="username" maxlength="100" name="username" placeholder="Nom d'utilisateur" required="" type="text" value="">
+                <input id="email" maxlength="100" name="email" placeholder="Adresse email" required="" type="text" value="">
+                <input id="phone" maxlength="100" name="phone" placeholder="Numéro de téléphone" required="" type="text" value="">
+                <input id="website" maxlength="100" name="website" placeholder="Lien du site web" required="" type="text" value="">
+              </div>
+              <div class="formGroup">
+                <p>Adresse</p>
+                <input id="ville" maxlength="100" name="ville" placeholder="Ville" required="" type="text" value="">
+                <input id="rue" maxlength="100" name="rue" placeholder="Rue" required="" type="text" value="">
+                <input id="suite" maxlength="100" name="suite" placeholder="Suite" required="" type="text" value="">
+                <input id="zipcode" maxlength="100" name="zipcode" placeholder="Code postal" required="" type="text" value="">
+                <input id="lat" maxlength="100" name="lat" placeholder="Coordonnée latitude" required="" type="text" value="">
+                <input id="long" maxlength="100" name="long" placeholder="Coordonnée longitude" required="" type="text" value="">
+              </div>
+              <div class="formGroup">
+                <p>Compagnie</p>
+                <input class="inputCompagny" id="compagny" maxlength="100" name="compagny" placeholder="Nom de la compagnie" required="" type="text" value="">
+                <input id="bs" maxlength="100" name="bs" placeholder="Bs" required="" type="text" value="">
+                <input id="catch" maxlength="100" name="catch" placeholder="catchPhrase" required="" type="text" value="">
+              </div>
+            </div>
+            <button type="submit" id="btnSend"> Enregistrer</button>
+          </form>
+    
+    </div>
+    <h2>Users Table</h2>
+    <input type="button" value="ajouter" id="ajouter">
+
+<div class="table-wrapper">  
+    <table class="fl-table" id="exemple">
+        <thead>
+        <tr>
+            <th>edit all</th>
+            <th>Nom Complet</th>
+            <th>Email</th>
+            <th>Numéro De Téléphone</th>
+            <th>Site Web</th>
+            <th>Actions Type</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+
+        
+      
+        <tbody>
+
+    </table>
+</div>
+    
+</body>
+</html>
