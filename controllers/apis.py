@@ -6,6 +6,9 @@ from controllers.consommation_api import token_required
 
 
 
+
+
+
 # RETURNS ALL DICTS
 def userdict(user):
     
@@ -14,7 +17,7 @@ def userdict(user):
 
     return {
         'id': user.id_users,
-        'fulname':user.fullname,
+        'fullname':user.fullname,
         'lastname':user.username,
         'email':user.email,
         'phone': user.phone,
@@ -301,8 +304,9 @@ def creerTodo():
 # ##################################
 
 def modifUser(id):
+
+    print('Hello world')
     data=request.get_json()
-    # list_users=Users.query.all()
     user = Users.query.get(id)
     adresse = Adresses.query.get(user.id_adresse_users)
     compagny = Compagny.query.get(user.id_company_users)
@@ -325,7 +329,9 @@ def modifUser(id):
     
     db.session.commit()
 
-    return 'ok'
+    return jsonify({
+        "messsage" : "Modification avec succès !"
+    })
 
 def modifPost(id):
     data=request.get_json() 
@@ -382,6 +388,8 @@ def api_put(type):
         alb.title_albums= request.get_json().get('title_albums')
         alb.id_users_albums= request.get_json().get('id_users_albums'),
         alb.visible_albums= request.get_json().get('visible_albums')
+
+        db.session.commit()
         return 'album updated succesfully'
 
     elif type=='photos':
@@ -393,6 +401,7 @@ def api_put(type):
         photo.url= request.get_json().get('url')
         photo.thumbnailUrl= request.get_json().get('thumbnailUrl')
 
+        db.session.commit()
         return 'photos updated succesfully'
 
 
@@ -400,7 +409,7 @@ def api_put(type):
 ###################################
 ####        API USERS            ##
 ###################################
-# @token_required
+
 def api_users(id = None):
     userlist=[]
 
@@ -420,7 +429,7 @@ def api_users(id = None):
     return jsonify(userlist)   
 
 
-# @token_required
+@token_required
 def api_userType(id = None, type = '', num = None):
     
     result=[]
@@ -539,8 +548,13 @@ def api_albumPhoto(id):
     
     return jsonify(result)
 
-visible = 0
 
+
+
+
+
+
+visible = 0
 def api_delete(id, type):
 
     if type == 'users':
@@ -581,12 +595,13 @@ def api_delete(id, type):
                 comment.visible_comments = visible
             
             posts.visible_posts = visible
+            
             db.session.commit()
                 
             return "L'article et ses commentaires ont été supprimés avec succès."
         
-        else:
-            return "Désolé vous ne pouvez pas supprimé cet Article. Assurez-vous d'avoir les accès nécessaires.", 403
+        # else:
+        #     return "Désolé vous ne pouvez pas supprimé cet Article. Assurez-vous d'avoir les accès nécessaires.", 403
 
 
 
@@ -596,11 +611,11 @@ def api_delete(id, type):
         if True:
             todo.visible_todos = visible
             
-            return "Todo supprimé avec succès"
             db.session.commit()
+            return "Todo supprimé avec succès"
 
-        else:
-            return "Désolé vous ne pouvez pas supprimé ce Todo. Assurez-vous d'avoir les accès nécessaires.", 403
+        # else:
+        #     return "Désolé vous ne pouvez pas supprimé ce Todo. Assurez-vous d'avoir les accès nécessaires.", 403
 
 
     
@@ -618,8 +633,8 @@ def api_delete(id, type):
             
             return "L'album avec ses photos ont été supprimés avec succès."
 
-        else:
-            return "Désolé vous ne pouvez pas supprimé cet Album. Assurez-vous d'avoir les accès nécessaires.", 403
+        # else:
+        #     return "Désolé vous ne pouvez pas supprimé cet Album. Assurez-vous d'avoir les accès nécessaires.", 403
 
 
 
@@ -631,11 +646,12 @@ def api_delete(id, type):
         if True:
             photo.visibile_photos = visible
 
-            return 'Photo supprimée avec succès'
             db.session.commit()
 
-        else:
-            return "Désolé vous ne pouvez pas supprimé cette photo. Assurez-vous d'avoir les accès nécessaires.", 403
+            return 'Photo supprimée avec succès'
+
+        # else:
+        #     return "Désolé vous ne pouvez pas supprimé cette photo. Assurez-vous d'avoir les accès nécessaires.", 403
 
     
     elif type=='comments':
@@ -646,11 +662,12 @@ def api_delete(id, type):
 
             comment.visibile_comments=visible
             
-            return 'Commentaire supprimé avec succès'
             db.session.commit()
+            return 'Commentaire supprimé avec succès'
+            
 
-        else:
-            return "Désolé vous ne pouvez pas supprimé ce commentaire. Assurez-vous d'avoir les accès nécessaires.", 403
+        # else:
+        #     return "Désolé vous ne pouvez pas supprimé ce commentaire. Assurez-vous d'avoir les accès nécessaires.", 403
 
 
 
