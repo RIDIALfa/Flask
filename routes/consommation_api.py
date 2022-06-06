@@ -9,9 +9,6 @@ consommation = Blueprint('cons', __name__)
 
 consommation.route('/login',methods=['GET','POST'])(login)
 
-# consommation.route('/unprotected')(unprotected)
-# consommation.route('/protected')(protected)
-
 consommation.route('/decoder')(token_decoder)
 
 
