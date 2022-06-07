@@ -1,6 +1,9 @@
+
+import json
 from flask import jsonify, request
 from models.create_tables import Adresses, Albums, Comments, Compagny, Photos, Posts, Todos, Users, Utilisateur, db
 
+from controllers.consommation_api import token_required
 
 
 
@@ -309,28 +312,34 @@ def modifUser(id):
     user = Users.query.get(id)
     adresse = Adresses.query.get(user.id_adresse_users)
     compagny = Compagny.query.get(user.id_company_users)
-
     
     user.fullname = data.get("fullname")if data.get("fullname") else user.fullname
-    user.username=data.get("username") if data.get("username") else user.username
-    user.email=data.get('email') if data.get('email') else user.email
-    user.phone=data.get('phone') if data.get('phone') else user.phone
-    user.website=data.get('website')if data.get('website') else user.website
-    adresse.street=data.get('street') if data.get('street') else  adresse.street
-    adresse.suite=data.get('suite') if data.get('suite') else  adresse.suite
-    adresse.city=data.get('city') if data.get('city') else adresse.city
-    adresse.zipcode=data.get('zipcode') if data.get('zipcode')else adresse.zipcode
-    adresse.lat=data.get('lat') if data.get('lat') else  adresse.lat
-    adresse.long=data.get('long') if data.get('long') else  adresse.long
-    compagny.name_compagny=data.get('name_compagnie') if data.get('name_compagnie') else compagny.name_compagny
-    compagny.catchPhrase=data.get('catchPhrase') if data.get('catchPhrase') else  compagny.catchPhrase
-    compagny.bs=data.get('bs')if data.get('bs') else  compagny.bs
+    user.username = data.get("username") if data.get("username") else user.username
+    user.email = data.get('email') if data.get('email') else user.email
+    user.phone = data.get('phone') if data.get('phone') else user.phone
+    user.website = data.get('website')if data.get('website') else user.website
+    adresse.street = data.get('street') if data.get('street') else  adresse.street
+    adresse.suite = data.get('suite') if data.get('suite') else  adresse.suite
+    adresse.city = data.get('city') if data.get('city') else adresse.city
+    adresse.zipcode = data.get('zipcode') if data.get('zipcode')else adresse.zipcode
+    adresse.lat = data.get('lat') if data.get('lat') else  adresse.lat
+    adresse.long = data.get('long') if data.get('long') else  adresse.long
+    compagny.name_compagny = data.get('name_compagnie') if data.get('name_compagnie') else compagny.name_compagny
+    compagny.catchPhrase = data.get('catchPhrase') if data.get('catchPhrase') else  compagny.catchPhrase
+    compagny.bs = data.get('bs')if data.get('bs') else  compagny.bs
     
     db.session.commit()
-
     return jsonify({
         "messsage" : "Modification avec succès !"
     })
+
+def modifTodo(id):
+    data=request.get_json()
+    todo= Todos.query.get(id)
+    todo.title_todos = data.get('title')
+    todo.etat = data.get('status')
+    db.session.commit()
+
 
 def modifPost(id):
     data=request.get_json() 
@@ -428,7 +437,7 @@ def api_users(id = None):
     return jsonify(userlist)   
 
 
-
+# @token_required
 def api_userType(id = None, type = '', num = None):
     
     result=[]
@@ -609,9 +618,11 @@ def api_delete(id, type):
        
         if True:
             todo.visible_todos = visible
-            
+
             db.session.commit()
-            return "Todo supprimé avec succès"
+            return jsonify({
+                "message" : "Todo supprimé avec succès"
+            })
 
         # else:
         #     return "Désolé vous ne pouvez pas supprimé ce Todo. Assurez-vous d'avoir les accès nécessaires.", 403

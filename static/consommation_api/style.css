@@ -1,0 +1,57 @@
+body{
+    
+    background: linear-gradient(to right,#3748e3,#a04fec);
+}
+#container{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form#connexion{
+    position: relative;
+    width:500px;
+    padding: 80px 30px 25px 30px;
+    border: 1px solid #f1f1f1;
+    background: #fff;
+    font-family: sans-serif;
+    border-radius: 4px;
+} 
+#saissie{
+    display: flex;
+    flex-direction: column;
+}
+.login{
+    display: flex;
+    justify-content: center;
+}
+h2#connect{
+    font-size: 35px;
+}
+
+#connexion input {
+    width: 98%;
+    padding: 25px 10px;
+    border:none;
+    font-size: 20px;
+    letter-spacing: 1px;
+    border-bottom: 2px solid rgb(154, 151, 151);
+    margin: 10px 0;
+}
+
+#connexion input[type=submit] {
+    background-color: #2b2bf2	;
+    color: white;
+    border-radius: 40px;
+    margin: 35px 0;
+    
+}
+#msg{
+    background: #F05;
+    color: #ffffff;
+    padding: 20px;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+    font-size: 20px;
+}

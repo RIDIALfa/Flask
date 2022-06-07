@@ -76,7 +76,7 @@ dumper.innerHTML=ligne
 
 var table=document.getElementById('tbody');
 var cells=table.querySelectorAll('#tbody .td');
-//console.log("hgfgfghf s",cells);
+console.log("hgfgfghf s",cells);
 for(var i=0; i<cells.length; i++){
 cells[i].onclick=function (){
    // console.log(this.innerText, this.hasAttribute('data-clicked'), this.hasAttribute('class'))
