@@ -1,7 +1,6 @@
 from flask import Blueprint
 
-
-from controllers.apis import api_PostComment, api_albumPhoto, api_delete, api_put, api_userType, api_users, api_utilisateur, api_utilisateur_current
+from controllers.apis import api_PostComment, api_albumPhoto, api_delete, api_put, api_userType, api_users, api_utilisateur, api_utilisateur_current, modifTodo
 from controllers.apis import creerAlbum, creerComment, creerPhoto, creerPost, creerTodo, creerUser
 from controllers.apis import modifComments, modifPhoto, modifPost, modifUser, modifAlbum
 
@@ -48,6 +47,7 @@ apis.route('/api/post/comment',methods = ['POST'])(creerComment)
 ### METHODE PUT
 apis.route('/api/users/<id>/',methods = ['PUT'])(modifUser)
 apis.route('/api/post/<id>',methods = ['PUT'])(modifPost)
+apis.route('/api/todo/<id>',methods = ['PUT'])(modifTodo)
 apis.route('/api/album/<id>',methods = ['PUT'])(modifAlbum)
 apis.route('/api/albums/photos/<id>',methods = ['PUT'])(modifPhoto)
 apis.route('/api/posts/comments/<id>',methods = ['PUT'])(modifComments)
