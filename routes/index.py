@@ -5,6 +5,7 @@ from controllers.index import show
 from controllers.index import load_data, load_photos
 
 
+
 routers = Blueprint('root', __name__) 
 
 

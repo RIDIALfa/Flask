@@ -322,6 +322,14 @@ def modifUser(id):
 
     return 'ok'
 
+def modifTodo(id):
+    data=request.get_json()
+    todo= Todos.query.get(id)
+    todo.title_todos = data.get('title')
+    todo.etat = data.get('status')
+    db.session.commit()
+    return 'ok'
+
 def modifPost(id):
     data=request.get_json()
     post = Posts.query.get(id)
