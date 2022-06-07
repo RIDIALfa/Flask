@@ -46,7 +46,7 @@ apis.route('/api/photo',methods = ['POST'])(creerPhoto)
 apis.route('/api/post/comment',methods = ['POST'])(creerComment)
 
 ### METHODE PUT
-apis.route('/api/users/<id>',methods = ['PUT'])(modifUser)
+apis.route('/api/users/<id>/',methods = ['PUT'])(modifUser)
 apis.route('/api/post/<id>',methods = ['PUT'])(modifPost)
 apis.route('/api/album/<id>',methods = ['PUT'])(modifAlbum)
 apis.route('/api/albums/photos/<id>',methods = ['PUT'])(modifPhoto)
