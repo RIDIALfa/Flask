@@ -1,9 +1,10 @@
-import email
+
 import json
 from flask import jsonify, request
 from models.create_tables import Adresses, Albums, Comments, Compagny, Photos, Posts, Todos, Users, Utilisateur, db
 
 from controllers.consommation_api import token_required
+
 
 
 
@@ -311,8 +312,6 @@ def modifUser(id):
     user = Users.query.get(id)
     adresse = Adresses.query.get(user.id_adresse_users)
     compagny = Compagny.query.get(user.id_company_users)
-
-    print(data)
     
     user.fullname = data.get("fullname")if data.get("fullname") else user.fullname
     user.username = data.get("username") if data.get("username") else user.username
@@ -330,9 +329,6 @@ def modifUser(id):
     compagny.bs = data.get('bs')if data.get('bs') else  compagny.bs
     
     db.session.commit()
-
-
-    print("*******MAFE*****************",user.fullname)
     return jsonify({
         "messsage" : "Modification avec succès !"
     })
@@ -343,7 +339,7 @@ def modifTodo(id):
     todo.title_todos = data.get('title')
     todo.etat = data.get('status')
     db.session.commit()
-    return 'ok'
+
 
 def modifPost(id):
     data=request.get_json() 
@@ -622,7 +618,7 @@ def api_delete(id, type):
        
         if True:
             todo.visible_todos = visible
-            print('*****mafé******')
+
             db.session.commit()
             return jsonify({
                 "message" : "Todo supprimé avec succès"
