@@ -12,13 +12,16 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'groupe3'
-CORS(app)
+# CORS(app)
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://groupe3:passer123@localhost/projet_flask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JSON_SORT_KEYS'] = False
 db = SQLAlchemy(app)
+
+CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5500"}}) 
+
 
 
 #Pour gerer les routes

@@ -1,5 +1,12 @@
+import email
+import json
 from flask import jsonify, request
 from models.create_tables import Adresses, Albums, Comments, Compagny, Photos, Posts, Todos, Users, Utilisateur, db
+
+from controllers.consommation_api import token_required
+
+
+
 
 
 
@@ -11,7 +18,7 @@ def userdict(user):
 
     return {
         'id': user.id_users,
-        'fulname':user.fullname,
+        'fullname':user.fullname,
         'lastname':user.username,
         'email':user.email,
         'phone': user.phone,
@@ -298,29 +305,37 @@ def creerTodo():
 # ##################################
 
 def modifUser(id):
-    users=[]
+
+    print('Hello world')
     data=request.get_json()
-    list_users=Users.query.all()
+    user = Users.query.get(id)
+    adresse = Adresses.query.get(user.id_adresse_users)
+    compagny = Compagny.query.get(user.id_company_users)
 
-    for el in list_users:
-        if id==el.id_users:
-            el.fullname=data.get("fullname")
-            el.username=data.get("username")
-            el.email=data.get('email')
-            el.phone=data.get('phone')
-            el.website=data.get('website')
-            el. adresse.street=data.get('street')
-            el.adresse.suite=data.get('suite')
-            el.adresse.city=data.get('city')
-            el.adresse.zipcode=data.get('zipcode')
-            el.adresse.lat=data.get('lat')
-            el.adresse.long=data.get('long')
-            el.compagny.name_compagny=data.get('name_compagnie')
-            el.compagny.catchPhrase=data.get('catchPhrase')
-            el.compagny.bs=data.get('bs')
-            db.session.commit()
+    print(data)
+    
+    user.fullname = data.get("fullname")if data.get("fullname") else user.fullname
+    user.username = data.get("username") if data.get("username") else user.username
+    user.email = data.get('email') if data.get('email') else user.email
+    user.phone = data.get('phone') if data.get('phone') else user.phone
+    user.website = data.get('website')if data.get('website') else user.website
+    adresse.street = data.get('street') if data.get('street') else  adresse.street
+    adresse.suite = data.get('suite') if data.get('suite') else  adresse.suite
+    adresse.city = data.get('city') if data.get('city') else adresse.city
+    adresse.zipcode = data.get('zipcode') if data.get('zipcode')else adresse.zipcode
+    adresse.lat = data.get('lat') if data.get('lat') else  adresse.lat
+    adresse.long = data.get('long') if data.get('long') else  adresse.long
+    compagny.name_compagny = data.get('name_compagnie') if data.get('name_compagnie') else compagny.name_compagny
+    compagny.catchPhrase = data.get('catchPhrase') if data.get('catchPhrase') else  compagny.catchPhrase
+    compagny.bs = data.get('bs')if data.get('bs') else  compagny.bs
+    
+    db.session.commit()
 
-    return 'ok'
+
+    print("*******MAFE*****************",user.fullname)
+    return jsonify({
+        "messsage" : "Modification avec succès !"
+    })
 
 def modifTodo(id):
     data=request.get_json()
@@ -331,11 +346,12 @@ def modifTodo(id):
     return 'ok'
 
 def modifPost(id):
-    data=request.get_json()
+    data=request.get_json() 
     post = Posts.query.get(id)
-    post.title_posts = data.get('title')
-    post.body_posts = data.get('body')
-    post.id_users_posts = data.get('userId')
+    print(post)
+    post.title_posts = data.get('title') if data.get('title') else post.title_posts
+    post.body_posts = data.get('body') if data.get('body')else post.body_posts
+    post.id_users_posts = data.get('userId') if data.get('userId') else post.id_users_posts
 
     db.session.commit()
     return 'ok'
@@ -344,8 +360,8 @@ def modifPost(id):
 def modifAlbum(id):
     data=request.get_json()
     album=Albums.query.get(id)
-    album.title_albums=data.get('title')
-    album.id_users_albums=data.get('userId')
+    album.title_albums=data.get('title') if data.get('title') else album.title_albums
+    album.id_users_albums=data.get('userId') if data.get('userId') else album.id_users_albums
 
     db.session.commit()
     return 'ok'
@@ -353,11 +369,10 @@ def modifAlbum(id):
 def modifPhoto(id):
     data=request.get_json()
     photo=Photos.query.get(id)
-    photo.title_photos=data.get('title')
-    photo.url=data.get('url')
-    photo.thumbnailUrl=data.get('thumbnailUrl')
-    photo.id_albums_photos=data.get('albumId')
-
+    photo.title_photos=data.get('title') if data.get('title') else photo.title_photos 
+    photo.url=data.get('url') if data.get('url') else photo.url
+    photo.thumbnailUrl=data.get('thumbnailUrl') if data.get('thumbnailUrl') else photo.url
+    photo.id_albums_photos=data.get('albumId') if  data.get('albumId')else photo.id_albums_photos
     db.session.commit()
     return 'ok'
 
@@ -365,10 +380,10 @@ def modifPhoto(id):
 def modifComments(id):
     data=request.get_json()
     comment=Comments.query.get(id)
-    comment.name_comments=data.get('name')
-    comment.email_comments=data.get('email')
-    comment.body_comments=data.get('body')
-    comment.id_posts_comments=data.get('postId')
+    comment.name_comments=data.get('name') if data.get('name') else comment.name_comments
+    comment.email_comments=data.get('email') if data.get('email') else comment.email_comments
+    comment.body_comments=data.get('body') if  data.get('body') else comment.body_comments
+    comment.id_posts_comments=data.get('postId') if data.get('postId') else comment.id_posts_comments
 
     db.session.commit()
     return 'ok'
@@ -385,6 +400,8 @@ def api_put(type):
         alb.title_albums= request.get_json().get('title_albums')
         alb.id_users_albums= request.get_json().get('id_users_albums'),
         alb.visible_albums= request.get_json().get('visible_albums')
+
+        db.session.commit()
         return 'album updated succesfully'
 
     elif type=='photos':
@@ -396,6 +413,7 @@ def api_put(type):
         photo.url= request.get_json().get('url')
         photo.thumbnailUrl= request.get_json().get('thumbnailUrl')
 
+        db.session.commit()
         return 'photos updated succesfully'
 
 
@@ -403,6 +421,7 @@ def api_put(type):
 ###################################
 ####        API USERS            ##
 ###################################
+
 def api_users(id = None):
     userlist=[]
 
@@ -422,7 +441,7 @@ def api_users(id = None):
     return jsonify(userlist)   
 
 
-
+# @token_required
 def api_userType(id = None, type = '', num = None):
     
     result=[]
@@ -543,12 +562,16 @@ def api_albumPhoto(id):
 
 
 
-visible = 0
 
+
+
+
+visible = 0
 def api_delete(id, type):
 
     if type == 'users':
         user=Users.query.filter_by(id_users=id).first()
+        print(user)
         posts = user.posts
         albums = user.albums
         todos = user.todos
@@ -567,7 +590,9 @@ def api_delete(id, type):
         
         for todo in todos:
             todo.visible_todos = visible
+        user.visible_users = visible
 
+        db.session.commit()
         return user.fullname + ' supprimé avec succès !'
 
 
@@ -575,85 +600,88 @@ def api_delete(id, type):
     elif type == 'posts':
         posts = Posts.query.filter_by(id_posts=id).first()
         comments = posts.comments
-        current_user = request.get_json().get('userid')
-        post_user_id = posts.id_users_posts
 
-        if current_user == post_user_id:
+        if True:
 
             for comment in comments:
                 comment.visible_comments = visible
             
             posts.visible_posts = visible
             
+            db.session.commit()
+                
             return "L'article et ses commentaires ont été supprimés avec succès."
         
-        else:
-            return "Désolé vous ne pouvez pas supprimé cet Article. Assurez-vous d'avoir les accès nécessaires.", 403
+        # else:
+        #     return "Désolé vous ne pouvez pas supprimé cet Article. Assurez-vous d'avoir les accès nécessaires.", 403
 
 
 
     elif type=='todos':
         todo=Todos.query.filter_by(id_todos=id).first()
-        current_user=request.get_json().get('userid')
-        todo_user_id=todo.id_users_todos
-
-        if current_user == todo_user_id:
+       
+        if True:
             todo.visible_todos = visible
-            
-            return "Todo supprimé avec succès"
-        
-        else:
-            return "Désolé vous ne pouvez pas supprimé ce Todo. Assurez-vous d'avoir les accès nécessaires.", 403
+            print('*****mafé******')
+            db.session.commit()
+            return jsonify({
+                "message" : "Todo supprimé avec succès"
+            })
+
+        # else:
+        #     return "Désolé vous ne pouvez pas supprimé ce Todo. Assurez-vous d'avoir les accès nécessaires.", 403
 
 
     
     elif type == 'albums':
         album = Albums.query.filter_by(id_albums=id).first()
-        current_user = request.get_json().get('userid')
-        todo_user_id = album.id_users_albums
+        
 
-        if current_user == todo_user_id:
+        if True:
 
             for photo in album.photos:
                 photo.visible_photos = visible
             
             album.visible_albums = visible
+            db.session.commit()
             
             return "L'album avec ses photos ont été supprimés avec succès."
 
-        else:
-            return "Désolé vous ne pouvez pas supprimé cet Album. Assurez-vous d'avoir les accès nécessaires.", 403
+        # else:
+        #     return "Désolé vous ne pouvez pas supprimé cet Album. Assurez-vous d'avoir les accès nécessaires.", 403
 
 
 
 
     elif type == 'photos':
         photo = Photos.query.filter_by(id_photos=id).first()
-        current_user = request.get_json().get('userid')
-        photo_user_id = photo.id_users_albums
+        
 
-        if current_user == photo_user_id:
+        if True:
             photo.visibile_photos = visible
+
+            db.session.commit()
 
             return 'Photo supprimée avec succès'
 
-        else:
-            return "Désolé vous ne pouvez pas supprimé cette photo. Assurez-vous d'avoir les accès nécessaires.", 403
+        # else:
+        #     return "Désolé vous ne pouvez pas supprimé cette photo. Assurez-vous d'avoir les accès nécessaires.", 403
 
     
     elif type=='comments':
         comment=Comments.query.filter_by(id_comments=id).first()
-        current_user=request.get_json().get('userid')
-        comment_user_id=comment.id_users_comments
+        
 
-        if current_user == comment_user_id:
+        if True:
 
             comment.visibile_comments=visible
             
+            db.session.commit()
             return 'Commentaire supprimé avec succès'
+            
 
-        else:
-            return "Désolé vous ne pouvez pas supprimé ce commentaire. Assurez-vous d'avoir les accès nécessaires.", 403
+        # else:
+        #     return "Désolé vous ne pouvez pas supprimé ce commentaire. Assurez-vous d'avoir les accès nécessaires.", 403
 
 
 
@@ -671,3 +699,19 @@ def api_utilisateur():
         listes.append(new_dict)
 
     return jsonify(listes)
+
+
+def api_utilisateur_current(email):
+    user= Utilisateur.query.filter_by(email=email).first()
+    if user:
+        new_dict = {
+            "email" : user.email,
+            "password" : user.password,
+            "profile" : user.profile
+        }
+        return jsonify(new_dict)
+    else:
+         return jsonify([]) ,404
+
+
+    
